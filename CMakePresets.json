@@ -66,12 +66,24 @@
     {
       "name": "windows-build",
       "configurePreset": "windows-msvc",
-      "configuration": "Debug"
+      "configuration": "Debug",
+      "environment": {
+        "VOLT_LOG_LEVEL": "trace",
+        "VOLT_LOG_CATEGORIES": "all",
+        "VOLT_EVENT_TRACE": "1",
+        "VOLT_TICK_TRACE": "1"
+      }
     },
     {
       "name": "windows-build-vcpkg",
       "configurePreset": "windows-msvc-vcpkg",
-      "configuration": "Debug"
+      "configuration": "Debug",
+      "environment": {
+        "VOLT_LOG_LEVEL": "trace",
+        "VOLT_LOG_CATEGORIES": "all",
+        "VOLT_EVENT_TRACE": "1",
+        "VOLT_TICK_TRACE": "1"
+      }
     },
     {
       "name": "linux-build",

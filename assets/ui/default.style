@@ -1,0 +1,11 @@
+# Volt UI style scaffold
+# Format: token = r g b a
+
+text.primary = 0.95 0.97 1.00 1.00
+text.muted = 0.70 0.74 0.80 1.00
+button.background = 0.20 0.31 0.45 1.00
+button.hover = 0.25 0.36 0.52 1.00
+button.pressed = 0.16 0.24 0.34 1.00
+slider.track = 0.17 0.19 0.22 1.00
+slider.knob = 0.85 0.88 0.93 1.00
+panel.background = 0.08 0.10 0.12 1.00

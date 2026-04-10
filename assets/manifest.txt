@@ -1,0 +1,9 @@
+# Volt Application Assets Manifest
+
+version=1.0
+
+icon=./volt.png
+font=./fonts/DefaultFont.ttf
+
+preview-board=./volt.png
+warning-icon=./volt.png

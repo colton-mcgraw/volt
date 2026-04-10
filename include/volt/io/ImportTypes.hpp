@@ -1,5 +1,7 @@
 #pragma once
 
+#include "volt/math/Vector.hpp"
+
 #include <cstdint>
 #include <filesystem>
 #include <string>
@@ -25,11 +27,7 @@ struct ImportIssue {
   std::string message;
 };
 
-struct Vec3 {
-  float x{0.0F};
-  float y{0.0F};
-  float z{0.0F};
-};
+using Vec3 = volt::math::Vec3f;
 
 struct MeshData {
   std::string name;

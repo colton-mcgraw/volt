@@ -33,6 +33,7 @@ Project domain: [volteda.net](https://volteda.net)
 - Required:
   - `glfw3`
   - `Vulkan`
+  - `spdlog`
 
 STEP and 3MF importers are scaffolded as internal placeholders and are intended to be implemented with project-native parsing/import pipelines.
 
@@ -147,6 +148,23 @@ Importer contract highlights:
 4. Build deterministic command stack for editing and undo/redo.
 5. Add CI for Windows and Linux with sanitizer and static-analysis jobs.
 
+## Math and Units Foundation
+
+- `volt_math` now provides vectors, matrices, quaternions, transforms, projections, and coordinate-space helpers.
+- Units include broad physical domains plus EDA/3D-oriented concepts:
+  - length, angle, mass, time, area, volume, temperature
+  - voltage, current, resistance, power, capacitance, inductance
+  - magnetic flux density, magnetic flux, frequency, charge, conductance
+  - energy, force, pressure
+- `volt_math` units provide strongly typed quantities and conversion helpers.
+- Physical equations are implemented in `volt_physics`:
+  - `volt::physics::electrical` currently provides typed Ohm/power helpers (`V = I * R`, `I = V / R`, `R = V / I`, `P = V * I`, `P = I^2 * R`, `P = V^2 / R`).
+- `volt::physics::spice` now includes SPICE-oriented scaffolding for future solver implementation:
+  - netlist and element structures
+  - model library and parameter definitions
+  - MNA stamping interfaces
+  - simulation options/request/result contracts
+
 ## Continuous Integration
 
 GitHub Actions CI is configured in [.github/workflows/ci.yml](.github/workflows/ci.yml).
@@ -155,3 +173,44 @@ GitHub Actions CI is configured in [.github/workflows/ci.yml](.github/workflows/
 - Linux job runs [scripts/linux/bootstrap.sh](scripts/linux/bootstrap.sh)
 
 This keeps CI behavior aligned with local developer bootstrap commands.
+
+## Logging
+
+- Logging is routed through a core wrapper on top of `spdlog`.
+- `Debug` builds keep runtime-adjustable logging and feature toggles enabled.
+- Non-`Debug` builds compile logging macros to no-op so debug-depth toggles are optimized away.
+- In `Debug`, logs are written to `logs/volt-debug.log` even when no console is attached.
+- On Windows `Debug`, logs are also sent to the Visual Studio debugger output window.
+- In `Debug`, defaults are `VOLT_LOG_LEVEL=trace`, `VOLT_EVENT_TRACE=on`, and `VOLT_TICK_TRACE=on` when these env vars are not set.
+
+Debug environment toggles:
+
+- `VOLT_LOG_LEVEL`: `trace|debug|info|warn|error|critical` (default `info`)
+- `VOLT_EVENT_TRACE`: `1|true|yes` to emit per-event trace lines
+- `VOLT_TICK_TRACE`: `1|true|yes` to emit frame tick trace lines
+- Set `VOLT_EVENT_TRACE=0` or `VOLT_TICK_TRACE=0` to disable those debug defaults.
+- `VOLT_LOG_CATEGORIES`: category filter in Debug builds. Supported values: `core,app,platform,render,ui,io,event,all,none`.
+  - Separators accepted: comma `,`, semicolon `;`, or whitespace.
+
+Example:
+
+- `VOLT_LOG_LEVEL=debug`
+- `VOLT_LOG_CATEGORIES=app,render,event`
+- `VOLT_LOG_CATEGORIES=app render event`
+
+## UI Foundation
+
+- `volt_ui` now includes a retained-mode widget submission foundation for:
+  - text, button, slider, icon, and image elements
+- Complex UI extension scaffolds are in place for:
+  - chart widgets (line/bar placeholder path)
+  - schematic canvas widgets (symbol/net placeholder path)
+- UI rendering currently builds a typed draw-command stream and forwards it through the renderer UI pass callback.
+- UI now also builds per-frame mesh data (vertices/indices/batches) from render commands and feeds it to renderer-side scaffold buffers.
+- Renderer UI pass now uploads scaffold UI mesh buffers and emits indexed draws per batch.
+- External style scaffolding is available via `assets/ui/default.style` and loaded through `StyleSheet`.
+- Layout scaffolding now includes container helpers:
+  - panel scopes (`beginPanel`/`endPanel`) with clipped child bounds
+  - flow-column and flow-row placement helpers for deterministic auto layout
+- Text scaffolding now includes UTF-8 text-run generation with per-command glyph-count summaries.
+- Resource scaffolding includes interfaces for custom font/image loaders and font atlas builders.
