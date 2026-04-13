@@ -4,6 +4,7 @@
 #include "volt/math/Vector.hpp"
 
 #include <array>
+#include <chrono>
 #include <cstdint>
 #include <functional>
 #include <optional>
@@ -207,6 +208,7 @@ class VulkanRenderer {
   volt::event::EventDispatcher* eventDispatcher_{nullptr};
   std::uint64_t resizeListenerId_{0};
   bool resizeEventPending_{false};
+  std::chrono::steady_clock::time_point lastResizeEventAt_{};
 };
 
 }  // namespace volt::render

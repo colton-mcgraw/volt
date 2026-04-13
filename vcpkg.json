@@ -1,7 +1,7 @@
 {
   "name": "volt",
   "version-string": "0.1.0",
-  "builtin-baseline": "f4f7f2f8fca4c5038f75f1ef1a304681140f64e5",
+  "builtin-baseline": "0b88aacde46a853151730fbe7d0b7ee45f4b6864",
   "dependencies": [
     "glfw3",
     "spdlog"

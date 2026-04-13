@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "icon": "./images/volt.png",
+  "font": "./fonts/DefaultFont.ttf",
+  "preview-board": "./images/volt.png",
+  "warning-icon": "./images/volt.png",
+  "codec-render-test": "./images/codec-render-test.png",
+  "ui-font-default": "./images/ui-font-default.png"
+}

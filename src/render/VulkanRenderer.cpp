@@ -3,11 +3,12 @@
 #include "volt/core/Logging.hpp"
 #include "volt/event/Event.hpp"
 #include "volt/event/EventDispatcher.hpp"
-#include "volt/io/ImageAssets.hpp"
+#include "volt/io/assets/AssetManager.hpp"
 #include "volt/math/Math.hpp"
 #include "volt/ui/UIMesh.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <cstring>
 #include <fstream>
@@ -223,6 +224,7 @@ namespace volt::render
 
             (void)resizePayload;
             resizeEventPending_ = true;
+            lastResizeEventAt_ = std::chrono::steady_clock::now();
           });
     }
   }
@@ -234,13 +236,21 @@ namespace volt::render
       return;
     }
 
+    constexpr auto kResizeRecreateDebounce = std::chrono::milliseconds(75);
+    const auto tickNow = std::chrono::steady_clock::now();
+
     const bool effectiveFramebufferResized = framebufferResized || resizeEventPending_;
+    const bool resizeDebounceElapsed =
+        (lastResizeEventAt_ == std::chrono::steady_clock::time_point{}) ||
+        (tickNow - lastResizeEventAt_ >= kResizeRecreateDebounce);
 
     if (effectiveFramebufferResized)
     {
-      resizeEventPending_ = false;
-      recreateSwapchain();
-      return;
+      if (resizeDebounceElapsed)
+      {
+        resizeEventPending_ = false;
+        recreateSwapchain();
+      }
     }
 
     int width = 0;
@@ -254,8 +264,15 @@ namespace volt::render
     if (static_cast<std::uint32_t>(width) != swapchainExtent_.width ||
         static_cast<std::uint32_t>(height) != swapchainExtent_.height)
     {
-      recreateSwapchain();
-      return;
+      if (resizeDebounceElapsed)
+      {
+        recreateSwapchain();
+        glfwGetFramebufferSize(window_, &width, &height);
+        if (width == 0 || height == 0)
+        {
+          return;
+        }
+      }
     }
 
     updateScaffoldCameraMatrices();
@@ -716,8 +733,8 @@ namespace volt::render
     }
 
     volt::io::LoadedImageAsset image = textureKey == "__white"
-                                           ? volt::io::LoadedImageAsset{1U, 1U, {255U, 255U, 255U, 255U}, false, {}}
-                                           : volt::io::loadImageAsset(textureKey);
+                         ? volt::io::LoadedImageAsset{1U, 1U, {255U, 255U, 255U, 255U}, false, {}}
+                         : volt::io::AssetManager::instance().loadImage(textureKey);
     if (image.rgba.empty() || image.width == 0U || image.height == 0U) {
       image = volt::io::LoadedImageAsset{1U, 1U, {0U, 0U, 0U, 0U}, true, image.resolvedPath};
     }
@@ -1756,7 +1773,7 @@ namespace volt::render
   {
     const std::string key = textureKey.empty() ? "__white" : textureKey;
 
-    if (key != "__white" && volt::io::hasImageAssetChanged(key)) {
+    if (key != "__white" && volt::io::AssetManager::instance().hasImageChanged(key)) {
       destroyUiTextureResource(key);
       unresolvedTextureKeysLogged_.erase(key);
     }

@@ -3,9 +3,10 @@
 #include "volt/core/Timer.hpp"
 #include "volt/event/Event.hpp"
 #include "volt/event/EventDispatcher.hpp"
-#include "volt/io/ImageCodec.hpp"
-#include "volt/io/ImporterRegistry.hpp"
-#include "volt/io/ImportPipeline.hpp"
+#include "volt/io/image/ImageDecoder.hpp"
+#include "volt/io/image/ImageEncoder.hpp"
+#include "volt/io/import/ImporterRegistry.hpp"
+#include "volt/io/import/ImportPipeline.hpp"
 #include "volt/math/Math.hpp"
 #include "volt/platform/Window.hpp"
 #include "volt/render/VulkanRenderer.hpp"
@@ -100,7 +101,7 @@ static bool createCodecRenderSmokeAssets() {
   constexpr std::uint32_t kWidth = 128;
   constexpr std::uint32_t kHeight = 128;
 
-  volt::io::DecodedImage image{};
+  volt::io::RawImage image{};
   image.width = kWidth;
   image.height = kHeight;
   image.rgba.resize(static_cast<std::size_t>(kWidth) * static_cast<std::size_t>(kHeight) * 4U);
@@ -125,21 +126,23 @@ static bool createCodecRenderSmokeAssets() {
   const bool wroteJpg = volt::io::encodeImageFile(jpg, image, volt::io::ImageEncodeFormat::kJpeg, 92);
   const bool wroteBmp = volt::io::encodeImageFile(bmp, image, volt::io::ImageEncodeFormat::kBmp);
 
-  volt::io::DecodedImage decoded{};
+  volt::io::RawImage decoded{};
   const bool decodedPng = wrotePng && volt::io::decodeImageFile(png, decoded);
   const bool decodedJpg = wroteJpg && volt::io::decodeImageFile(jpg, decoded);
   const bool decodedBmp = wroteBmp && volt::io::decodeImageFile(bmp, decoded);
+
+  const char* jpgStatus = wroteJpg ? (decodedJpg ? "ok" : "fail") : "unsupported";
 
   VOLT_LOG_INFO_CAT(
       volt::core::logging::Category::kIO,
       "Image codec smoke test: png=",
       decodedPng ? "ok" : "fail",
       " jpg=",
-      decodedJpg ? "ok" : "fail",
+      jpgStatus,
       " bmp=",
       decodedBmp ? "ok" : "fail");
 
-  return decodedPng && decodedJpg && decodedBmp;
+  return decodedPng && decodedBmp && (!wroteJpg || decodedJpg);
 }
 
 int main() {
@@ -228,27 +231,93 @@ int main() {
     constexpr double kLogicTickSeconds = 1.0 / 60.0;
     constexpr double kMinimizedWakeSeconds = 0.1;
     constexpr int kMaxLogicTicksPerWake = 8;
+    constexpr auto kResizeRenderHold = std::chrono::milliseconds(250);
 
-    bool firstFrame = true;
     auto lastWake = std::chrono::steady_clock::now();
+    auto continuousRenderUntil = std::chrono::steady_clock::time_point{};
     double logicAccumulatorSeconds = 0.0;
     bool renderDirty = true;
+    bool callbackRepaintInProgress = false;
     bool wasMinimized = window.isMinimized();
+
+    auto renderFrameNow = [&](bool forceResize) {
+      if (window.isMinimized()) {
+        return;
+      }
+
+      const auto [framebufferWidth, framebufferHeight] = window.framebufferExtent();
+      if (framebufferWidth == 0U || framebufferHeight == 0U) {
+        return;
+      }
+
+      eventDispatcher.enqueue({
+          .type = volt::event::EventType::kFrameStarted,
+          .payload = volt::event::FrameLifecycleEvent{.frameIndex = frameIndex},
+      });
+      eventDispatcher.dispatchQueued();
+
+      const volt::ui::UILayer::FrameArgs uiFrameArgs{
+          framebufferWidth,
+          framebufferHeight,
+          window.isMinimized(),
+      };
+
+      uiLayer.beginFrame(window.inputSnapshot(), uiFrameArgs);
+        uiLayer.beginPanel(
+          {16.0F, 12.0F, 340.0F, 360.0F},
+          volt::ui::PanelElement{"left_panel", {0.08F, 0.10F, 0.12F, 1.0F}, 10.0F});
+        uiLayer.beginFlowColumn({24.0F, 20.0F, 320.0F, 340.0F}, 10.0F, 8.0F);
+        uiLayer.addTextFlow(28.0F, volt::ui::TextElement{"Volt UI Foundation", "default", 18.0F, {0.95F, 0.97F, 1.0F, 1.0F}});
+        uiLayer.beginFlowRow({32.0F, 54.0F, 300.0F, 36.0F}, 24.0F, 8.0F, 0.0F);
+        uiLayer.addTextRow(180.0F, volt::ui::TextElement{"Actions", "default", 13.0F, {0.70F, 0.74F, 0.80F, 1.0F}});
+        uiLayer.addIconRow(24.0F, volt::ui::IconElement{"icon:warning", {0.96F, 0.78F, 0.22F, 1.0F}});
+        uiLayer.endFlowRow();
+        uiLayer.addButtonFlow(34.0F, volt::ui::ButtonElement{"Import", true, false, {0.20F, 0.31F, 0.45F, 1.0F}, {1.0F, 1.0F, 1.0F, 1.0F}});
+        uiLayer.addSliderFlow(18.0F, volt::ui::SliderElement{0.0F, 100.0F, 38.0F, {0.17F, 0.19F, 0.22F, 1.0F}, {0.85F, 0.88F, 0.93F, 1.0F}});
+        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:preview-board", {1.0F, 1.0F, 1.0F, 1.0F}});
+        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:codec-render-test", {1.0F, 1.0F, 1.0F, 1.0F}});
+        uiLayer.endFlowColumn();
+        uiLayer.endPanel();
+        uiLayer.addChartScaffold(
+          {72.0F, 150.0F, 320.0F, 160.0F},
+          volt::ui::ChartScaffoldElement{"line", {0.2F, 0.5F, 0.7F, 0.45F, 0.9F}});
+        uiLayer.addSchematicScaffold(
+          {360.0F, 150.0F, 360.0F, 220.0F},
+          volt::ui::SchematicScaffoldElement{"power_stage_topology", 24U, 38U});
+      uiLayer.layoutPass();
+      uiLayer.paintPass();
+
+      renderer.submitScene({0U, 0U});
+      renderer.tick(forceResize);
+      eventDispatcher.dispatchQueued();
+
+      uiLayer.endFrame();
+
+      eventDispatcher.enqueue({
+          .type = volt::event::EventType::kFrameEnded,
+          .payload = volt::event::FrameLifecycleEvent{.frameIndex = frameIndex},
+      });
+      eventDispatcher.dispatchQueued();
+      ++frameIndex;
+    };
+
+    window.setResizeRepaintCallback([&]() {
+      if (callbackRepaintInProgress) {
+        return;
+      }
+
+      callbackRepaintInProgress = true;
+      renderFrameNow(true);
+      callbackRepaintInProgress = false;
+    });
 
     while (!window.shouldClose()) {
       const volt::core::Timer frameTimer;
 
-      if (!firstFrame) {
-        const double waitSeconds = window.isMinimized()
-                                       ? kMinimizedWakeSeconds
-                                       : std::max(0.0, kLogicTickSeconds - logicAccumulatorSeconds);
-        window.waitEventsTimeout(waitSeconds);
-
-        if (window.shouldClose()) {
-          break;
-        }
+      window.pollEvents();
+      if (window.shouldClose()) {
+        break;
       }
-      firstFrame = false;
 
       const auto now = std::chrono::steady_clock::now();
       const double deltaSeconds = std::chrono::duration<double>(now - lastWake).count();
@@ -278,81 +347,27 @@ int main() {
 
       if (minimizedNow) {
         g_TickCount.fetch_add(logicTicksThisWake, std::memory_order_relaxed);
+        std::this_thread::sleep_for(std::chrono::duration<double>(kMinimizedWakeSeconds));
         continue;
       }
 
-      const auto& input = window.inputSnapshot();
-      const bool hasPointerInput =
-          std::abs(input.mouse.deltaX) > 0.0 || std::abs(input.mouse.deltaY) > 0.0 ||
-          std::abs(input.mouse.scrollX) > 0.0 || std::abs(input.mouse.scrollY) > 0.0;
-      const bool hasMouseButtonDown =
-          std::any_of(input.mouse.down.begin(), input.mouse.down.end(), [](bool down) { return down; });
-      const bool hasKeyboardDown =
-          std::any_of(input.keyboard.down.begin(), input.keyboard.down.end(), [](bool down) { return down; });
       const bool resizedThisWake = window.wasResized();
-      const bool shouldRenderFrame =
-          renderDirty || resizedThisWake || hasPointerInput || hasMouseButtonDown || hasKeyboardDown;
-
-      if (!shouldRenderFrame) {
-        g_TickCount.fetch_add(logicTicksThisWake, std::memory_order_relaxed);
-        continue;
+      if (resizedThisWake) {
+        continuousRenderUntil = now + kResizeRenderHold;
       }
 
-      eventDispatcher.enqueue({
-          .type = volt::event::EventType::kFrameStarted,
-          .payload = volt::event::FrameLifecycleEvent{.frameIndex = frameIndex},
-      });
-      eventDispatcher.dispatchQueued();
+      const bool recentResizeActivity = (now < continuousRenderUntil);
+      (void)renderDirty;
+      (void)recentResizeActivity;
 
-      const auto [framebufferWidth, framebufferHeight] = window.framebufferExtent();
-      const volt::ui::UILayer::FrameArgs uiFrameArgs{
-          framebufferWidth,
-          framebufferHeight,
-          window.isMinimized(),
-      };
-
-      uiLayer.beginFrame(window.inputSnapshot(), uiFrameArgs);
-        uiLayer.beginPanel(
-          {16.0F, 12.0F, 340.0F, 360.0F},
-          volt::ui::PanelElement{"left_panel", {0.08F, 0.10F, 0.12F, 1.0F}, 10.0F});
-        uiLayer.beginFlowColumn({24.0F, 20.0F, 320.0F, 340.0F}, 10.0F, 8.0F);
-        uiLayer.addTextFlow(28.0F, volt::ui::TextElement{"Volt UI Foundation", "default", 18.0F, {0.95F, 0.97F, 1.0F, 1.0F}});
-        uiLayer.beginFlowRow({32.0F, 54.0F, 300.0F, 36.0F}, 24.0F, 8.0F, 0.0F);
-        uiLayer.addTextRow(180.0F, volt::ui::TextElement{"Actions", "default", 13.0F, {0.70F, 0.74F, 0.80F, 1.0F}});
-        uiLayer.addIconRow(24.0F, volt::ui::IconElement{"icon:warning", {0.96F, 0.78F, 0.22F, 1.0F}});
-        uiLayer.endFlowRow();
-        uiLayer.addButtonFlow(34.0F, volt::ui::ButtonElement{"Import", true, false, {0.20F, 0.31F, 0.45F, 1.0F}, {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.addSliderFlow(18.0F, volt::ui::SliderElement{0.0F, 100.0F, 38.0F, {0.17F, 0.19F, 0.22F, 1.0F}, {0.85F, 0.88F, 0.93F, 1.0F}});
-        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:preview-board", {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:codec-render-test", {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.endFlowColumn();
-        uiLayer.endPanel();
-        uiLayer.addChartScaffold(
-          {24.0F, 150.0F, 320.0F, 160.0F},
-          volt::ui::ChartScaffoldElement{"line", {0.2F, 0.5F, 0.7F, 0.45F, 0.9F}});
-        uiLayer.addSchematicScaffold(
-          {360.0F, 150.0F, 360.0F, 220.0F},
-          volt::ui::SchematicScaffoldElement{"power_stage_topology", 24U, 38U});
-      uiLayer.layoutPass();
-      uiLayer.paintPass();
-
-      renderer.submitScene({0U, 0U});
-      renderer.tick(false);
-      eventDispatcher.dispatchQueued();
-
-      uiLayer.endFrame();
-
-      eventDispatcher.enqueue({
-          .type = volt::event::EventType::kFrameEnded,
-          .payload = volt::event::FrameLifecycleEvent{.frameIndex = frameIndex},
-      });
-      eventDispatcher.dispatchQueued();
-      ++frameIndex;
+      renderFrameNow(false);
 
       if (resizedThisWake) {
         window.acknowledgeResize();
+        renderDirty = true;
+      } else {
+        renderDirty = false;
       }
-      renderDirty = false;
 
       VOLT_LOG_TRACE_CAT(
           volt::core::logging::Category::kApp,

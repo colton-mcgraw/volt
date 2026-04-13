@@ -37,3 +37,9 @@ Thumbs.db
 
 # Compilation DB
 compile_commands.json
+
+# Runtime logs
+/logs/*.log
+
+*/agents/
+*/prompts/

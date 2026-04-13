@@ -1,5 +1,7 @@
 #pragma once
 
+#include "volt/core/Text.hpp"
+
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -8,12 +10,12 @@
 namespace volt::ui {
 
 struct GlyphCluster {
-  std::uint32_t codepoint{0};
+  char32_t codepoint{0};
   std::uint32_t byteOffset{0};
 };
 
 struct TextRun {
-  std::string utf8Text;
+  volt::core::Text text;
   std::string fontFamily{"default"};
   float fontSizePx{14.0F};
   std::vector<GlyphCluster> glyphs;

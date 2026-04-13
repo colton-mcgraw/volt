@@ -37,6 +37,7 @@ Window::Window(std::uint32_t width, std::uint32_t height, const std::string& tit
 
   glfwSetWindowUserPointer(window_, this);
   glfwSetFramebufferSizeCallback(window_, framebufferSizeCallback);
+  glfwSetWindowRefreshCallback(window_, refreshCallback);
   glfwSetWindowIconifyCallback(window_, iconifyCallback);
   glfwSetKeyCallback(window_, keyCallback);
   glfwSetCursorPosCallback(window_, cursorPosCallback);
@@ -77,6 +78,10 @@ void Window::requestClose() const {
 
 void Window::setEventDispatcher(volt::event::EventDispatcher* dispatcher) {
   eventDispatcher_ = dispatcher;
+}
+
+void Window::setResizeRepaintCallback(std::function<void()> callback) {
+  resizeRepaintCallback_ = std::move(callback);
 }
 
 void Window::pollEvents() {
@@ -142,6 +147,21 @@ void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) 
             .height = static_cast<std::uint32_t>(height > 0 ? height : 0),
         },
     });
+  }
+
+  if (!self->minimized_ && self->resizeRepaintCallback_) {
+    self->resizeRepaintCallback_();
+  }
+}
+
+void Window::refreshCallback(GLFWwindow* window) {
+  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+  if (self == nullptr) {
+    return;
+  }
+
+  if (!self->minimized_ && self->resizeRepaintCallback_) {
+    self->resizeRepaintCallback_();
   }
 }
 

@@ -52,10 +52,10 @@ bool decodeUtf8(std::string_view text, std::vector<GlyphCluster>* outGlyphs) {
 
 TextRun buildTextRun(std::string_view text, std::string fontFamily, float fontSizePx) {
   TextRun run{};
-  run.utf8Text.assign(text.begin(), text.end());
+  run.text = volt::core::Text::fromUtf8(text);
   run.fontFamily = std::move(fontFamily);
   run.fontSizePx = fontSizePx;
-  const bool decodeOk = decodeUtf8(run.utf8Text, &run.glyphs);
+  const bool decodeOk = decodeUtf8(text, &run.glyphs);
   (void)decodeOk;
   return run;
 }

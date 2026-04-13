@@ -18,7 +18,6 @@
       "name": "windows-msvc",
       "inherits": "base",
       "binaryDir": "${sourceDir}/build/windows-msvc-vs",
-      "generator": "Visual Studio 17 2022",
       "architecture": {
         "value": "x64",
         "strategy": "set"

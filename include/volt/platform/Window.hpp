@@ -4,6 +4,7 @@
 
 #include <GLFW/glfw3.h>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <utility>
 
@@ -24,6 +25,7 @@ class Window {
   [[nodiscard]] bool shouldClose() const;
   void requestClose() const;
   void setEventDispatcher(volt::event::EventDispatcher* dispatcher);
+  void setResizeRepaintCallback(std::function<void()> callback);
 
   void pollEvents();
   void waitEvents();
@@ -42,6 +44,7 @@ class Window {
   void resetTransientInputState();
 
   static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
+  static void refreshCallback(GLFWwindow* window);
   static void iconifyCallback(GLFWwindow* window, int iconified);
   static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
   static void cursorPosCallback(GLFWwindow* window, double xPos, double yPos);
@@ -54,6 +57,7 @@ class Window {
   bool minimized_{false};
   InputState inputState_{};
   volt::event::EventDispatcher* eventDispatcher_{nullptr};
+  std::function<void()> resizeRepaintCallback_{};
 };
 
 }  // namespace volt::platform

@@ -22,6 +22,41 @@ function Invoke-Checked {
   }
 }
 
+function Resolve-VisualStudioGenerator {
+  $helpOutput = & cmake --help
+  if ($LASTEXITCODE -ne 0) {
+    throw "Unable to query CMake generator list."
+  }
+
+  $generatorCandidates = @()
+  foreach ($line in $helpOutput) {
+    $match = [regex]::Match($line, '^\s*\*?\s*Visual Studio (\d+)\s+(\d{4})\s*=')
+    if (-not $match.Success) {
+      continue
+    }
+
+    $major = [int]$match.Groups[1].Value
+    if ($major -lt 17) {
+      continue
+    }
+
+    $year = [int]$match.Groups[2].Value
+    $generatorCandidates += [PSCustomObject]@{
+      Major = $major
+      Year = $year
+      Name = "Visual Studio $major $year"
+    }
+  }
+
+  if ($generatorCandidates.Count -eq 0) {
+    return $null
+  }
+
+  return ($generatorCandidates |
+      Sort-Object -Property @{Expression = "Major"; Descending = $true}, @{Expression = "Year"; Descending = $true} |
+      Select-Object -First 1).Name
+}
+
 $workspaceRoot = Resolve-Path (Join-Path $PSScriptRoot "../..")
 Set-Location $workspaceRoot
 
@@ -40,7 +75,14 @@ if ([string]::IsNullOrWhiteSpace($BuildDir)) {
 Write-Info "Selected configure preset: $configurePreset"
 Write-Info "Selected build directory: $BuildDir"
 
-Invoke-Checked -Command "cmake" -CommandArgs @("--preset", $configurePreset, "-B", $BuildDir)
+$visualStudioGenerator = Resolve-VisualStudioGenerator
+if ([string]::IsNullOrWhiteSpace($visualStudioGenerator)) {
+  throw "No supported Visual Studio generator (17+) was found in CMake generator list."
+}
+
+Write-Info "Detected Visual Studio generator: $visualStudioGenerator"
+
+Invoke-Checked -Command "cmake" -CommandArgs @("--preset", $configurePreset, "-B", $BuildDir, "-G", $visualStudioGenerator, "--fresh")
 
 if (-not $SkipBuild) {
   Invoke-Checked -Command "cmake" -CommandArgs @("--build", $BuildDir, "--config", $Configuration)

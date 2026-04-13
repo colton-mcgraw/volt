@@ -8,10 +8,21 @@ Project domain: [volteda.net](https://volteda.net)
 
 ## Current Scope
 
-- Native C++ core and platform layers.
-- Vulkan instance bootstrap for the renderer.
-- Importer abstraction with STEP and 3MF extension points.
-- CMake + vcpkg manifest setup for Windows and Linux.
+- Native C++ core, platform, renderer, and UI layers.
+- Modular IO stack across assets, compression, image codecs, text/UTF/JSON, and import pipeline subsystems.
+- In-tree PNG/BMP/JPEG image encode/decode and DEFLATE/Huffman compression support.
+- Manifest-driven asset resolution with default font atlas generation scaffolding.
+- Optional ICU-backed Unicode normalization/collation with fallback behavior when ICU is unavailable.
+- CMake + vcpkg manifest setup for Windows and Linux, with test targets for core IO/text/image/compression paths.
+
+## Dev Channel Highlights
+
+- IO paths were reorganized from legacy flat files to subsystem directories:
+  - `include/volt/io/assets`, `include/volt/io/compression`, `include/volt/io/image`, `include/volt/io/import`, `include/volt/io/text`
+  - `src/io/assets`, `src/io/compression`, `src/io/image`, `src/io/import`, `src/io/text`
+- Asset manifests moved to JSON (`assets/manifest.json`) and image assets are now rooted under `assets/images/`.
+- Legacy bundled stb headers were removed in favor of project-native codec implementations.
+- Test coverage expanded under `tests/` with dedicated executables for UTF/JSON/Text, compression/Huffman, and image/JPEG performance checks.
 
 ## Project Layout
 
@@ -20,6 +31,8 @@ Project domain: [volteda.net](https://volteda.net)
 - `src/app/main.cpp`: application entry point
 - `cmake/*`: CMake helper modules
 - `scripts/*`: local bootstrap/setup scripts
+- `tests/*`: subsystem-focused test executables
+- `assets/manifest.json`: runtime asset key-to-path mapping
 
 ## Requirements
 
@@ -27,6 +40,7 @@ Project domain: [volteda.net](https://volteda.net)
 - C++20 compiler
 - Vulkan SDK (or system Vulkan loader + headers)
 - vcpkg (optional, recommended for third-party packages)
+- ICU (optional, only when enabling `VOLT_ENABLE_ICU=ON`)
 
 ## Dependency Strategy
 
@@ -34,6 +48,9 @@ Project domain: [volteda.net](https://volteda.net)
   - `glfw3`
   - `Vulkan`
   - `spdlog`
+
+- Optional:
+  - `ICU` (used when `VOLT_ENABLE_ICU` is enabled)
 
 STEP and 3MF importers are scaffolded as internal placeholders and are intended to be implemented with project-native parsing/import pipelines.
 
@@ -125,6 +142,22 @@ cmake --build --preset linux-build
 export VCPKG_ROOT=$HOME/vcpkg
 cmake --preset linux-gcc-vcpkg
 cmake --build --preset linux-build-vcpkg
+```
+
+### Run Tests
+
+After configuring and building, run CTest from the selected build directory.
+
+Windows example:
+
+```powershell
+ctest --test-dir build/windows-msvc-vs -C Debug --output-on-failure
+```
+
+Linux example:
+
+```bash
+ctest --test-dir build/linux-gcc --output-on-failure
 ```
 
 ## Format Import Status

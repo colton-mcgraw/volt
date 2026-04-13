@@ -1,7 +1,0 @@
-# Volt UI image manifest
-# key=relative/path/from/this/file
-
-preview-board=../volt.png
-warning-icon=../volt.png
-codec-render-test=codec-render-test.png
-ui-font-default=ui-font-default.png

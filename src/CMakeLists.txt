@@ -1,10 +1,31 @@
 add_library(volt_core
   core/AppConfig.cpp
   core/Logging.cpp
+  core/Text.cpp
 )
 
 target_include_directories(volt_core PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(volt_core PUBLIC spdlog::spdlog)
+
+if(ICU_FOUND)
+  if(TARGET ICU::i18n)
+    target_link_libraries(volt_core PUBLIC ICU::i18n)
+    if(TARGET ICU::uc)
+      target_link_libraries(volt_core PUBLIC ICU::uc)
+    endif()
+    if(TARGET ICU::data)
+      target_link_libraries(volt_core PUBLIC ICU::data)
+    endif()
+  elseif(DEFINED ICU_LIBRARIES)
+    target_link_libraries(volt_core PUBLIC ${ICU_LIBRARIES})
+    if(DEFINED ICU_INCLUDE_DIRS)
+      target_include_directories(volt_core PUBLIC ${ICU_INCLUDE_DIRS})
+    endif()
+  endif()
+  target_compile_definitions(volt_core PUBLIC VOLT_HAS_ICU=1)
+else()
+  target_compile_definitions(volt_core PUBLIC VOLT_HAS_ICU=0)
+endif()
 
 target_compile_definitions(volt_core PUBLIC
   $<$<CONFIG:Debug>:VOLT_ENABLE_LOGGING=1>
@@ -65,23 +86,40 @@ add_library(volt_ui
 )
 
 target_include_directories(volt_ui PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(volt_ui PRIVATE ${PROJECT_SOURCE_DIR}/third_party)
 target_link_libraries(volt_ui PUBLIC volt_platform volt_event volt_core volt_io)
 volt_set_warnings(volt_ui)
 
 add_library(volt_io
-  io/Manifest.cpp
-  io/ImageCodec.cpp
-  io/ImageAssets.cpp
-  io/ImportPipeline.cpp
-  io/ImporterRegistry.cpp
-  io/StepImporter.cpp
-  io/ThreeMfImporter.cpp
+  io/assets/AssetManager.cpp
+  io/assets/ImageAssetService.cpp
+  io/assets/ModelAssetService.cpp
+  io/assets/FontAssetService.cpp
+  io/compression/CanonicalHuffman.cpp
+  io/compression/DeflateHuffman.cpp
+  io/compression/ZlibEnvelope.cpp
+  io/compression/DeflateCodec.cpp
+  io/assets/Font.cpp
+  io/compression/HuffmanCodec.cpp
+  io/image/BmpCodec.cpp
+  io/image/PngCodec.cpp
+  io/image/ImageDecoder.cpp
+  io/image/ImageEncoder.cpp
+  io/image/JpegCodec.cpp
+  io/assets/Manifest.cpp
+  io/text/Json.cpp
+  io/import/ImportPipeline.cpp
+  io/import/ImporterRegistry.cpp
+  io/import/StepImporter.cpp
+  io/import/ThreeMfImporter.cpp
+  io/text/Utf.cpp
 )
 
 target_include_directories(volt_io PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(volt_io PRIVATE ${PROJECT_SOURCE_DIR}/third_party)
 target_link_libraries(volt_io PUBLIC volt_event volt_core volt_math)
+
+if(WIN32)
+  target_link_libraries(volt_io PRIVATE windowscodecs ole32)
+endif()
 
 volt_set_warnings(volt_io)
 
@@ -109,7 +147,9 @@ endif()
 add_custom_command(TARGET volt_app POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/images
   COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/ui
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_SOURCE_DIR}/assets/images/manifest.txt $<TARGET_FILE_DIR:volt_app>/assets/images/manifest.txt
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_SOURCE_DIR}/assets/volt.png $<TARGET_FILE_DIR:volt_app>/assets/volt.png
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_SOURCE_DIR}/assets/ui/default.style $<TARGET_FILE_DIR:volt_app>/assets/ui/default.style
-  COMMENT "Staging runtime UI and image assets")
+  COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/fonts
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_SOURCE_DIR}/assets/manifest.json $<TARGET_FILE_DIR:volt_app>/assets/manifest.json
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/images $<TARGET_FILE_DIR:volt_app>/assets/images
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/ui $<TARGET_FILE_DIR:volt_app>/assets/ui
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/fonts $<TARGET_FILE_DIR:volt_app>/assets/fonts
+  COMMENT "Staging runtime assets")
