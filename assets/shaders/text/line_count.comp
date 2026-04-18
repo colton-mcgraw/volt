@@ -1,0 +1,150 @@
+#version 450
+#extension GL_KHR_shader_subgroup_arithmetic : enable
+
+layout(local_size_x = 256) in;
+
+// Input
+layout(set = 0, binding = 0, std430) readonly buffer CurveBuffer {
+    CurveInput curves[];
+};
+
+layout(set = 0, binding = 1, std430) readonly buffer Params {
+    uint curve_count;
+    float flatness_threshold; // typically 0.25 (pixels)
+};
+
+// Output — one count per curve
+layout(set = 0, binding = 2, std430) writeonly buffer CountBuffer {
+    uint segment_counts[];
+};
+
+// --------------------------------------------------------
+// de Casteljau split at t=0.5
+// --------------------------------------------------------
+
+struct Cubic {
+    vec2 p0, p1, p2, p3;
+};
+
+struct SplitResult {
+    Cubic left;
+    Cubic right;
+};
+
+SplitResult split_cubic(Cubic c) {
+    vec2 m01  = (c.p0 + c.p1) * 0.5;
+    vec2 m12  = (c.p1 + c.p2) * 0.5;
+    vec2 m23  = (c.p2 + c.p3) * 0.5;
+    vec2 m012 = (m01  + m12)  * 0.5;
+    vec2 m123 = (m12  + m23)  * 0.5;
+    vec2 mid  = (m012 + m123) * 0.5;
+
+    SplitResult r;
+    r.left  = Cubic(c.p0, m01,  m012, mid);
+    r.right = Cubic(mid,  m123, m23,  c.p3);
+    return r;
+}
+
+// Elevate quadratic to cubic for uniform handling
+// Q(t) = (1-t)^2 P0 + 2t(1-t) P1 + t^2 P2
+// Equivalent cubic control points:
+//   C0 = P0
+//   C1 = P0 + (2/3)(P1 - P0)
+//   C2 = P2 + (2/3)(P1 - P2)
+//   C3 = P2
+Cubic quadratic_to_cubic(vec2 p0, vec2 p1, vec2 p2) {
+    vec2 c1 = p0 + (2.0/3.0) * (p1 - p0);
+    vec2 c2 = p2 + (2.0/3.0) * (p1 - p2);
+    return Cubic(p0, c1, c2, p2);
+}
+
+// --------------------------------------------------------
+// Flatness test
+// Max deviation of cubic from its chord, squared.
+// Avoids sqrt — compare against threshold^2.
+// Bound: deviation <= (3/4) * max(d1, d2)
+// We test the squared form directly.
+// --------------------------------------------------------
+
+bool is_flat(Cubic c, float threshold_sq) {
+    // Chord direction
+    vec2 chord = c.p3 - c.p0;
+    float chord_len_sq = dot(chord, chord);
+
+    // If chord is degenerate, test distance between all points
+    if (chord_len_sq < 1e-10) {
+        vec2 d1 = c.p1 - c.p0;
+        vec2 d2 = c.p2 - c.p0;
+        return dot(d1,d1) < threshold_sq && dot(d2,d2) < threshold_sq;
+    }
+
+    // Project control points onto perpendicular of chord
+    // Perpendicular (unnormalized): (-chord.y, chord.x)
+    vec2 perp = vec2(-chord.y, chord.x);
+
+    // Cross product magnitude gives perpendicular distance * chord_length
+    // We compare (cross / chord_len)^2 against threshold^2
+    // i.e. cross^2 < threshold^2 * chord_len_sq
+    float cross1 = abs(dot(c.p1 - c.p0, perp));
+    float cross2 = abs(dot(c.p2 - c.p0, perp));
+    float max_cross_sq = max(cross1, cross2);
+    max_cross_sq *= max_cross_sq;
+
+    // The (3/4) factor from the cubic flatness bound
+    return max_cross_sq < (16.0/9.0) * threshold_sq * chord_len_sq;
+}
+
+// --------------------------------------------------------
+// Count segments via iterative subdivision
+// Stack depth 20 handles up to 2^20 subdivisions —
+// more than enough for any screen-space curve at 0.25px threshold
+// --------------------------------------------------------
+
+#define MAX_DEPTH 20
+
+uint count_segments(Cubic root, float threshold) {
+    float threshold_sq = threshold * threshold;
+
+    Cubic stack[MAX_DEPTH];
+    int top = 0;
+    stack[0] = root;
+    uint count = 0u;
+
+    while (top >= 0) {
+        Cubic c = stack[top];
+
+        if (is_flat(c, threshold_sq) || top >= MAX_DEPTH - 1) {
+            // Flat enough — emit one segment
+            count++;
+            top--;
+        } else {
+            SplitResult s = split_cubic(c);
+            // Replace current slot with right half,
+            // push left half on top — left is processed first
+            stack[top]     = s.right;
+            stack[top + 1] = s.left;
+            top++;
+        }
+    }
+    return count;
+}
+
+// --------------------------------------------------------
+// Main
+// --------------------------------------------------------
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= curve_count) return;
+
+    CurveInput ci = curves[idx];
+
+    Cubic c;
+    if (ci.is_cubic == 1u) {
+        c = Cubic(ci.p0, ci.p1, ci.p2, ci.p3);
+    } else {
+        c = quadratic_to_cubic(ci.p0, ci.p1, ci.p2);
+    }
+
+    segment_counts[idx] = count_segments(c, flatness_threshold);
+}

@@ -1,4 +1,4 @@
-#include "volt/render/VulkanRenderer.hpp"
+﻿#include "volt/render/VulkanRenderer.hpp"
 
 #include "volt/core/Logging.hpp"
 #include "volt/event/Event.hpp"

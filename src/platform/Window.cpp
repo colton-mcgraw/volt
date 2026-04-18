@@ -1,50 +1,41 @@
 #include "volt/platform/Window.hpp"
 
 #include "volt/core/Logging.hpp"
-#include "volt/event/Event.hpp"
-#include "volt/event/EventDispatcher.hpp"
+#include "volt/platform/WindowBackendFactory.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 #include <utility>
 
 namespace volt::platform {
 
-Window::Window(std::uint32_t width, std::uint32_t height, const std::string& title) {
-  if (glfwRefCount_ == 0) {
-    if (glfwInit() != GLFW_TRUE) {
-      throw std::runtime_error("Failed to initialize GLFW");
-    }
+namespace {
+
+constexpr float kMinimumCaptionButtonSlotWidthPx = 78.0F;
+
+[[nodiscard]] WindowChromeRect makeRect(float x, float y, float width, float height) {
+  return WindowChromeRect{
+      x,
+      y,
+      std::max(0.0F, width),
+      std::max(0.0F, height),
+  };
+}
+
+}  // namespace
+
+Window::Window(
+    std::uint32_t width,
+    std::uint32_t height,
+    const std::string& title,
+    const WindowCreateOptions& options)
+    : title_(title),
+      options_(options) {
+  backend_ = createWindowBackend(width, height, title, options);
+  if (!backend_) {
+    throw std::runtime_error("Failed to create platform window backend");
   }
-  ++glfwRefCount_;
 
-  glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-  glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-
-  window_ = glfwCreateWindow(
-      static_cast<int>(width),
-      static_cast<int>(height),
-      title.c_str(),
-      nullptr,
-      nullptr);
-
-  if (window_ == nullptr) {
-    --glfwRefCount_;
-    if (glfwRefCount_ == 0) {
-      glfwTerminate();
-    }
-    throw std::runtime_error("Failed to create GLFW window");
-  }
-
-  glfwSetWindowUserPointer(window_, this);
-  glfwSetFramebufferSizeCallback(window_, framebufferSizeCallback);
-  glfwSetWindowRefreshCallback(window_, refreshCallback);
-  glfwSetWindowIconifyCallback(window_, iconifyCallback);
-  glfwSetKeyCallback(window_, keyCallback);
-  glfwSetCursorPosCallback(window_, cursorPosCallback);
-  glfwSetMouseButtonCallback(window_, mouseButtonCallback);
-  glfwSetScrollCallback(window_, scrollCallback);
-
-  glfwGetCursorPos(window_, &inputState_.mouse.x, &inputState_.mouse.y);
   VOLT_LOG_INFO_CAT(
       volt::core::logging::Category::kPlatform,
       "Window created: ",
@@ -56,249 +47,210 @@ Window::Window(std::uint32_t width, std::uint32_t height, const std::string& tit
       ")");
 }
 
-Window::~Window() {
-  if (window_ != nullptr) {
-    glfwDestroyWindow(window_);
-    window_ = nullptr;
-  }
-
-  --glfwRefCount_;
-  if (glfwRefCount_ == 0) {
-    glfwTerminate();
-  }
-}
+Window::~Window() = default;
 
 bool Window::shouldClose() const {
-  return glfwWindowShouldClose(window_) == GLFW_TRUE;
+  return backend_->shouldClose();
 }
 
 void Window::requestClose() const {
-  glfwSetWindowShouldClose(window_, GLFW_TRUE);
+  backend_->requestClose();
 }
 
 void Window::setEventDispatcher(volt::event::EventDispatcher* dispatcher) {
-  eventDispatcher_ = dispatcher;
+  backend_->setEventDispatcher(dispatcher);
 }
 
 void Window::setResizeRepaintCallback(std::function<void()> callback) {
-  resizeRepaintCallback_ = std::move(callback);
+  backend_->setResizeRepaintCallback(std::move(callback));
 }
 
 void Window::pollEvents() {
-  resetTransientInputState();
-  glfwPollEvents();
+  backend_->pollEvents();
 }
 
 void Window::waitEvents() {
-  resetTransientInputState();
-  glfwWaitEvents();
+  backend_->waitEvents();
 }
 
 void Window::waitEventsTimeout(double timeoutSeconds) {
-  resetTransientInputState();
-  glfwWaitEventsTimeout(timeoutSeconds > 0.0 ? timeoutSeconds : 0.0);
+  backend_->waitEventsTimeout(timeoutSeconds);
 }
 
 bool Window::wasResized() const {
-  return framebufferResized_;
+  return backend_->wasResized();
 }
 
 void Window::acknowledgeResize() {
-  framebufferResized_ = false;
+  backend_->acknowledgeResize();
 }
 
 bool Window::isMinimized() const {
-  return minimized_;
+  return backend_->isMinimized();
 }
 
 std::pair<std::uint32_t, std::uint32_t> Window::framebufferExtent() const {
-  int width = 0;
-  int height = 0;
-  glfwGetFramebufferSize(window_, &width, &height);
-  return {
-      static_cast<std::uint32_t>(width > 0 ? width : 0),
-      static_cast<std::uint32_t>(height > 0 ? height : 0),
-  };
+  return backend_->framebufferExtent();
+}
+
+std::pair<std::uint32_t, std::uint32_t> Window::logicalExtent() const {
+  return backend_->logicalExtent();
+}
+
+DisplayMetrics Window::displayMetrics() const {
+  return backend_->displayMetrics();
 }
 
 const InputState& Window::inputSnapshot() const {
-  return inputState_;
+  return backend_->inputSnapshot();
 }
 
-GLFWwindow* Window::nativeHandle() const {
-  return window_;
+WindowBackendType Window::backendType() const {
+  return backend_->backendType();
 }
 
-void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr) {
+void* Window::nativeWindowHandle() const {
+  return backend_->nativeWindowHandle();
+}
+
+void* Window::nativeDisplayHandle() const {
+  return backend_->nativeDisplayHandle();
+}
+
+void Window::beginInteractiveMove() {
+  backend_->beginInteractiveMove();
+}
+
+void Window::beginInteractiveResize(WindowResizeEdge edge) {
+  backend_->beginInteractiveResize(edge);
+}
+
+bool Window::isMaximized() const {
+  return backend_->isMaximized();
+}
+
+void Window::toggleMaximized() {
+  backend_->toggleMaximized();
+}
+
+void Window::minimize() {
+  backend_->minimize();
+}
+
+const std::string& Window::title() const {
+  return title_;
+}
+
+const char* Window::titleIconTextureId() const {
+  return "image:icon";
+}
+
+std::string_view Window::minimizeLabel() const {
+  return "- Min";
+}
+
+std::string_view Window::maximizeLabel() const {
+  return "[] Max";
+}
+
+std::string_view Window::closeLabel() const {
+  return "X Close";
+}
+
+WindowChromeLayout Window::buildChromeLayout(
+    std::uint32_t framebufferWidth,
+    std::uint32_t framebufferHeight) const {
+  WindowChromeLayout layout{};
+
+  const float windowWidthF = static_cast<float>(framebufferWidth);
+  const float windowHeightF = static_cast<float>(framebufferHeight);
+  const float titleBarHeight = static_cast<float>(std::max(1, options_.titleBarHeight));
+  const float titleBarPadding = static_cast<float>(std::max(1, options_.titleBarPadding));
+  const float titleBarButtonSize = static_cast<float>(std::max(1, options_.titleBarButtonSize));
+  const float titleBarButtonSpacing = static_cast<float>(std::max(0, options_.titleBarButtonSpacing));
+  const float baseButtonSlotWidth = titleBarButtonSize + (titleBarPadding * 2.0F);
+  const float controlButtonWidth = std::max(baseButtonSlotWidth, kMinimumCaptionButtonSlotWidthPx);
+  const float titleButtonsGroupWidth = (controlButtonWidth * 3.0F) + (titleBarButtonSpacing * 2.0F);
+  const float buttonStripX = std::max(0.0F, windowWidthF - titleButtonsGroupWidth);
+  const float titleIconSize = std::max(1.0F, titleBarHeight - (titleBarPadding * 2.0F));
+  const float titleIconY = std::max(0.0F, (titleBarHeight - titleIconSize) * 0.5F);
+  const float titleTextX = titleBarPadding + titleIconSize + titleBarPadding;
+  const float titleTextWidth =
+      std::max(0.0F, windowWidthF - titleButtonsGroupWidth - titleTextX - titleBarPadding);
+  const float resizeGrip = static_cast<float>(
+      options_.resizeBorderThickness > 0 ? options_.resizeBorderThickness : 6);
+
+  layout.titleBar = makeRect(0.0F, 0.0F, windowWidthF, titleBarHeight);
+  layout.titleIcon = makeRect(titleBarPadding, titleIconY, titleIconSize, titleIconSize);
+  layout.titleText = makeRect(titleTextX, 0.0F, titleTextWidth, 18.0F);
+  layout.dragRegion = makeRect(0.0F, 0.0F, buttonStripX, titleBarHeight);
+  layout.minimizeButton = makeRect(buttonStripX, 0.0F, controlButtonWidth, titleBarHeight);
+  layout.maximizeButton = makeRect(
+      buttonStripX + controlButtonWidth + titleBarButtonSpacing,
+      0.0F,
+      controlButtonWidth,
+      titleBarHeight);
+  layout.closeButton = makeRect(
+      buttonStripX + (controlButtonWidth * 2.0F) + (titleBarButtonSpacing * 2.0F),
+      0.0F,
+      controlButtonWidth,
+      titleBarHeight);
+  layout.titleBarPadding = titleBarPadding;
+  layout.titleBarButtonSpacing = titleBarButtonSpacing;
+  layout.titleTextBaselineY = std::max(0.0F, (titleBarHeight - 18.0F) * 0.5F);
+  layout.buttonTextBaselineY = std::max(0.0F, (titleBarHeight - 14.0F) * 0.5F);
+
+  const bool resizable = options_.windowResizable && !isMaximized();
+  layout.hasResizeRegions = resizable;
+  if (resizable) {
+    const float cornerGrip = resizeGrip * 2.0F;
+    layout.leftResize = makeRect(0.0F, 0.0F, resizeGrip, windowHeightF);
+    layout.rightResize = makeRect(windowWidthF - resizeGrip, 0.0F, resizeGrip, windowHeightF);
+    layout.topResize = makeRect(0.0F, 0.0F, windowWidthF, resizeGrip);
+    layout.bottomResize = makeRect(0.0F, windowHeightF - resizeGrip, windowWidthF, resizeGrip);
+    layout.topLeftResize = makeRect(0.0F, 0.0F, cornerGrip, cornerGrip);
+    layout.topRightResize = makeRect(windowWidthF - cornerGrip, 0.0F, cornerGrip, cornerGrip);
+    layout.bottomLeftResize = makeRect(0.0F, windowHeightF - cornerGrip, cornerGrip, cornerGrip);
+    layout.bottomRightResize =
+        makeRect(windowWidthF - cornerGrip, windowHeightF - cornerGrip, cornerGrip, cornerGrip);
+  }
+
+  return layout;
+}
+
+void Window::handleChromePointerPress(
+    bool leftMousePressed,
+    std::uint64_t hoveredWidgetId,
+    const WindowChromeWidgetIds& widgetIds) {
+  if (!leftMousePressed || hoveredWidgetId == 0U) {
     return;
   }
 
-  self->framebufferResized_ = true;
-  self->minimized_ = (width == 0 || height == 0);
-  VOLT_LOG_DEBUG_CAT(volt::core::logging::Category::kPlatform, "Window framebuffer resize: ", width, "x", height);
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kWindowResized,
-        .payload = volt::event::WindowResizeEvent{
-            .width = static_cast<std::uint32_t>(width > 0 ? width : 0),
-            .height = static_cast<std::uint32_t>(height > 0 ? height : 0),
-        },
-    });
+  if (hoveredWidgetId == widgetIds.closeButton) {
+    requestClose();
+  } else if (hoveredWidgetId == widgetIds.minimizeButton) {
+    minimize();
+  } else if (hoveredWidgetId == widgetIds.maximizeButton) {
+    toggleMaximized();
+  } else if (hoveredWidgetId == widgetIds.dragRegion) {
+    beginInteractiveMove();
+  } else if (hoveredWidgetId == widgetIds.leftResize) {
+    beginInteractiveResize(WindowResizeEdge::kLeft);
+  } else if (hoveredWidgetId == widgetIds.rightResize) {
+    beginInteractiveResize(WindowResizeEdge::kRight);
+  } else if (hoveredWidgetId == widgetIds.topResize) {
+    beginInteractiveResize(WindowResizeEdge::kTop);
+  } else if (hoveredWidgetId == widgetIds.bottomResize) {
+    beginInteractiveResize(WindowResizeEdge::kBottom);
+  } else if (hoveredWidgetId == widgetIds.topLeftResize) {
+    beginInteractiveResize(WindowResizeEdge::kTopLeft);
+  } else if (hoveredWidgetId == widgetIds.topRightResize) {
+    beginInteractiveResize(WindowResizeEdge::kTopRight);
+  } else if (hoveredWidgetId == widgetIds.bottomLeftResize) {
+    beginInteractiveResize(WindowResizeEdge::kBottomLeft);
+  } else if (hoveredWidgetId == widgetIds.bottomRightResize) {
+    beginInteractiveResize(WindowResizeEdge::kBottomRight);
   }
-
-  if (!self->minimized_ && self->resizeRepaintCallback_) {
-    self->resizeRepaintCallback_();
-  }
-}
-
-void Window::refreshCallback(GLFWwindow* window) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr) {
-    return;
-  }
-
-  if (!self->minimized_ && self->resizeRepaintCallback_) {
-    self->resizeRepaintCallback_();
-  }
-}
-
-void Window::iconifyCallback(GLFWwindow* window, int iconified) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr) {
-    return;
-  }
-
-  self->minimized_ = (iconified == GLFW_TRUE);
-  VOLT_LOG_DEBUG_CAT(
-      volt::core::logging::Category::kPlatform,
-      "Window iconify state changed: ",
-      self->minimized_ ? "minimized" : "restored");
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kWindowMinimized,
-        .payload = volt::event::WindowMinimizedEvent{
-            .minimized = (iconified == GLFW_TRUE),
-        },
-    });
-  }
-}
-
-void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr || key < 0) {
-    return;
-  }
-
-  const std::size_t keyIndex = static_cast<std::size_t>(key);
-  if (keyIndex >= self->inputState_.keyboard.down.size()) {
-    return;
-  }
-
-  if (action == GLFW_PRESS) {
-    self->inputState_.keyboard.down[keyIndex] = true;
-  } else if (action == GLFW_RELEASE) {
-    self->inputState_.keyboard.down[keyIndex] = false;
-  }
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kKeyInput,
-        .payload = volt::event::KeyInputEvent{
-            .key = key,
-            .action = action,
-            .mods = mods,
-        },
-    });
-  }
-
-  (void)scancode;
-  (void)mods;
-}
-
-void Window::cursorPosCallback(GLFWwindow* window, double xPos, double yPos) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr) {
-    return;
-  }
-
-  self->inputState_.mouse.deltaX += (xPos - self->inputState_.mouse.x);
-  self->inputState_.mouse.deltaY += (yPos - self->inputState_.mouse.y);
-  self->inputState_.mouse.x = xPos;
-  self->inputState_.mouse.y = yPos;
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kMouseMoved,
-        .payload = volt::event::MouseMovedEvent{
-            .x = self->inputState_.mouse.x,
-            .y = self->inputState_.mouse.y,
-            .deltaX = self->inputState_.mouse.deltaX,
-            .deltaY = self->inputState_.mouse.deltaY,
-        },
-    });
-  }
-}
-
-void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr || button < 0) {
-    return;
-  }
-
-  const std::size_t buttonIndex = static_cast<std::size_t>(button);
-  if (buttonIndex >= self->inputState_.mouse.down.size()) {
-    return;
-  }
-
-  if (action == GLFW_PRESS) {
-    self->inputState_.mouse.down[buttonIndex] = true;
-  } else if (action == GLFW_RELEASE) {
-    self->inputState_.mouse.down[buttonIndex] = false;
-  }
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kMouseButton,
-        .payload = volt::event::MouseButtonEvent{
-            .button = button,
-            .action = action,
-            .mods = mods,
-        },
-    });
-  }
-
-  (void)mods;
-}
-
-void Window::scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
-  auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-  if (self == nullptr) {
-    return;
-  }
-
-  self->inputState_.mouse.scrollX += xOffset;
-  self->inputState_.mouse.scrollY += yOffset;
-
-  if (self->eventDispatcher_ != nullptr) {
-    self->eventDispatcher_->enqueue({
-        .type = volt::event::EventType::kMouseScrolled,
-        .payload = volt::event::MouseScrolledEvent{
-            .xOffset = xOffset,
-            .yOffset = yOffset,
-        },
-    });
-  }
-}
-
-void Window::resetTransientInputState() {
-  inputState_.mouse.deltaX = 0.0;
-  inputState_.mouse.deltaY = 0.0;
-  inputState_.mouse.scrollX = 0.0;
-  inputState_.mouse.scrollY = 0.0;
 }
 
 }  // namespace volt::platform

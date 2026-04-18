@@ -51,6 +51,18 @@ bool AssetManager::getDefaultFontPackedQuad(int glyphIndex, float& x, float& y, 
   return fontAssets_.getDefaultFontPackedQuad(glyphIndex, x, y, outQuad);
 }
 
+float AssetManager::getDefaultFontKerningAdvance(int leftGlyphIndex, int rightGlyphIndex) {
+  return fontAssets_.getDefaultFontKerningAdvance(leftGlyphIndex, rightGlyphIndex);
+}
+
+bool AssetManager::getDefaultFontVectorGlyph(int glyphIndex, FontVectorGlyph& outGlyph) {
+  return fontAssets_.getDefaultFontVectorGlyph(glyphIndex, outGlyph);
+}
+
+const std::vector<FontVectorCurve>& AssetManager::getDefaultFontVectorCurves() {
+  return fontAssets_.getDefaultFontVectorCurves();
+}
+
 const std::string& AssetManager::getDefaultFontTextureKey() {
   return fontAssets_.getDefaultFontTextureKey();
 }

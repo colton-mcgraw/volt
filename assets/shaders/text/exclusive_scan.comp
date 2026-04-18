@@ -1,0 +1,64 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) buffer CountBuffer {
+    uint segment_counts[];  // in: counts, out: exclusive offsets
+};
+
+layout(set = 0, binding = 1, std430) buffer BlockSumBuffer {
+    uint block_sums[];      // one entry per workgroup
+};
+
+layout(set = 0, binding = 2, std430) readonly buffer Params {
+    uint element_count;
+    uint pass;  // 0 = local scan + write block sums
+                // 1 = add block sums back to local results
+};
+
+shared uint shared_data[256];
+
+void main() {
+    uint gid = gl_GlobalInvocationID.x;
+    uint lid = gl_LocalInvocationID.x;
+    uint wgid = gl_WorkGroupID.x;
+
+    // ---- Pass 0: local exclusive scan ----
+    if (pass == 0u) {
+        // Load input
+        uint val = (gid < element_count) ? segment_counts[gid] : 0u;
+        shared_data[lid] = val;
+        barrier();
+
+        // Kogge-Stone parallel prefix sum (inclusive)
+        for (uint stride = 1u; stride < 256u; stride <<= 1u) {
+            uint v = (lid >= stride) ? shared_data[lid - stride] : 0u;
+            barrier();
+            shared_data[lid] += v;
+            barrier();
+        }
+
+        // Convert inclusive to exclusive by shifting right
+        uint inclusive = shared_data[lid];
+        uint exclusive = (lid > 0u) ? shared_data[lid - 1u] : 0u;
+        barrier();
+
+        if (gid < element_count) {
+            segment_counts[gid] = exclusive;
+        }
+
+        // Last thread writes this workgroup's total to block_sums
+        if (lid == 255u) {
+            block_sums[wgid] = inclusive;
+        }
+    }
+
+    // ---- Pass 1: add scanned block sums back ----
+    else {
+        // block_sums was itself scanned on CPU or in a second dispatch
+        // Each element adds the prefix sum of all prior workgroup totals
+        if (gid < element_count && wgid > 0u) {
+            segment_counts[gid] += block_sums[wgid];
+        }
+    }
+}

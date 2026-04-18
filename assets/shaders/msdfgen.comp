@@ -1,0 +1,280 @@
+#version 450
+#extension GL_EXT_shader_atomic_float : enable
+
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+// ─── Structures ───────────────────────────────────────────────────────────────
+
+struct CurveSegment {
+    vec2 p0, p1, p2, p3;   // p3 unused for quadratic
+    int  type;              // 0 = quadratic, 1 = cubic
+    int  channelMask;       // bitmask: 1=R, 2=G, 4=B
+    int  contourSign;       // +1 outer-orientation, -1 reversed/hole-orientation
+    int  _pad;
+};
+
+struct GlyphJob {
+    ivec2 atlasOffset;
+    ivec2 glyphSize;
+    int   curveOffset;
+    int   curveCount;
+    int   _pad[2];
+};
+
+// ─── Bindings ─────────────────────────────────────────────────────────────────
+
+layout(std430, binding = 0) readonly buffer CurveBuffer {
+    CurveSegment curves[];
+};
+
+layout(std430, binding = 1) readonly buffer JobBuffer {
+    GlyphJob jobs[];
+};
+
+// RGBA16F atlas — R=left/right edge, G=top/bottom edge, B=diagonal edge, A=true SDF
+layout(rgba16f, binding = 2) uniform image2D atlas;
+
+layout(push_constant) uniform PushConstants {
+    float spreadPx;
+} pushConstants;
+
+// ─── Math helpers ─────────────────────────────────────────────────────────────
+
+float cross2(vec2 a, vec2 b) {
+    return a.x * b.y - a.y * b.x;
+}
+
+float cbrtSigned(float value) {
+    return sign(value) * pow(abs(value), 1.0 / 3.0);
+}
+
+// Clamp t to [0,1] and evaluate quadratic bezier
+vec2 quadraticPoint(vec2 p0, vec2 p1, vec2 p2, float t) {
+    t = clamp(t, 0.0, 1.0);
+    float s = 1.0 - t;
+    return s*s*p0 + 2.0*s*t*p1 + t*t*p2;
+}
+
+vec2 cubicPoint(vec2 p0, vec2 p1, vec2 p2, vec2 p3, float t) {
+    t = clamp(t, 0.0, 1.0);
+    float s = 1.0 - t;
+    return s*s*s*p0 + 3.0*s*s*t*p1 + 3.0*s*t*t*p2 + t*t*t*p3;
+}
+
+// ─── Signed distance to quadratic Bézier ──────────────────────────────────────
+// Returns signed distance — sign from cross product of tangent vs point offset
+
+float sdQuadratic(vec2 p, vec2 p0, vec2 p1, vec2 p2) {
+    vec2 A = p1 - p0;
+    vec2 B = p0 - 2.0*p1 + p2;
+
+    float a = dot(B, B);
+    float b = 3.0 * dot(A, B);
+    float c = 2.0 * dot(A, A) + dot(p0 - p, B);
+    float d = dot(p0 - p, A);
+
+    // Solve cubic: at^3 + bt^2 + ct + d = 0
+    // Cardano's method (numerically stable form)
+    float p3 = (3.0*a*c - b*b) / (3.0*a*a);
+    float q  = (2.0*b*b*b - 9.0*a*b*c + 27.0*a*a*d) / (27.0*a*a*a);
+
+    float minDist = 1e9;
+    float bestT   = 0.0;
+
+    float disc = 0.25*q*q + p3*p3*p3/27.0;
+
+    if (disc > 0.0) {
+        // One real root
+        float sqrtDisc = sqrt(disc);
+        float u = cbrtSigned(-0.5*q + sqrtDisc);
+        float v = cbrtSigned(-0.5*q - sqrtDisc);
+        float t = u + v - b/(3.0*a);
+        t = clamp(t, 0.0, 1.0);
+        vec2 pt = quadraticPoint(p0, p1, p2, t);
+        float dist = length(pt - p);
+        if (dist < minDist) { minDist = dist; bestT = t; }
+    } else {
+        // Three real roots — Vieta's trig method
+        float m = 2.0 * sqrt(-p3/3.0);
+        float theta = acos(3.0*q / (p3*m)) / 3.0;
+        float roots[3];
+        roots[0] = m * cos(theta)               - b/(3.0*a);
+        roots[1] = m * cos(theta - 2.0*3.14159265/3.0) - b/(3.0*a);
+        roots[2] = m * cos(theta - 4.0*3.14159265/3.0) - b/(3.0*a);
+        for (int i = 0; i < 3; i++) {
+            float t = clamp(roots[i], 0.0, 1.0);
+            vec2 pt = quadraticPoint(p0, p1, p2, t);
+            float dist = length(pt - p);
+            if (dist < minDist) { minDist = dist; bestT = t; }
+        }
+    }
+
+    // Endpoints
+    for (int i = 0; i <= 1; i++) {
+        float t = float(i);
+        vec2 pt = quadraticPoint(p0, p1, p2, t);
+        float dist = length(pt - p);
+        if (dist < minDist) { minDist = dist; bestT = t; }
+    }
+
+    // Sign via tangent cross product
+    vec2 tangent = mix(2.0*(p1-p0), 2.0*(p2-p1), bestT);
+    vec2 offset  = p - quadraticPoint(p0, p1, p2, bestT);
+    float sgn    = sign(cross2(tangent, offset));
+
+    return sgn * minDist;
+}
+
+// ─── Signed distance to cubic Bézier ──────────────────────────────────────────
+// Uses iterative Newton refinement — good enough for font curves
+
+float sdCubic(vec2 p, vec2 p0, vec2 p1, vec2 p2, vec2 p3) {
+    float minDist = 1e9;
+    float bestT   = 0.0;
+
+    // Sample initial candidates
+    const int SAMPLES = 16;
+    for (int i = 0; i <= SAMPLES; i++) {
+        float t = float(i) / float(SAMPLES);
+        vec2 pt = cubicPoint(p0, p1, p2, p3, t);
+        float dist = length(pt - p);
+        if (dist < minDist) { minDist = dist; bestT = t; }
+    }
+
+    // Newton refinement
+    for (int iter = 0; iter < 4; iter++) {
+        float t = bestT;
+        vec2  pt  = cubicPoint(p0, p1, p2, p3, t);
+        // First derivative
+        vec2  d1  = 3.0*(p1-p0)*(1.0-t)*(1.0-t)
+                  + 6.0*(p2-p1)*(1.0-t)*t
+                  + 3.0*(p3-p2)*t*t;
+        // Second derivative
+        vec2  d2  = 6.0*(p2-2.0*p1+p0)*(1.0-t)
+                  + 6.0*(p3-2.0*p2+p1)*t;
+
+        vec2  diff = pt - p;
+        float f    = dot(diff, d1);
+        float fp   = dot(d1, d1) + dot(diff, d2);
+        if (abs(fp) > 1e-6)
+            bestT = clamp(t - f/fp, 0.0, 1.0);
+
+        vec2 refined = cubicPoint(p0, p1, p2, p3, bestT);
+        minDist = length(refined - p);
+    }
+
+    // Sign via tangent
+    float t      = bestT;
+    vec2 tangent = 3.0*(p1-p0)*(1.0-t)*(1.0-t)
+                 + 6.0*(p2-p1)*(1.0-t)*t
+                 + 3.0*(p3-p2)*t*t;
+    vec2 offset  = p - cubicPoint(p0, p1, p2, p3, t);
+    float sgn    = sign(cross2(tangent, offset));
+
+    return sgn * minDist;
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
+bool rayIntersectsLineSegment(vec2 point, vec2 a, vec2 b) {
+    bool yCheck = (a.y > point.y) != (b.y > point.y);
+    if (!yCheck) {
+        return false;
+    }
+
+    float dy = b.y - a.y;
+    if (abs(dy) < 1e-6) {
+        return false;
+    }
+
+    float xAtY = a.x + ((point.y - a.y) * (b.x - a.x) / dy);
+    return xAtY > point.x;
+}
+
+bool pointInsideEvenOdd(vec2 point, int curveOffset, int curveCount) {
+    bool inside = false;
+
+    for (int i = curveOffset; i < curveOffset + curveCount; ++i) {
+        CurveSegment seg = curves[i];
+        vec2 previous = seg.p0;
+        int steps = seg.type == 0 ? 12 : 8;
+
+        for (int step = 1; step <= steps; ++step) {
+            float t = float(step) / float(steps);
+            vec2 next = seg.type == 0
+                ? quadraticPoint(seg.p0, seg.p1, seg.p2, t)
+                : cubicPoint(seg.p0, seg.p1, seg.p2, seg.p3, t);
+
+            if (rayIntersectsLineSegment(point, previous, next)) {
+                inside = !inside;
+            }
+            previous = next;
+        }
+    }
+
+    return inside;
+}
+
+void main() {
+    int glyphIdx = int(gl_WorkGroupID.z);
+    GlyphJob job = jobs[glyphIdx];
+
+    ivec2 localTexel = ivec2(gl_GlobalInvocationID.xy);
+
+    // Clamp workgroup overflow
+    if (any(greaterThanEqual(localTexel, job.glyphSize))) return;
+
+    ivec2 atlasTexel = job.atlasOffset + localTexel;
+
+    // Normalize to glyph-local [0,1] UV for winding/parity tests.
+    vec2 uv = (vec2(localTexel) + 0.5) / vec2(job.glyphSize);
+    // Evaluate actual distances in glyph texel space so spreadPx matches the encoded field.
+    vec2 pointPx = vec2(localTexel) + 0.5;
+    vec2 glyphSizePx = max(vec2(job.glyphSize), vec2(1.0));
+
+    // Per-channel min distances for MSDF
+    float distR = 1e9, distG = 1e9, distB = 1e9;
+    float distTrue = 1e9;  // true SDF for alpha
+
+    for (int i = job.curveOffset; i < job.curveOffset + job.curveCount; i++) {
+        CurveSegment seg = curves[i];
+        float sd;
+        vec2 p0 = seg.p0 * glyphSizePx;
+        vec2 p1 = seg.p1 * glyphSizePx;
+        vec2 p2 = seg.p2 * glyphSizePx;
+        vec2 p3 = seg.p3 * glyphSizePx;
+
+        if (seg.type == 0) {
+            sd = sdQuadratic(pointPx, p0, p1, p2);
+        } else {
+            sd = sdCubic(pointPx, p0, p1, p2, p3);
+        }
+
+        float distanceValue = abs(sd);
+
+        // Track true SDF
+        distTrue = min(distTrue, distanceValue);
+
+        if ((seg.channelMask & 1) != 0) distR = min(distR, distanceValue);
+        if ((seg.channelMask & 2) != 0) distG = min(distG, distanceValue);
+        if ((seg.channelMask & 4) != 0) distB = min(distB, distanceValue);
+    }
+
+    float signValue = pointInsideEvenOdd(uv, job.curveOffset, job.curveCount) ? 1.0 : -1.0;
+    distR *= signValue;
+    distG *= signValue;
+    distB *= signValue;
+    distTrue *= signValue;
+
+    // Pack into [0,1] range — 0.5 = on the edge
+    // Scale factor controls how many texels the gradient spans
+    float spread = max(pushConstants.spreadPx, 1.0);
+    vec4 result = vec4(
+        distR    / spread + 0.5,
+        distG    / spread + 0.5,
+        distB    / spread + 0.5,
+        distTrue / spread + 0.5
+    );
+
+    imageStore(atlas, atlasTexel, clamp(result, 0.0, 1.0));
+}

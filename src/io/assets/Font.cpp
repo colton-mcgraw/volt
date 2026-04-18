@@ -1,12 +1,23 @@
 #include "volt/io/assets/Font.hpp"
 
+#include "SfntFontAtlas.hpp"
+
+#include "volt/io/assets/Manifest.hpp"
+#include "volt/io/image/ImageDecoder.hpp"
 #include "volt/io/image/ImageEncoder.hpp"
 #include "volt/io/text/Utf.hpp"
 
+#include "volt/core/Logging.hpp"
+
+#include <chrono>
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstddef>
+#include <cmath>
 #include <filesystem>
+#include <optional>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -28,16 +39,31 @@ struct PackedGlyph {
 struct FontAtlasData {
   bool initialized{false};
   bool valid{false};
-  float bakePixelHeight{16.0F};
+  std::uint64_t revision{0U};
+  bool gpuAtlasEnabled{false};
+  bool sdfEnabled{false};
+  bool msdfEnabled{false};
+  float sdfSpreadPx{0.0F};
+  float sdfEdge{0.5F};
+  float sdfAaStrength{0.35F};
+  float msdfConfidenceLow{0.01F};
+  float msdfConfidenceHigh{0.07F};
+  float subpixelBlendStrength{0.85F};
+  float smallTextSharpenStrength{0.28F};
+  float bakePixelHeight{32.0F};
   std::uint32_t atlasWidth{0};
   std::uint32_t atlasHeight{0};
   std::vector<PackedGlyph> glyphs{};
+  std::vector<FontVectorGlyph> vectorGlyphs{};
+  std::vector<FontVectorCurve> vectorCurves{};
   std::unordered_map<char32_t, int> codepointToGlyphIndex{};
+  std::unordered_map<std::uint64_t, float> kerningPairsPx{};
   char32_t fallbackCodepoint{U'?'};
-  float ascentPx{14.0F};
-  float descentPx{-4.0F};
-  float lineGapPx{2.0F};
+  float ascentPx{0.0F};
+  float descentPx{0.0F};
+  float lineGapPx{0.0F};
   std::string textureKey{"image:ui-font-default"};
+  FontGpuAtlas gpuAtlas{};
 };
 
 FontAtlasData& fontAtlas() {
@@ -45,410 +71,16 @@ FontAtlasData& fontAtlas() {
   return atlas;
 }
 
-using GlyphPattern = std::array<const char*, 7>;
+struct FontRuntimeTuningState {
+  bool atlasOverrideActive{false};
+  FontAtlasBuildTuning atlasBuild{};
+  bool renderOverrideActive{false};
+  FontRenderTuning render{};
+};
 
-const GlyphPattern& patternForAscii(char ch) {
-  static const GlyphPattern kUnknown = {
-      "01110",
-      "10001",
-      "00010",
-      "00100",
-      "00100",
-      "00000",
-      "00100",
-  };
-
-  static const GlyphPattern kSpace = {
-      "00000",
-      "00000",
-      "00000",
-      "00000",
-      "00000",
-      "00000",
-      "00000",
-  };
-
-  if (ch >= 'a' && ch <= 'z') {
-    ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-  }
-
-  switch (ch) {
-    case ' ':
-      return kSpace;
-    case 'A': {
-      static const GlyphPattern p = {"01110", "10001", "10001", "11111", "10001", "10001", "10001"};
-      return p;
-    }
-    case 'B': {
-      static const GlyphPattern p = {"11110", "10001", "10001", "11110", "10001", "10001", "11110"};
-      return p;
-    }
-    case 'C': {
-      static const GlyphPattern p = {"01110", "10001", "10000", "10000", "10000", "10001", "01110"};
-      return p;
-    }
-    case 'D': {
-      static const GlyphPattern p = {"11110", "10001", "10001", "10001", "10001", "10001", "11110"};
-      return p;
-    }
-    case 'E': {
-      static const GlyphPattern p = {"11111", "10000", "10000", "11110", "10000", "10000", "11111"};
-      return p;
-    }
-    case 'F': {
-      static const GlyphPattern p = {"11111", "10000", "10000", "11110", "10000", "10000", "10000"};
-      return p;
-    }
-    case 'G': {
-      static const GlyphPattern p = {"01110", "10001", "10000", "10111", "10001", "10001", "01110"};
-      return p;
-    }
-    case 'H': {
-      static const GlyphPattern p = {"10001", "10001", "10001", "11111", "10001", "10001", "10001"};
-      return p;
-    }
-    case 'I': {
-      static const GlyphPattern p = {"11111", "00100", "00100", "00100", "00100", "00100", "11111"};
-      return p;
-    }
-    case 'J': {
-      static const GlyphPattern p = {"00111", "00010", "00010", "00010", "10010", "10010", "01100"};
-      return p;
-    }
-    case 'K': {
-      static const GlyphPattern p = {"10001", "10010", "10100", "11000", "10100", "10010", "10001"};
-      return p;
-    }
-    case 'L': {
-      static const GlyphPattern p = {"10000", "10000", "10000", "10000", "10000", "10000", "11111"};
-      return p;
-    }
-    case 'M': {
-      static const GlyphPattern p = {"10001", "11011", "10101", "10101", "10001", "10001", "10001"};
-      return p;
-    }
-    case 'N': {
-      static const GlyphPattern p = {"10001", "11001", "10101", "10011", "10001", "10001", "10001"};
-      return p;
-    }
-    case 'O': {
-      static const GlyphPattern p = {"01110", "10001", "10001", "10001", "10001", "10001", "01110"};
-      return p;
-    }
-    case 'P': {
-      static const GlyphPattern p = {"11110", "10001", "10001", "11110", "10000", "10000", "10000"};
-      return p;
-    }
-    case 'Q': {
-      static const GlyphPattern p = {"01110", "10001", "10001", "10001", "10101", "10010", "01101"};
-      return p;
-    }
-    case 'R': {
-      static const GlyphPattern p = {"11110", "10001", "10001", "11110", "10100", "10010", "10001"};
-      return p;
-    }
-    case 'S': {
-      static const GlyphPattern p = {"01111", "10000", "10000", "01110", "00001", "00001", "11110"};
-      return p;
-    }
-    case 'T': {
-      static const GlyphPattern p = {"11111", "00100", "00100", "00100", "00100", "00100", "00100"};
-      return p;
-    }
-    case 'U': {
-      static const GlyphPattern p = {"10001", "10001", "10001", "10001", "10001", "10001", "01110"};
-      return p;
-    }
-    case 'V': {
-      static const GlyphPattern p = {"10001", "10001", "10001", "10001", "10001", "01010", "00100"};
-      return p;
-    }
-    case 'W': {
-      static const GlyphPattern p = {"10001", "10001", "10001", "10101", "10101", "11011", "10001"};
-      return p;
-    }
-    case 'X': {
-      static const GlyphPattern p = {"10001", "10001", "01010", "00100", "01010", "10001", "10001"};
-      return p;
-    }
-    case 'Y': {
-      static const GlyphPattern p = {"10001", "10001", "01010", "00100", "00100", "00100", "00100"};
-      return p;
-    }
-    case 'Z': {
-      static const GlyphPattern p = {"11111", "00001", "00010", "00100", "01000", "10000", "11111"};
-      return p;
-    }
-    case '0': {
-      static const GlyphPattern p = {"01110", "10001", "10011", "10101", "11001", "10001", "01110"};
-      return p;
-    }
-    case '1': {
-      static const GlyphPattern p = {"00100", "01100", "00100", "00100", "00100", "00100", "01110"};
-      return p;
-    }
-    case '2': {
-      static const GlyphPattern p = {"01110", "10001", "00001", "00010", "00100", "01000", "11111"};
-      return p;
-    }
-    case '3': {
-      static const GlyphPattern p = {"11110", "00001", "00001", "01110", "00001", "00001", "11110"};
-      return p;
-    }
-    case '4': {
-      static const GlyphPattern p = {"00010", "00110", "01010", "10010", "11111", "00010", "00010"};
-      return p;
-    }
-    case '5': {
-      static const GlyphPattern p = {"11111", "10000", "10000", "11110", "00001", "00001", "11110"};
-      return p;
-    }
-    case '6': {
-      static const GlyphPattern p = {"01110", "10000", "10000", "11110", "10001", "10001", "01110"};
-      return p;
-    }
-    case '7': {
-      static const GlyphPattern p = {"11111", "00001", "00010", "00100", "01000", "01000", "01000"};
-      return p;
-    }
-    case '8': {
-      static const GlyphPattern p = {"01110", "10001", "10001", "01110", "10001", "10001", "01110"};
-      return p;
-    }
-    case '9': {
-      static const GlyphPattern p = {"01110", "10001", "10001", "01111", "00001", "00001", "01110"};
-      return p;
-    }
-    case '.': {
-      static const GlyphPattern p = {"00000", "00000", "00000", "00000", "00000", "00110", "00110"};
-      return p;
-    }
-    case ',': {
-      static const GlyphPattern p = {"00000", "00000", "00000", "00000", "00110", "00110", "00100"};
-      return p;
-    }
-    case ':': {
-      static const GlyphPattern p = {"00000", "00110", "00110", "00000", "00110", "00110", "00000"};
-      return p;
-    }
-    case ';': {
-      static const GlyphPattern p = {"00000", "00110", "00110", "00000", "00110", "00110", "00100"};
-      return p;
-    }
-    case '!': {
-      static const GlyphPattern p = {"00100", "00100", "00100", "00100", "00100", "00000", "00100"};
-      return p;
-    }
-    case '?':
-      return kUnknown;
-    case '-': {
-      static const GlyphPattern p = {"00000", "00000", "00000", "11111", "00000", "00000", "00000"};
-      return p;
-    }
-    case '+': {
-      static const GlyphPattern p = {"00000", "00100", "00100", "11111", "00100", "00100", "00000"};
-      return p;
-    }
-    case '/': {
-      static const GlyphPattern p = {"00001", "00010", "00100", "01000", "10000", "00000", "00000"};
-      return p;
-    }
-    case '\\': {
-      static const GlyphPattern p = {"10000", "01000", "00100", "00010", "00001", "00000", "00000"};
-      return p;
-    }
-    case '(': {
-      static const GlyphPattern p = {"00010", "00100", "01000", "01000", "01000", "00100", "00010"};
-      return p;
-    }
-    case ')': {
-      static const GlyphPattern p = {"01000", "00100", "00010", "00010", "00010", "00100", "01000"};
-      return p;
-    }
-    case '[': {
-      static const GlyphPattern p = {"01110", "01000", "01000", "01000", "01000", "01000", "01110"};
-      return p;
-    }
-    case ']': {
-      static const GlyphPattern p = {"01110", "00010", "00010", "00010", "00010", "00010", "01110"};
-      return p;
-    }
-    case '{': {
-      static const GlyphPattern p = {"00010", "00100", "00100", "01000", "00100", "00100", "00010"};
-      return p;
-    }
-    case '}': {
-      static const GlyphPattern p = {"01000", "00100", "00100", "00010", "00100", "00100", "01000"};
-      return p;
-    }
-    case '_': {
-      static const GlyphPattern p = {"00000", "00000", "00000", "00000", "00000", "00000", "11111"};
-      return p;
-    }
-    case '"': {
-      static const GlyphPattern p = {"01010", "01010", "00100", "00000", "00000", "00000", "00000"};
-      return p;
-    }
-    case '\'': {
-      static const GlyphPattern p = {"00100", "00100", "00010", "00000", "00000", "00000", "00000"};
-      return p;
-    }
-    default:
-      return kUnknown;
-  }
-}
-
-char normalizeAsciiCodepoint(char32_t codepoint) {
-  if (!utf::isValidUnicodeScalar(codepoint)) {
-    return '?';
-  }
-
-  if (codepoint < U'\u0080') {
-    return static_cast<char>(codepoint);
-  }
-
-  switch (codepoint) {
-    case 0x00A0:
-      return ' ';
-    case 0x00A1:
-      return '!';
-    case 0x00A9:
-      return 'C';
-    case 0x00AB:
-    case 0x00BB:
-      return '"';
-    case 0x00B0:
-      return 'o';
-    case 0x00B7:
-      return '.';
-    case 0x00BF:
-      return '?';
-    case 0x00C0:
-    case 0x00C1:
-    case 0x00C2:
-    case 0x00C3:
-    case 0x00C4:
-    case 0x00C5:
-    case 0x00E0:
-    case 0x00E1:
-    case 0x00E2:
-    case 0x00E3:
-    case 0x00E4:
-    case 0x00E5:
-      return 'A';
-    case 0x00C6:
-    case 0x00E6:
-      return 'A';
-    case 0x00C7:
-    case 0x00E7:
-      return 'C';
-    case 0x00C8:
-    case 0x00C9:
-    case 0x00CA:
-    case 0x00CB:
-    case 0x00E8:
-    case 0x00E9:
-    case 0x00EA:
-    case 0x00EB:
-      return 'E';
-    case 0x00CC:
-    case 0x00CD:
-    case 0x00CE:
-    case 0x00CF:
-    case 0x00EC:
-    case 0x00ED:
-    case 0x00EE:
-    case 0x00EF:
-      return 'I';
-    case 0x00D0:
-    case 0x00F0:
-      return 'D';
-    case 0x00D1:
-    case 0x00F1:
-      return 'N';
-    case 0x00D2:
-    case 0x00D3:
-    case 0x00D4:
-    case 0x00D5:
-    case 0x00D6:
-    case 0x00D8:
-    case 0x00F2:
-    case 0x00F3:
-    case 0x00F4:
-    case 0x00F5:
-    case 0x00F6:
-    case 0x00F8:
-      return 'O';
-    case 0x00D9:
-    case 0x00DA:
-    case 0x00DB:
-    case 0x00DC:
-    case 0x00F9:
-    case 0x00FA:
-    case 0x00FB:
-    case 0x00FC:
-      return 'U';
-    case 0x00DD:
-    case 0x00FD:
-    case 0x00FF:
-      return 'Y';
-    case 0x00DE:
-    case 0x00FE:
-      return 'P';
-    case 0x00DF:
-      return 'S';
-    case 0x00D7:
-      return 'x';
-    case 0x00F7:
-      return '/';
-    case 0x2013:
-    case 0x2014:
-      return '-';
-    case 0x2018:
-    case 0x2019:
-      return '\'';
-    case 0x201C:
-    case 0x201D:
-      return '"';
-    case 0x2022:
-      return '*';
-    case 0x2026:
-      return '.';
-    case 0x20AC:
-      return 'E';
-    default:
-      break;
-  }
-
-  return '?';
-}
-
-void drawPattern(std::vector<unsigned char>& alpha,
-                 std::uint32_t atlasWidth,
-                 std::uint32_t atlasHeight,
-                 std::uint32_t originX,
-                 std::uint32_t originY,
-                 const GlyphPattern& pattern,
-                 int scale) {
-  for (std::size_t row = 0; row < pattern.size(); ++row) {
-    for (std::size_t col = 0; col < 5U; ++col) {
-      if (pattern[row][col] != '1') {
-        continue;
-      }
-
-      for (int sy = 0; sy < scale; ++sy) {
-        for (int sx = 0; sx < scale; ++sx) {
-          const std::uint32_t x = originX + static_cast<std::uint32_t>(col * static_cast<std::size_t>(scale) + static_cast<std::size_t>(sx));
-          const std::uint32_t y = originY + static_cast<std::uint32_t>(row * static_cast<std::size_t>(scale) + static_cast<std::size_t>(sy));
-          if (x >= atlasWidth || y >= atlasHeight) {
-            continue;
-          }
-
-          alpha[static_cast<std::size_t>(y) * static_cast<std::size_t>(atlasWidth) + x] = 255U;
-        }
-      }
-    }
-  }
+FontRuntimeTuningState& fontRuntimeTuningState() {
+  static FontRuntimeTuningState state;
+  return state;
 }
 
 std::vector<int> buildAtlasCodepointList() {
@@ -503,87 +135,634 @@ int atlasGlyphIndexForCodepoint(const FontAtlasData& atlas, char32_t codepoint) 
   return -1;
 }
 
-}  // namespace
+constexpr std::uint64_t makeKerningPairKey(int leftGlyphIndex, int rightGlyphIndex) {
+  return (static_cast<std::uint64_t>(static_cast<std::uint32_t>(leftGlyphIndex)) << 32U) |
+         static_cast<std::uint64_t>(static_cast<std::uint32_t>(rightGlyphIndex));
+}
 
-bool ensureDefaultFontAtlas() {
-  FontAtlasData& atlas = fontAtlas();
-  if (atlas.initialized) {
-    return atlas.valid;
-  }
-  atlas.initialized = true;
-
-  const std::vector<int> codepoints = buildAtlasCodepointList();
-  atlas.glyphs.assign(codepoints.size(), PackedGlyph{});
+void clearFontAtlasBuildProducts(FontAtlasData& atlas) {
+  atlas.valid = false;
+  atlas.gpuAtlasEnabled = false;
+  atlas.glyphs.clear();
+  atlas.vectorGlyphs.clear();
+  atlas.vectorCurves.clear();
   atlas.codepointToGlyphIndex.clear();
+  atlas.kerningPairsPx.clear();
+  atlas.gpuAtlas = FontGpuAtlas{};
+}
 
-  constexpr std::uint32_t kCellWidth = 16U;
-  constexpr std::uint32_t kCellHeight = 20U;
-  constexpr std::uint32_t kGlyphDrawWidth = 10U;
-  constexpr std::uint32_t kGlyphDrawHeight = 14U;
-  constexpr float kAdvancePx = 11.0F;
-  constexpr std::uint32_t kCols = 32U;
+struct FontManifestObserverState {
+  bool subscribed{false};
+  std::uint64_t subscriptionId{0U};
+  bool dirty{true};
+  std::chrono::steady_clock::time_point lastRefreshPoll{};
+};
 
-  const std::uint32_t rows =
-      static_cast<std::uint32_t>((codepoints.size() + static_cast<std::size_t>(kCols) - 1U) / static_cast<std::size_t>(kCols));
+constexpr auto kFontManifestPollInterval = std::chrono::milliseconds(100);
 
-  atlas.atlasWidth = kCellWidth * kCols;
-  atlas.atlasHeight = std::max<std::uint32_t>(kCellHeight * rows, 1U);
+FontManifestObserverState& fontManifestObserverState() {
+  static FontManifestObserverState state;
+  return state;
+}
 
-  std::vector<unsigned char> alpha(
-      static_cast<std::size_t>(atlas.atlasWidth) * static_cast<std::size_t>(atlas.atlasHeight),
-      0U);
+void ensureFontManifestSubscription() {
+  FontManifestObserverState& state = fontManifestObserverState();
+  if (state.subscribed) {
+    return;
+  }
 
-  for (std::size_t i = 0; i < codepoints.size(); ++i) {
-    const std::uint32_t col = static_cast<std::uint32_t>(i % kCols);
-    const std::uint32_t row = static_cast<std::uint32_t>(i / kCols);
+  KeyValueManifest& manifest = manifestService();
+  state.subscriptionId = manifest.subscribe(
+      [](const KeyValueManifest& updatedManifest) {
+        (void)updatedManifest;
+        FontManifestObserverState& observerState = fontManifestObserverState();
+        observerState.dirty = true;
+      });
+  state.subscribed = true;
+}
 
-    const std::uint32_t cellX = col * kCellWidth;
-    const std::uint32_t cellY = row * kCellHeight;
+bool equalsAsciiCaseInsensitive(std::string_view lhs, std::string_view rhs) {
+  if (lhs.size() != rhs.size()) {
+    return false;
+  }
 
-    const std::uint32_t drawX = cellX + ((kCellWidth - kGlyphDrawWidth) / 2U);
-    const std::uint32_t drawY = cellY + 2U;
+  for (std::size_t i = 0U; i < lhs.size(); ++i) {
+    const unsigned char l = static_cast<unsigned char>(lhs[i]);
+    const unsigned char r = static_cast<unsigned char>(rhs[i]);
+    if (std::tolower(l) != std::tolower(r)) {
+      return false;
+    }
+  }
 
-    const char32_t cp = static_cast<char32_t>(codepoints[i]);
-    const char glyphChar = normalizeAsciiCodepoint(cp);
-    const GlyphPattern& pattern = patternForAscii(glyphChar);
-    drawPattern(alpha, atlas.atlasWidth, atlas.atlasHeight, drawX, drawY, pattern, 2);
+  return true;
+}
 
-    PackedGlyph glyph{};
-    glyph.xOffset = 1.0F;
-    glyph.yOffset = -12.0F;
-    glyph.width = glyphChar == ' ' ? 0.0F : static_cast<float>(kGlyphDrawWidth);
-    glyph.height = glyphChar == ' ' ? 0.0F : static_cast<float>(kGlyphDrawHeight);
-    glyph.s0 = static_cast<float>(drawX) / static_cast<float>(atlas.atlasWidth);
-    glyph.t0 = static_cast<float>(drawY) / static_cast<float>(atlas.atlasHeight);
-    glyph.s1 = static_cast<float>(drawX + kGlyphDrawWidth) / static_cast<float>(atlas.atlasWidth);
-    glyph.t1 = static_cast<float>(drawY + kGlyphDrawHeight) / static_cast<float>(atlas.atlasHeight);
-    glyph.xAdvance = glyphChar == ' ' ? 6.0F : kAdvancePx;
+const char* rasterModeLabel(detail::SfntAtlasRasterMode mode) {
+  switch (mode) {
+    case detail::SfntAtlasRasterMode::kSignedDistanceField:
+      return "sdf";
+    case detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField:
+      return "msdf";
+    case detail::SfntAtlasRasterMode::kCoverage:
+    default:
+      return "coverage";
+  }
+}
 
-    atlas.glyphs[i] = glyph;
-    atlas.codepointToGlyphIndex.emplace(cp, static_cast<int>(i));
+constexpr float kDefaultSdfAaStrength = 0.35F;
+constexpr float kDefaultSdfEdge = 0.5F;
+constexpr float kDefaultMsdfConfidenceLow = 0.009F;
+constexpr float kDefaultMsdfConfidenceHigh = 0.128F;
+constexpr float kDefaultSubpixelBlendStrength = 0.123F;
+constexpr float kDefaultSmallTextSharpenStrength = 0.229F;
+constexpr FontSamplingMode kDefaultFontSamplingMode = FontSamplingMode::kMultiChannelSignedDistanceField;
+
+FontRasterMode toPublicRasterMode(detail::SfntAtlasRasterMode mode) {
+  switch (mode) {
+    case detail::SfntAtlasRasterMode::kSignedDistanceField:
+      return FontRasterMode::kSignedDistanceField;
+    case detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField:
+      return FontRasterMode::kMultiChannelSignedDistanceField;
+    case detail::SfntAtlasRasterMode::kCoverage:
+    default:
+      return FontRasterMode::kCoverage;
+  }
+}
+
+detail::SfntAtlasRasterMode toInternalRasterMode(FontRasterMode mode) {
+  switch (mode) {
+    case FontRasterMode::kSignedDistanceField:
+      return detail::SfntAtlasRasterMode::kSignedDistanceField;
+    case FontRasterMode::kMultiChannelSignedDistanceField:
+      return detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField;
+    case FontRasterMode::kCoverage:
+    default:
+      return detail::SfntAtlasRasterMode::kCoverage;
+  }
+}
+
+void invalidateDefaultFontAtlasBuild() {
+  FontAtlasData& atlas = fontAtlas();
+  atlas.initialized = false;
+  clearFontAtlasBuildProducts(atlas);
+  fontManifestObserverState().dirty = true;
+}
+
+const std::filesystem::path& embeddedDefaultFontPath() {
+  static const std::filesystem::path embeddedPath =
+      std::filesystem::path("assets") / "fonts" / "DefaultFont.ttf";
+  return embeddedPath;
+}
+
+std::optional<std::filesystem::path> resolveManifestFontPath() {
+  auto& manifest = manifestService();
+  manifest.refresh(false);
+  if (manifest.isDisabled()) {
+    return std::nullopt;
+  }
+
+  const auto manifestPath = manifest.resolvedPathFor("font");
+  if (!manifestPath.has_value()) {
+    return std::nullopt;
+  }
+
+  std::error_code ec;
+  if (!std::filesystem::exists(*manifestPath, ec) || ec) {
+    return std::nullopt;
+  }
+
+  return std::filesystem::path(*manifestPath);
+}
+
+detail::SfntAtlasBuildOptions resolveSfntBuildOptions() {
+  detail::SfntAtlasBuildOptions options{};
+
+  auto& manifest = manifestService();
+  manifest.refresh(false);
+  if (manifest.isDisabled()) {
+    return options;
+  }
+
+  const auto modeValue = manifest.findString("font-render-mode");
+  if (modeValue.has_value()) {
+    if (equalsAsciiCaseInsensitive(*modeValue, "sdf")) {
+      options.rasterMode = detail::SfntAtlasRasterMode::kSignedDistanceField;
+    } else if (equalsAsciiCaseInsensitive(*modeValue, "msdf")) {
+      options.rasterMode = detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField;
+    }
+  }
+
+  const auto spreadValue = manifest.findNumber("font-sdf-spread-px");
+  if (spreadValue.has_value() && *spreadValue > 0.0) {
+    options.sdfSpreadPx = std::clamp(static_cast<int>(std::lround(*spreadValue)), 2, 64);
+  }
+
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.atlasOverrideActive) {
+    options.rasterMode = toInternalRasterMode(runtimeTuning.atlasBuild.rasterMode);
+    if (runtimeTuning.atlasBuild.sdfSpreadPx > 0.0F) {
+      options.sdfSpreadPx = std::clamp(static_cast<int>(std::lround(runtimeTuning.atlasBuild.sdfSpreadPx)), 2, 64);
+    }
+  }
+
+  return options;
+}
+
+float resolveSdfAaStrength() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.sdfAaStrength > 0.0F) {
+    return std::clamp(runtimeTuning.render.sdfAaStrength, 0.1F, 0.6F);
+  }
+
+  auto& manifest = manifestService();
+  manifest.refresh(false);
+  if (manifest.isDisabled()) {
+    return kDefaultSdfAaStrength;
+  }
+
+  const auto aaValue = manifest.findNumber("font-sdf-aa-strength");
+  if (!aaValue.has_value() || *aaValue <= 0.0) {
+    return kDefaultSdfAaStrength;
+  }
+
+  return std::clamp(static_cast<float>(*aaValue), 0.1F, 0.6F);
+}
+
+float resolveSdfEdge() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.sdfEdge > 0.0F) {
+    return std::clamp(runtimeTuning.render.sdfEdge, 0.35F, 0.65F);
+  }
+
+  auto& manifest = manifestService();
+  manifest.refresh(false);
+  if (manifest.isDisabled()) {
+    return kDefaultSdfEdge;
+  }
+
+  const auto edgeValue = manifest.findNumber("font-sdf-edge");
+  if (!edgeValue.has_value() || *edgeValue <= 0.0) {
+    return kDefaultSdfEdge;
+  }
+
+  return std::clamp(static_cast<float>(*edgeValue), 0.35F, 0.65F);
+}
+
+FontSamplingMode resolveFontSamplingMode() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive) {
+    return runtimeTuning.render.samplingMode;
+  }
+  return kDefaultFontSamplingMode;
+}
+
+float resolveMsdfConfidenceLow() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.msdfConfidenceLow >= 0.0F) {
+    return std::clamp(runtimeTuning.render.msdfConfidenceLow, 0.0F, 0.2F);
+  }
+  return kDefaultMsdfConfidenceLow;
+}
+
+float resolveMsdfConfidenceHigh() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.msdfConfidenceHigh >= 0.0F) {
+    return std::clamp(runtimeTuning.render.msdfConfidenceHigh, 0.0F, 0.25F);
+  }
+  return kDefaultMsdfConfidenceHigh;
+}
+
+float resolveSubpixelBlendStrength() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.subpixelBlendStrength >= 0.0F) {
+    return std::clamp(runtimeTuning.render.subpixelBlendStrength, 0.0F, 1.0F);
+  }
+  return kDefaultSubpixelBlendStrength;
+}
+
+float resolveSmallTextSharpenStrength() {
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (runtimeTuning.renderOverrideActive && runtimeTuning.render.smallTextSharpenStrength >= 0.0F) {
+    return std::clamp(runtimeTuning.render.smallTextSharpenStrength, 0.0F, 1.0F);
+  }
+  return kDefaultSmallTextSharpenStrength;
+}
+
+std::filesystem::path resolveDefaultFontAtlasOutputPath() {
+  auto& manifest = manifestService();
+  manifest.refresh(false);
+  if (!manifest.isDisabled()) {
+    if (const auto resolved = manifest.resolvedPathFor("ui-font-default"); resolved.has_value()) {
+      return std::filesystem::path(*resolved).lexically_normal();
+    }
+  }
+
+  return (std::filesystem::path("assets") / "images" / "ui-font-default.png").lexically_normal();
+}
+
+bool persistAtlasImage(const FontAtlasData& atlas, const std::vector<std::uint8_t>& rgba) {
+  if (atlas.atlasWidth == 0U || atlas.atlasHeight == 0U) {
+    return false;
+  }
+
+  if (rgba.size() < static_cast<std::size_t>(atlas.atlasWidth) * static_cast<std::size_t>(atlas.atlasHeight) * 4U) {
+    return false;
   }
 
   RawImage atlasImage{};
   atlasImage.width = atlas.atlasWidth;
   atlasImage.height = atlas.atlasHeight;
-  atlasImage.rgba.resize(static_cast<std::size_t>(atlas.atlasWidth) * static_cast<std::size_t>(atlas.atlasHeight) * 4U);
+  atlasImage.rgba = rgba;
 
-  for (std::size_t i = 0; i < alpha.size(); ++i) {
-    const std::size_t px = i * 4U;
-    atlasImage.rgba[px + 0U] = 255U;
-    atlasImage.rgba[px + 1U] = 255U;
-    atlasImage.rgba[px + 2U] = 255U;
-    atlasImage.rgba[px + 3U] = alpha[i];
+  const std::filesystem::path atlasPath = resolveDefaultFontAtlasOutputPath();
+  if (atlasPath.has_parent_path()) {
+    std::error_code mkErr;
+    std::filesystem::create_directories(atlasPath.parent_path(), mkErr);
   }
 
-  const std::filesystem::path atlasPath = std::filesystem::path("assets/images/ui-font-default.png");
   std::error_code ec;
   if (std::filesystem::exists(atlasPath, ec) && !ec) {
+    RawImage existing{};
+    if (decodeImageFile(atlasPath, existing) &&
+        existing.width == atlasImage.width &&
+        existing.height == atlasImage.height &&
+        existing.rgba == atlasImage.rgba) {
+      return true;
+    }
+  }
+
+  return encodeImageFile(atlasPath, atlasImage, ImageEncodeFormat::kPng);
+}
+
+bool buildSfntDefaultFontAtlas(FontAtlasData& atlas) {
+  const detail::SfntAtlasBuildOptions buildOptions = resolveSfntBuildOptions();
+  const float resolvedSdfEdge = resolveSdfEdge();
+  const float resolvedSdfAaStrength = resolveSdfAaStrength();
+  const float resolvedMsdfConfidenceLow = resolveMsdfConfidenceLow();
+  const float resolvedMsdfConfidenceHigh = resolveMsdfConfidenceHigh();
+  const float resolvedSubpixelBlendStrength = resolveSubpixelBlendStrength();
+  const float resolvedSmallTextSharpenStrength = resolveSmallTextSharpenStrength();
+  const std::vector<int> codepoints = buildAtlasCodepointList();
+  const bool wantsGpuAtlas = buildOptions.rasterMode != detail::SfntAtlasRasterMode::kCoverage;
+
+  std::vector<std::filesystem::path> candidates;
+  if (const auto manifestPath = resolveManifestFontPath(); manifestPath.has_value()) {
+    candidates.push_back(*manifestPath);
+  }
+  candidates.push_back(embeddedDefaultFontPath());
+
+  std::sort(candidates.begin(), candidates.end());
+  candidates.erase(std::unique(candidates.begin(), candidates.end()), candidates.end());
+
+  if (candidates.empty()) {
+    VOLT_LOG_ERROR_CAT(
+        volt::core::logging::Category::kIO,
+        "No default font candidates are available.");
+    return false;
+  }
+
+  VOLT_LOG_DEBUG_CAT(
+      volt::core::logging::Category::kIO,
+      "Default font atlas build settings: mode=",
+      rasterModeLabel(buildOptions.rasterMode),
+      " spreadPx=",
+      buildOptions.sdfSpreadPx,
+      " edge=",
+      resolvedSdfEdge,
+      " aa=",
+      resolvedSdfAaStrength);
+
+  const float bakePixelHeight =
+      (buildOptions.rasterMode == detail::SfntAtlasRasterMode::kSignedDistanceField ||
+       buildOptions.rasterMode == detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField)
+        ? 96.0F
+        : 48.0F;
+
+  atlas.gpuAtlasEnabled = false;
+  atlas.gpuAtlas = FontGpuAtlas{};
+
+  detail::SfntAtlasResult rasterResult{};
+  detail::SfntGpuAtlasResult gpuResult{};
+  detail::SfntGpuAtlasResult vectorResult{};
+  std::filesystem::path activeFontPath;
+  bool built = false;
+  bool builtWithGpuAtlas = false;
+  for (const auto& candidate : candidates) {
+    std::error_code ec;
+    if (!std::filesystem::exists(candidate, ec) || ec) {
+      continue;
+    }
+
+    if (wantsGpuAtlas) {
+      gpuResult = detail::SfntGpuAtlasResult{};
+      if (detail::buildSfntGpuAtlasFromFile(candidate, bakePixelHeight, codepoints, buildOptions, gpuResult) &&
+          gpuResult.success) {
+        activeFontPath = candidate;
+        built = true;
+        builtWithGpuAtlas = true;
+        break;
+      }
+
+      VOLT_LOG_WARN_CAT(
+          volt::core::logging::Category::kIO,
+          "Default font GPU atlas build failed for '",
+          candidate.string(),
+          "': ",
+          gpuResult.error,
+          "; falling back to CPU atlas generation.");
+    }
+
+    rasterResult = detail::SfntAtlasResult{};
+    if (detail::buildSfntAtlasFromFile(candidate, bakePixelHeight, codepoints, buildOptions, rasterResult) &&
+        rasterResult.success) {
+      activeFontPath = candidate;
+      built = true;
+      builtWithGpuAtlas = false;
+      break;
+    }
+
+    VOLT_LOG_WARN_CAT(
+        volt::core::logging::Category::kIO,
+        "Default font sfnt parse failed for '",
+        candidate.string(),
+        "': ",
+        wantsGpuAtlas ? rasterResult.error : rasterResult.error);
+  }
+
+  if (!built) {
+    return false;
+  }
+
+  atlas.bakePixelHeight = builtWithGpuAtlas ? gpuResult.bakePixelHeight : rasterResult.bakePixelHeight;
+  atlas.sdfEnabled =
+      buildOptions.rasterMode == detail::SfntAtlasRasterMode::kSignedDistanceField ||
+      buildOptions.rasterMode == detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField;
+  atlas.msdfEnabled = buildOptions.rasterMode == detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField;
+  atlas.sdfSpreadPx = atlas.sdfEnabled ? static_cast<float>(buildOptions.sdfSpreadPx) : 0.0F;
+  atlas.sdfEdge = atlas.sdfEnabled ? resolvedSdfEdge : 0.5F;
+  atlas.sdfAaStrength = atlas.sdfEnabled ? resolvedSdfAaStrength : 1.0F;
+  atlas.msdfConfidenceLow = resolvedMsdfConfidenceLow;
+  atlas.msdfConfidenceHigh = resolvedMsdfConfidenceHigh;
+  atlas.subpixelBlendStrength = resolvedSubpixelBlendStrength;
+  atlas.smallTextSharpenStrength = resolvedSmallTextSharpenStrength;
+  atlas.ascentPx = builtWithGpuAtlas ? gpuResult.ascentPx : rasterResult.ascentPx;
+  atlas.descentPx = builtWithGpuAtlas ? gpuResult.descentPx : rasterResult.descentPx;
+  atlas.lineGapPx = builtWithGpuAtlas ? gpuResult.lineGapPx : rasterResult.lineGapPx;
+  atlas.atlasWidth = builtWithGpuAtlas ? gpuResult.atlasWidth : rasterResult.atlasWidth;
+  atlas.atlasHeight = builtWithGpuAtlas ? gpuResult.atlasHeight : rasterResult.atlasHeight;
+  atlas.fallbackCodepoint = U'?';
+
+  const auto& glyphSource = builtWithGpuAtlas ? gpuResult.glyphs : rasterResult.glyphs;
+  atlas.glyphs.resize(glyphSource.size());
+  for (std::size_t i = 0U; i < glyphSource.size(); ++i) {
+    const auto& in = glyphSource[i];
+    PackedGlyph out{};
+    out.xOffset = in.xOffset;
+    out.yOffset = in.yOffset;
+    out.width = in.width;
+    out.height = in.height;
+    out.s0 = in.s0;
+    out.t0 = in.t0;
+    out.s1 = in.s1;
+    out.t1 = in.t1;
+    out.xAdvance = in.xAdvance;
+    atlas.glyphs[i] = out;
+  }
+
+  atlas.codepointToGlyphIndex = builtWithGpuAtlas
+                                    ? std::move(gpuResult.codepointToGlyphIndex)
+                                    : std::move(rasterResult.codepointToGlyphIndex);
+  atlas.kerningPairsPx = builtWithGpuAtlas
+                             ? std::move(gpuResult.kerningPairsPx)
+                             : std::move(rasterResult.kerningPairsPx);
+
+  if (builtWithGpuAtlas) {
+    vectorResult = gpuResult;
+  } else {
+    detail::SfntAtlasBuildOptions vectorBuildOptions = buildOptions;
+    if (vectorBuildOptions.rasterMode == detail::SfntAtlasRasterMode::kCoverage) {
+      vectorBuildOptions.rasterMode = detail::SfntAtlasRasterMode::kSignedDistanceField;
+      vectorBuildOptions.sdfSpreadPx = std::max(vectorBuildOptions.sdfSpreadPx, 8);
+    }
+
+    if (!detail::buildSfntGpuAtlasFromFile(activeFontPath, bakePixelHeight, codepoints, vectorBuildOptions, vectorResult) ||
+        !vectorResult.success) {
+      VOLT_LOG_ERROR_CAT(
+          volt::core::logging::Category::kIO,
+          "Failed to build default vector glyph data from '",
+          activeFontPath.string(),
+          "': ",
+          vectorResult.error);
+      return false;
+    }
+  }
+
+  atlas.vectorGlyphs.resize(vectorResult.glyphs.size());
+  for (std::size_t i = 0U; i < vectorResult.glyphs.size(); ++i) {
+    const auto& in = vectorResult.glyphs[i];
+    FontVectorGlyph out{};
+    out.xOffset = in.xOffset;
+    out.yOffset = in.yOffset;
+    out.width = in.width;
+    out.height = in.height;
+    out.xAdvance = in.xAdvance;
+    atlas.vectorGlyphs[i] = out;
+  }
+
+  for (const auto& job : vectorResult.jobs) {
+    const std::int32_t glyphIndex = job.pad0;
+    if (glyphIndex < 0 || glyphIndex >= static_cast<std::int32_t>(atlas.vectorGlyphs.size())) {
+      continue;
+    }
+
+    FontVectorGlyph& glyph = atlas.vectorGlyphs[static_cast<std::size_t>(glyphIndex)];
+    glyph.curveOffset = static_cast<std::uint32_t>(std::max(0, job.curveOffset));
+    glyph.curveCount = static_cast<std::uint32_t>(std::max(0, job.curveCount));
+  }
+
+  atlas.vectorCurves.resize(vectorResult.curves.size());
+  for (std::size_t i = 0U; i < vectorResult.curves.size(); ++i) {
+    const auto& in = vectorResult.curves[i];
+    atlas.vectorCurves[i] = FontVectorCurve{
+        in.p0x,
+        in.p0y,
+        in.p1x,
+        in.p1y,
+        in.p2x,
+        in.p2y,
+        in.p3x,
+        in.p3y,
+        in.type,
+    };
+  }
+
+  if (builtWithGpuAtlas) {
+    atlas.gpuAtlasEnabled = true;
+    atlas.gpuAtlas.atlasWidth = gpuResult.atlasWidth;
+    atlas.gpuAtlas.atlasHeight = gpuResult.atlasHeight;
+    atlas.gpuAtlas.maxGlyphWidth = gpuResult.maxGlyphWidth;
+    atlas.gpuAtlas.maxGlyphHeight = gpuResult.maxGlyphHeight;
+    atlas.gpuAtlas.sdfSpreadPx = atlas.sdfSpreadPx;
+    atlas.gpuAtlas.msdfEnabled = atlas.msdfEnabled;
+    atlas.gpuAtlas.curves.resize(gpuResult.curves.size());
+    for (std::size_t i = 0U; i < gpuResult.curves.size(); ++i) {
+      const auto& in = gpuResult.curves[i];
+      atlas.gpuAtlas.curves[i] = FontGpuCurveSegment{
+          in.p0x,
+          in.p0y,
+          in.p1x,
+          in.p1y,
+          in.p2x,
+          in.p2y,
+          in.p3x,
+          in.p3y,
+          in.type,
+          in.channelMask,
+          in.contourSign,
+          in.pad2,
+      };
+    }
+    atlas.gpuAtlas.jobs.resize(gpuResult.jobs.size());
+    for (std::size_t i = 0U; i < gpuResult.jobs.size(); ++i) {
+      const auto& in = gpuResult.jobs[i];
+      atlas.gpuAtlas.jobs[i] = FontGpuGlyphJob{
+          in.atlasX,
+          in.atlasY,
+          in.glyphWidth,
+          in.glyphHeight,
+          in.curveOffset,
+          in.curveCount,
+          in.pad0,
+          in.pad1,
+      };
+    }
+  } else if (!persistAtlasImage(atlas, rasterResult.rgba)) {
+    return false;
+  }
+
+  if ((builtWithGpuAtlas ? gpuResult.partial : rasterResult.partial)) {
+    VOLT_LOG_WARN_CAT(
+        volt::core::logging::Category::kIO,
+        "Font atlas built from '",
+      activeFontPath.string(),
+        "' with partial glyph coverage");
+  }
+
+  if (buildOptions.rasterMode == detail::SfntAtlasRasterMode::kSignedDistanceField ||
+      buildOptions.rasterMode == detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField) {
+    VOLT_LOG_INFO_CAT(
+        volt::core::logging::Category::kIO,
+        builtWithGpuAtlas ? "Built default GPU font atlas in " : "Built default CPU font atlas in ",
+        buildOptions.rasterMode == detail::SfntAtlasRasterMode::kMultiChannelSignedDistanceField ? "MSDF" : "SDF",
+        " mode with spread ",
+        buildOptions.sdfSpreadPx,
+      " px, edge ",
+      atlas.sdfEdge,
+      ", aa ",
+      atlas.sdfAaStrength);
+  }
+
+  return true;
+}
+
+}  // namespace
+
+bool ensureDefaultFontAtlas() {
+  ensureFontManifestSubscription();
+
+  FontAtlasData& atlas = fontAtlas();
+  FontManifestObserverState& observerState = fontManifestObserverState();
+  const auto now = std::chrono::steady_clock::now();
+  const bool shouldPollManifest =
+      !atlas.initialized ||
+      observerState.dirty ||
+      observerState.lastRefreshPoll == std::chrono::steady_clock::time_point{} ||
+      (now - observerState.lastRefreshPoll) >= kFontManifestPollInterval;
+
+  if (shouldPollManifest) {
+    KeyValueManifest& manifest = manifestService();
+    manifest.refresh(false);
+    observerState.lastRefreshPoll = now;
+  }
+
+  const bool rebuildTriggered = atlas.initialized && observerState.dirty;
+
+  if (rebuildTriggered) {
+    VOLT_LOG_INFO_CAT(
+        volt::core::logging::Category::kIO,
+        "Manifest hot reload detected for default font atlas; rebuilding now.");
+    atlas.initialized = false;
+    clearFontAtlasBuildProducts(atlas);
+  }
+
+  if (atlas.initialized) {
+    return atlas.valid;
+  }
+  atlas.initialized = true;
+
+  if (buildSfntDefaultFontAtlas(atlas)) {
     atlas.valid = true;
+    ++atlas.revision;
+    observerState.dirty = false;
+    if (rebuildTriggered) {
+      VOLT_LOG_INFO_CAT(
+          volt::core::logging::Category::kIO,
+          "Default font atlas rebuild completed successfully.");
+    }
     return true;
   }
 
-  atlas.valid = encodeImageFile(atlasPath, atlasImage, ImageEncodeFormat::kPng);
+  VOLT_LOG_ERROR_CAT(
+      volt::core::logging::Category::kIO,
+      "Failed to build default sfnt font atlas from manifest and embedded fallback font.");
+
+  clearFontAtlasBuildProducts(atlas);
+  observerState.dirty = false;
+  if (rebuildTriggered) {
+    VOLT_LOG_ERROR_CAT(
+        volt::core::logging::Category::kIO,
+        "Default font atlas rebuild failed; no fallback bitmap atlas is available.");
+  }
   return atlas.valid;
 }
 
@@ -593,10 +772,31 @@ bool defaultFontMetrics(FontMetrics& outMetrics) {
   }
 
   const FontAtlasData& atlas = fontAtlas();
+  const FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
   outMetrics.bakePixelHeight = atlas.bakePixelHeight;
   outMetrics.ascentPx = atlas.ascentPx;
   outMetrics.descentPx = atlas.descentPx;
   outMetrics.lineGapPx = atlas.lineGapPx;
+  outMetrics.sdfEnabled = atlas.sdfEnabled;
+  outMetrics.msdfEnabled = atlas.msdfEnabled;
+  outMetrics.sdfSpreadPx = atlas.sdfSpreadPx;
+  outMetrics.sdfEdge = atlas.sdfEdge;
+  outMetrics.sdfAaStrength = atlas.sdfAaStrength;
+  outMetrics.samplingMode = resolveFontSamplingMode();
+  outMetrics.msdfConfidenceLow = atlas.msdfConfidenceLow;
+  outMetrics.msdfConfidenceHigh = atlas.msdfConfidenceHigh;
+  outMetrics.subpixelBlendStrength = atlas.subpixelBlendStrength;
+  outMetrics.smallTextSharpenStrength = atlas.smallTextSharpenStrength;
+
+  if (runtimeTuning.renderOverrideActive) {
+    outMetrics.sdfEdge = runtimeTuning.render.sdfEdge;
+    outMetrics.sdfAaStrength = runtimeTuning.render.sdfAaStrength;
+    outMetrics.samplingMode = runtimeTuning.render.samplingMode;
+    outMetrics.msdfConfidenceLow = runtimeTuning.render.msdfConfidenceLow;
+    outMetrics.msdfConfidenceHigh = runtimeTuning.render.msdfConfidenceHigh;
+    outMetrics.subpixelBlendStrength = runtimeTuning.render.subpixelBlendStrength;
+    outMetrics.smallTextSharpenStrength = runtimeTuning.render.smallTextSharpenStrength;
+  }
   return true;
 }
 
@@ -637,8 +837,153 @@ bool defaultFontPackedQuad(int glyphIndex, float& x, float& y, FontGlyphQuad& ou
   return true;
 }
 
+float defaultFontKerningAdvance(int leftGlyphIndex, int rightGlyphIndex) {
+  if (!ensureDefaultFontAtlas()) {
+    return 0.0F;
+  }
+
+  const FontAtlasData& atlas = fontAtlas();
+  if (leftGlyphIndex < 0 || rightGlyphIndex < 0 ||
+      leftGlyphIndex >= static_cast<int>(atlas.glyphs.size()) ||
+      rightGlyphIndex >= static_cast<int>(atlas.glyphs.size())) {
+    return 0.0F;
+  }
+
+  const auto it = atlas.kerningPairsPx.find(makeKerningPairKey(leftGlyphIndex, rightGlyphIndex));
+  if (it == atlas.kerningPairsPx.end()) {
+    return 0.0F;
+  }
+
+  return it->second;
+}
+
+bool defaultFontVectorGlyph(int glyphIndex, FontVectorGlyph& outGlyph) {
+  if (!ensureDefaultFontAtlas()) {
+    return false;
+  }
+
+  const FontAtlasData& atlas = fontAtlas();
+  if (glyphIndex < 0 || glyphIndex >= static_cast<int>(atlas.vectorGlyphs.size())) {
+    return false;
+  }
+
+  outGlyph = atlas.vectorGlyphs[static_cast<std::size_t>(glyphIndex)];
+  return true;
+}
+
+const std::vector<FontVectorCurve>& defaultFontVectorCurves() {
+  static const std::vector<FontVectorCurve> emptyCurves{};
+  if (!ensureDefaultFontAtlas()) {
+    return emptyCurves;
+  }
+  return fontAtlas().vectorCurves;
+}
+
+bool defaultFontGpuAtlas(FontGpuAtlas& outAtlas) {
+  if (!ensureDefaultFontAtlas()) {
+    return false;
+  }
+
+  const FontAtlasData& atlas = fontAtlas();
+  if (!atlas.gpuAtlasEnabled) {
+    return false;
+  }
+
+  outAtlas = atlas.gpuAtlas;
+  return true;
+}
+
 const std::string& defaultFontTextureKey() {
   return fontAtlas().textureKey;
+}
+
+std::uint64_t defaultFontAtlasRevision() {
+  return fontAtlas().revision;
+}
+
+bool defaultFontAtlasBuildTuning(FontAtlasBuildTuning& outTuning) {
+  const detail::SfntAtlasBuildOptions options = resolveSfntBuildOptions();
+  outTuning.rasterMode = toPublicRasterMode(options.rasterMode);
+  outTuning.sdfSpreadPx =
+      options.rasterMode == detail::SfntAtlasRasterMode::kCoverage ? 0.0F : static_cast<float>(options.sdfSpreadPx);
+  return true;
+}
+
+bool defaultFontRenderTuning(FontRenderTuning& outTuning) {
+  FontMetrics metrics{};
+  if (!defaultFontMetrics(metrics)) {
+    return false;
+  }
+
+  outTuning.sdfEdge = metrics.sdfEdge;
+  outTuning.sdfAaStrength = metrics.sdfAaStrength;
+  outTuning.samplingMode = metrics.samplingMode;
+  outTuning.msdfConfidenceLow = metrics.msdfConfidenceLow;
+  outTuning.msdfConfidenceHigh = metrics.msdfConfidenceHigh;
+  outTuning.subpixelBlendStrength = metrics.subpixelBlendStrength;
+  outTuning.smallTextSharpenStrength = metrics.smallTextSharpenStrength;
+  return true;
+}
+
+void setDefaultFontAtlasBuildTuningOverride(const FontAtlasBuildTuning& tuning) {
+  FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  const FontAtlasBuildTuning clampedTuning{
+      tuning.rasterMode,
+      tuning.sdfSpreadPx > 0.0F ? static_cast<float>(std::clamp(static_cast<int>(std::lround(tuning.sdfSpreadPx)), 2, 64)) : 0.0F,
+  };
+  if (runtimeTuning.atlasOverrideActive &&
+      runtimeTuning.atlasBuild.rasterMode == clampedTuning.rasterMode &&
+      std::abs(runtimeTuning.atlasBuild.sdfSpreadPx - clampedTuning.sdfSpreadPx) < 0.001F) {
+    return;
+  }
+
+  runtimeTuning.atlasOverrideActive = true;
+  runtimeTuning.atlasBuild = clampedTuning;
+  invalidateDefaultFontAtlasBuild();
+}
+
+void clearDefaultFontAtlasBuildTuningOverride() {
+  FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  if (!runtimeTuning.atlasOverrideActive) {
+    return;
+  }
+
+  runtimeTuning.atlasOverrideActive = false;
+  runtimeTuning.atlasBuild = FontAtlasBuildTuning{};
+  invalidateDefaultFontAtlasBuild();
+}
+
+void setDefaultFontRenderTuningOverride(const FontRenderTuning& tuning) {
+  FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  const FontRenderTuning clampedTuning{
+      std::clamp(tuning.sdfEdge, 0.35F, 0.65F),
+      std::clamp(tuning.sdfAaStrength, 0.1F, 0.6F),
+    tuning.samplingMode,
+      std::clamp(tuning.msdfConfidenceLow, 0.0F, 0.2F),
+      std::clamp(tuning.msdfConfidenceHigh, 0.0F, 0.25F),
+      std::clamp(tuning.subpixelBlendStrength, 0.0F, 1.0F),
+      std::clamp(tuning.smallTextSharpenStrength, 0.0F, 1.0F),
+  };
+
+  if (runtimeTuning.renderOverrideActive &&
+      std::abs(runtimeTuning.render.sdfEdge - clampedTuning.sdfEdge) < 0.0001F &&
+      std::abs(runtimeTuning.render.sdfAaStrength - clampedTuning.sdfAaStrength) < 0.0001F &&
+    runtimeTuning.render.samplingMode == clampedTuning.samplingMode &&
+      std::abs(runtimeTuning.render.msdfConfidenceLow - clampedTuning.msdfConfidenceLow) < 0.0001F &&
+      std::abs(runtimeTuning.render.msdfConfidenceHigh - clampedTuning.msdfConfidenceHigh) < 0.0001F &&
+      std::abs(runtimeTuning.render.subpixelBlendStrength - clampedTuning.subpixelBlendStrength) < 0.0001F &&
+      std::abs(runtimeTuning.render.smallTextSharpenStrength - clampedTuning.smallTextSharpenStrength) < 0.0001F) {
+    return;
+  }
+
+  runtimeTuning.renderOverrideActive = true;
+  runtimeTuning.render = clampedTuning;
+}
+
+void clearDefaultFontRenderTuningOverride() {
+  FontRuntimeTuningState& runtimeTuning = fontRuntimeTuningState();
+  runtimeTuning.renderOverrideActive = false;
+  runtimeTuning.render = FontRenderTuning{};
 }
 
 }  // namespace volt::io

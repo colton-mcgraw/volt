@@ -39,7 +39,9 @@ Thumbs.db
 compile_commands.json
 
 # Runtime logs
-/logs/*.log
+logs/
 
 */agents/
 */prompts/
+
+assets/fonts/SairaStencil-VariableFont_wdth,wght.ttf

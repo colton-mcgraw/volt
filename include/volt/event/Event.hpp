@@ -27,6 +27,10 @@ struct KeyInputEvent {
   int mods{0};
 };
 
+struct TextInputEvent {
+  char32_t codepoint{0};
+};
+
 struct MouseMovedEvent {
   double x{0.0};
   double y{0.0};
@@ -67,6 +71,7 @@ using EventPayload = std::variant<
     WindowResizeEvent,
     WindowMinimizedEvent,
     KeyInputEvent,
+  TextInputEvent,
     MouseMovedEvent,
     MouseButtonEvent,
     MouseScrolledEvent,

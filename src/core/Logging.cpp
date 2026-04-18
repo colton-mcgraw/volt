@@ -72,6 +72,8 @@ LoggingState g_state{};
   return fallback;
 }
 
+[[nodiscard]] std::string normalizeToken(std::string token);
+
 [[nodiscard]] spdlog::level::level_enum parseLevel(
     const char* value,
     spdlog::level::level_enum fallback) {
@@ -79,7 +81,7 @@ LoggingState g_state{};
     return fallback;
   }
 
-  const std::string level{value};
+  const std::string level = normalizeToken(value);
   if (level == "trace") {
     return spdlog::level::trace;
   }
@@ -336,10 +338,10 @@ void initialize() {
   auto logger = std::make_shared<spdlog::logger>("volt", sinks.begin(), sinks.end());
   spdlog::set_default_logger(logger);
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
-    g_state.configuredLevel = parseLevel(
+  g_state.configuredLevel = parseLevel(
     tryGetEnv("VOLT_LOG_LEVEL"),
   #if defined(VOLT_ENABLE_DEBUG_LOGGING) && VOLT_ENABLE_DEBUG_LOGGING
-    spdlog::level::trace
+    spdlog::level::info
   #else
     spdlog::level::info
   #endif
@@ -348,8 +350,8 @@ void initialize() {
   spdlog::flush_on(spdlog::level::warn);
 
 #if defined(VOLT_ENABLE_DEBUG_LOGGING) && VOLT_ENABLE_DEBUG_LOGGING
-    g_state.eventTraceEnabled = parseBool(tryGetEnv("VOLT_EVENT_TRACE"), true);
-    g_state.tickTraceEnabled = parseBool(tryGetEnv("VOLT_TICK_TRACE"), true);
+  g_state.eventTraceEnabled = parseBool(tryGetEnv("VOLT_EVENT_TRACE"), false);
+  g_state.tickTraceEnabled = parseBool(tryGetEnv("VOLT_TICK_TRACE"), false);
   configureCategoryFilter(tryGetEnv("VOLT_LOG_CATEGORIES"));
 #else
   g_state.eventTraceEnabled = false;
@@ -429,17 +431,39 @@ void setCategoryEnabled(Category category, bool enabled) {
 #endif
 }
 
-void log(Category category, LogLevel level, const std::string& message) {
+bool shouldLog(Category category, LogLevel level) {
 #if defined(VOLT_ENABLE_LOGGING) && VOLT_ENABLE_LOGGING
   if (!g_state.initialized) {
     initialize();
   }
 
+  if (toSpdlogLevel(level) < g_state.configuredLevel) {
+    return false;
+  }
+
 #if defined(VOLT_ENABLE_DEBUG_LOGGING) && VOLT_ENABLE_DEBUG_LOGGING
   if (!isCategoryEnabled(category)) {
-    return;
+    return false;
   }
 #endif
+
+  return true;
+#else
+  (void)category;
+  (void)level;
+  return false;
+#endif
+}
+
+bool shouldLog(LogLevel level) {
+  return shouldLog(Category::kCore, level);
+}
+
+void log(Category category, LogLevel level, const std::string& message) {
+#if defined(VOLT_ENABLE_LOGGING) && VOLT_ENABLE_LOGGING
+  if (!shouldLog(category, level)) {
+    return;
+  }
 
   std::string categorizedMessage{"["};
   categorizedMessage.append(categoryName(category));

@@ -1,149 +1,43 @@
+#include "AppUi.hpp"
+#include "setup_app.hpp"
+
 #include "volt/core/AppConfig.hpp"
 #include "volt/core/Logging.hpp"
 #include "volt/core/Timer.hpp"
 #include "volt/event/Event.hpp"
 #include "volt/event/EventDispatcher.hpp"
-#include "volt/io/image/ImageDecoder.hpp"
-#include "volt/io/image/ImageEncoder.hpp"
 #include "volt/io/import/ImporterRegistry.hpp"
 #include "volt/io/import/ImportPipeline.hpp"
-#include "volt/math/Math.hpp"
 #include "volt/platform/Window.hpp"
-#include "volt/render/VulkanRenderer.hpp"
-#include "volt/ui/UILayer.hpp"
+#include "volt/render/RendererFactory.hpp"
 
-#include <exception>
-#include <atomic>
 #include <algorithm>
-#include <cmath>
+#include <array>
+#include <atomic>
 #include <chrono>
+#include <cmath>
+#include <exception>
 #include <iostream>
+#include <memory>
+#include <string>
 #include <thread>
-#include <vector>
-
-#include <vulkan/vulkan.h>
 
 static std::atomic_int32_t g_TickCount{0};
+static std::atomic_int32_t g_lastFrameTimeMs{0};
+static std::atomic_int32_t g_lastEventWaitTimeMs{0};
+static std::atomic_int32_t g_lastUiBuildTimeMs{0};
+static std::atomic_int32_t g_lastRendererTickTimeMs{0};
+static std::atomic_int32_t g_lastRenderFrameCpuTimeMs{0};
 static std::atomic_bool g_Running{true};
-
-static VkRect2D clipRectToFramebuffer(const volt::ui::Rect& bounds, std::uint32_t width, std::uint32_t height) {
-  const float x0 = std::clamp(bounds.x, 0.0F, static_cast<float>(width));
-  const float y0 = std::clamp(bounds.y, 0.0F, static_cast<float>(height));
-  const float x1 = std::clamp(bounds.x + bounds.width, 0.0F, static_cast<float>(width));
-  const float y1 = std::clamp(bounds.y + bounds.height, 0.0F, static_cast<float>(height));
-
-  VkRect2D scissor{};
-  scissor.offset.x = static_cast<std::int32_t>(x0);
-  scissor.offset.y = static_cast<std::int32_t>(y0);
-  scissor.extent.width = static_cast<std::uint32_t>(std::max(0.0F, x1 - x0));
-  scissor.extent.height = static_cast<std::uint32_t>(std::max(0.0F, y1 - y0));
-  return scissor;
-}
-
-static const char* eventTypeToString(volt::event::EventType type) {
-  switch (type) {
-    case volt::event::EventType::kFrameStarted:
-      return "FrameStarted";
-    case volt::event::EventType::kFrameEnded:
-      return "FrameEnded";
-    case volt::event::EventType::kWindowResized:
-      return "WindowResized";
-    case volt::event::EventType::kWindowMinimized:
-      return "WindowMinimized";
-    case volt::event::EventType::kKeyInput:
-      return "KeyInput";
-    case volt::event::EventType::kMouseMoved:
-      return "MouseMoved";
-    case volt::event::EventType::kMouseButton:
-      return "MouseButton";
-    case volt::event::EventType::kMouseScrolled:
-      return "MouseScrolled";
-    case volt::event::EventType::kRenderFrameBegin:
-      return "RenderFrameBegin";
-    case volt::event::EventType::kRenderScenePassBegin:
-      return "RenderScenePassBegin";
-    case volt::event::EventType::kRenderScenePassEnd:
-      return "RenderScenePassEnd";
-    case volt::event::EventType::kRenderUiPass:
-      return "RenderUiPass";
-    case volt::event::EventType::kRenderFrameEnd:
-      return "RenderFrameEnd";
-    case volt::event::EventType::kUiFrameBegin:
-      return "UiFrameBegin";
-    case volt::event::EventType::kUiLayoutPass:
-      return "UiLayoutPass";
-    case volt::event::EventType::kUiPaintPass:
-      return "UiPaintPass";
-    case volt::event::EventType::kUiFrameEnd:
-      return "UiFrameEnd";
-    case volt::event::EventType::kImportStarted:
-      return "ImportStarted";
-    case volt::event::EventType::kImportStageComplete:
-      return "ImportStageComplete";
-    case volt::event::EventType::kImportSucceeded:
-      return "ImportSucceeded";
-    case volt::event::EventType::kImportFailed:
-      return "ImportFailed";
-    case volt::event::EventType::kUnknown:
-    default:
-      return "Unknown";
-  }
-}
 
 static void logTicksToConsole() {
   const int32_t tick = g_TickCount.load(std::memory_order_relaxed);
   g_TickCount.store(0, std::memory_order_relaxed);
   VOLT_LOG_TRACE_CAT(volt::core::logging::Category::kApp, "Tick ", tick);
+  printf("Frames in the last second: %d\n", tick);
   std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
-static bool createCodecRenderSmokeAssets() {
-  constexpr std::uint32_t kWidth = 128;
-  constexpr std::uint32_t kHeight = 128;
-
-  volt::io::RawImage image{};
-  image.width = kWidth;
-  image.height = kHeight;
-  image.rgba.resize(static_cast<std::size_t>(kWidth) * static_cast<std::size_t>(kHeight) * 4U);
-
-  for (std::uint32_t y = 0; y < kHeight; ++y) {
-    for (std::uint32_t x = 0; x < kWidth; ++x) {
-      const std::size_t i = (static_cast<std::size_t>(y) * static_cast<std::size_t>(kWidth) + x) * 4U;
-      const bool checker = ((x / 16U) + (y / 16U)) % 2U == 0U;
-      image.rgba[i + 0U] = checker ? 250U : 32U;
-      image.rgba[i + 1U] = static_cast<std::uint8_t>((x * 255U) / kWidth);
-      image.rgba[i + 2U] = static_cast<std::uint8_t>((y * 255U) / kHeight);
-      image.rgba[i + 3U] = 255U;
-    }
-  }
-
-  const std::filesystem::path dir = std::filesystem::path("assets") / "images";
-  const std::filesystem::path png = dir / "codec-render-test.png";
-  const std::filesystem::path jpg = dir / "codec-render-test.jpg";
-  const std::filesystem::path bmp = dir / "codec-render-test.bmp";
-
-  const bool wrotePng = volt::io::encodeImageFile(png, image, volt::io::ImageEncodeFormat::kPng);
-  const bool wroteJpg = volt::io::encodeImageFile(jpg, image, volt::io::ImageEncodeFormat::kJpeg, 92);
-  const bool wroteBmp = volt::io::encodeImageFile(bmp, image, volt::io::ImageEncodeFormat::kBmp);
-
-  volt::io::RawImage decoded{};
-  const bool decodedPng = wrotePng && volt::io::decodeImageFile(png, decoded);
-  const bool decodedJpg = wroteJpg && volt::io::decodeImageFile(jpg, decoded);
-  const bool decodedBmp = wroteBmp && volt::io::decodeImageFile(bmp, decoded);
-
-  const char* jpgStatus = wroteJpg ? (decodedJpg ? "ok" : "fail") : "unsupported";
-
-  VOLT_LOG_INFO_CAT(
-      volt::core::logging::Category::kIO,
-      "Image codec smoke test: png=",
-      decodedPng ? "ok" : "fail",
-      " jpg=",
-      jpgStatus,
-      " bmp=",
-      decodedBmp ? "ok" : "fail");
-
-  return decodedPng && decodedBmp && (!wroteJpg || decodedJpg);
-}
 
 int main() {
   try {
@@ -159,15 +53,6 @@ int main() {
         " tickTrace=",
         volt::core::logging::isFeatureEnabled(volt::core::logging::Feature::kTickTrace) ? "on" : "off");
 
-      const bool inverseCheck = volt::math::validateMat4Inverse<float>();
-      const bool quaternionRoundTripCheck = volt::math::validateQuaternionMatrixRoundTrip<float>();
-      VOLT_LOG_INFO_CAT(
-        volt::core::logging::Category::kApp,
-        "Math validation inverse=",
-        inverseCheck ? "pass" : "fail",
-        " quatRoundTrip=",
-        quaternionRoundTripCheck ? "pass" : "fail");
-
     const volt::core::AppConfig config{};
     std::uint64_t frameIndex = 0;
 
@@ -175,12 +60,13 @@ int main() {
 
     if (volt::core::logging::isFeatureEnabled(volt::core::logging::Feature::kEventTrace)) {
       eventDispatcher.subscribe([](const volt::event::Event& event) {
+        (void)event;
         VOLT_LOG_DEBUG_CAT(
             volt::core::logging::Category::kEvent,
             "[event ",
             event.sequence,
             "] ",
-            eventTypeToString(event.type));
+            volt::app::eventTypeToString(event.type));
       });
     }
 
@@ -198,38 +84,33 @@ int main() {
     volt::io::ImportPipeline importPipeline;
     importPipeline.setEventDispatcher(&eventDispatcher);
 
-    const bool codecSmokeOk = createCodecRenderSmokeAssets();
-    VOLT_LOG_INFO_CAT(
-      volt::core::logging::Category::kApp,
-      "Codec render smoke setup ",
-      codecSmokeOk ? "ready" : "degraded");
-
-    volt::platform::Window window(config.windowWidth, config.windowHeight, config.appName);
-    volt::render::VulkanRenderer renderer(window.nativeHandle(), config.appName.c_str());
+    const std::string windowTitle = config.windowTitle.empty() ? config.appName : config.windowTitle;
+    const volt::platform::WindowCreateOptions windowOptions{
+      .useSystemTitleBar = config.useSystemTitleBar,
+      .useSystemResizeHandles = config.useSystemResizeHandles,
+      .windowResizable = config.windowResizable,
+      .initialX = config.windowX,
+      .initialY = config.windowY,
+      .resizeBorderThickness = config.windowResizeBorderThickness,
+      .titleBarHeight = config.windowTitleBarHeight,
+      .titleBarPadding = config.windowTitleBarPadding,
+      .titleBarButtonSize = config.windowTitleBarButtonSize,
+      .titleBarButtonSpacing = config.windowTitleBarButtonSpacing,
+      .windowIconPath = config.windowIconPath,
+    };
+    volt::platform::Window window(config.windowWidth, config.windowHeight, windowTitle, windowOptions);
+    std::unique_ptr<volt::render::Renderer> renderer =
+        volt::render::createRenderer(window, config.appName.c_str());
     volt::ui::UILayer uiLayer;
 
     window.setEventDispatcher(&eventDispatcher);
-    renderer.setEventDispatcher(&eventDispatcher);
-    renderer.setUiMeshProvider([&uiLayer]() {
+    renderer->setEventDispatcher(&eventDispatcher);
+    renderer->setUiMeshProvider([&uiLayer]() {
       return &uiLayer.meshData();
     });
     uiLayer.setEventDispatcher(&eventDispatcher);
-    renderer.setUiPassCallback(
-        [&uiLayer](VkCommandBuffer commandBuffer, std::uint32_t framebufferWidth, std::uint32_t framebufferHeight) {
-          uiLayer.recordRenderPass(commandBuffer, framebufferWidth, framebufferHeight);
-
-          for (const volt::ui::UiMeshBatch& batch : uiLayer.meshData().batches) {
-            const VkRect2D scissor = clipRectToFramebuffer(batch.clipRect, framebufferWidth, framebufferHeight);
-            if (scissor.extent.width == 0U || scissor.extent.height == 0U) {
-              continue;
-            }
-
-            vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-          }
-        });
 
     constexpr double kLogicTickSeconds = 1.0 / 60.0;
-    constexpr double kMinimizedWakeSeconds = 0.1;
     constexpr int kMaxLogicTicksPerWake = 8;
     constexpr auto kResizeRenderHold = std::chrono::milliseconds(250);
 
@@ -239,15 +120,47 @@ int main() {
     bool renderDirty = true;
     bool callbackRepaintInProgress = false;
     bool wasMinimized = window.isMinimized();
+    bool leftMousePressedThisWake = false;
+    bool previousLeftMouseDown = false;
+    volt::app::AppUiState uiState{};
 
-    auto renderFrameNow = [&](bool forceResize) {
+    for (const volt::event::EventType type : std::array{
+             volt::event::EventType::kWindowResized,
+             volt::event::EventType::kWindowMinimized,
+             volt::event::EventType::kKeyInput,
+             volt::event::EventType::kTextInput,
+             volt::event::EventType::kMouseMoved,
+             volt::event::EventType::kMouseButton,
+             volt::event::EventType::kMouseScrolled,
+             volt::event::EventType::kImportStarted,
+             volt::event::EventType::kImportStageComplete,
+             volt::event::EventType::kImportSucceeded,
+             volt::event::EventType::kImportFailed,
+         }) {
+      eventDispatcher.subscribe(type, [&, type](const volt::event::Event& event) {
+        renderDirty = true;
+        if (type != volt::event::EventType::kMouseButton) {
+          return;
+        }
+
+        const auto* payload = std::get_if<volt::event::MouseButtonEvent>(&event.payload);
+        if (payload != nullptr && payload->button == 0 && payload->action == 1) {
+          leftMousePressedThisWake = true;
+        }
+      });
+    }
+
+    auto renderFrameNow = [&](bool forceResize) -> bool {
+      bool requestFollowUpFrame = false;
+      const volt::core::Timer renderFrameCpuTimer;
       if (window.isMinimized()) {
-        return;
+        return false;
       }
 
       const auto [framebufferWidth, framebufferHeight] = window.framebufferExtent();
-      if (framebufferWidth == 0U || framebufferHeight == 0U) {
-        return;
+      const auto [logicalWidth, logicalHeight] = window.logicalExtent();
+      if (framebufferWidth == 0U || framebufferHeight == 0U || logicalWidth == 0U || logicalHeight == 0U) {
+        return false;
       }
 
       eventDispatcher.enqueue({
@@ -257,38 +170,65 @@ int main() {
       eventDispatcher.dispatchQueued();
 
       const volt::ui::UILayer::FrameArgs uiFrameArgs{
-          framebufferWidth,
-          framebufferHeight,
+          logicalWidth,
+          logicalHeight,
           window.isMinimized(),
       };
-
-      uiLayer.beginFrame(window.inputSnapshot(), uiFrameArgs);
-        uiLayer.beginPanel(
-          {16.0F, 12.0F, 340.0F, 360.0F},
-          volt::ui::PanelElement{"left_panel", {0.08F, 0.10F, 0.12F, 1.0F}, 10.0F});
-        uiLayer.beginFlowColumn({24.0F, 20.0F, 320.0F, 340.0F}, 10.0F, 8.0F);
-        uiLayer.addTextFlow(28.0F, volt::ui::TextElement{"Volt UI Foundation", "default", 18.0F, {0.95F, 0.97F, 1.0F, 1.0F}});
-        uiLayer.beginFlowRow({32.0F, 54.0F, 300.0F, 36.0F}, 24.0F, 8.0F, 0.0F);
-        uiLayer.addTextRow(180.0F, volt::ui::TextElement{"Actions", "default", 13.0F, {0.70F, 0.74F, 0.80F, 1.0F}});
-        uiLayer.addIconRow(24.0F, volt::ui::IconElement{"icon:warning", {0.96F, 0.78F, 0.22F, 1.0F}});
-        uiLayer.endFlowRow();
-        uiLayer.addButtonFlow(34.0F, volt::ui::ButtonElement{"Import", true, false, {0.20F, 0.31F, 0.45F, 1.0F}, {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.addSliderFlow(18.0F, volt::ui::SliderElement{0.0F, 100.0F, 38.0F, {0.17F, 0.19F, 0.22F, 1.0F}, {0.85F, 0.88F, 0.93F, 1.0F}});
-        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:preview-board", {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.addImageFlow(70.0F, volt::ui::ImageElement{"image:codec-render-test", {1.0F, 1.0F, 1.0F, 1.0F}});
-        uiLayer.endFlowColumn();
-        uiLayer.endPanel();
-        uiLayer.addChartScaffold(
-          {72.0F, 150.0F, 320.0F, 160.0F},
-          volt::ui::ChartScaffoldElement{"line", {0.2F, 0.5F, 0.7F, 0.45F, 0.9F}});
-        uiLayer.addSchematicScaffold(
-          {360.0F, 150.0F, 360.0F, 220.0F},
-          volt::ui::SchematicScaffoldElement{"power_stage_topology", 24U, 38U});
+        const auto rendererFrameCpuTimings = renderer->frameCpuTimings();
+        const auto vectorTextGpuTimings = renderer->vectorTextGpuTimings();
+      const volt::core::Timer uiBuildTimer;
+        const volt::app::AppUiFrameStats frameStats{
+          g_lastFrameTimeMs.load(std::memory_order_relaxed),
+          g_lastEventWaitTimeMs.load(std::memory_order_relaxed),
+          g_lastUiBuildTimeMs.load(std::memory_order_relaxed),
+          g_lastRendererTickTimeMs.load(std::memory_order_relaxed),
+          g_lastRenderFrameCpuTimeMs.load(std::memory_order_relaxed),
+          rendererFrameCpuTimings.valid,
+          rendererFrameCpuTimings.fenceWaitMs,
+          rendererFrameCpuTimings.acquireMs,
+          rendererFrameCpuTimings.recordMs,
+          rendererFrameCpuTimings.recordUploadMs,
+          rendererFrameCpuTimings.recordDrawMs,
+          rendererFrameCpuTimings.uiVectorTextPrepMs,
+          rendererFrameCpuTimings.submitMs,
+          rendererFrameCpuTimings.presentMs,
+          vectorTextGpuTimings.valid,
+          vectorTextGpuTimings.flattenCountMs,
+          vectorTextGpuTimings.curveScanMs,
+          vectorTextGpuTimings.flattenEmitBinCountMs,
+          vectorTextGpuTimings.tileScanMs,
+          vectorTextGpuTimings.binEmitFineMs,
+          rendererFrameCpuTimings.uiDrawCallCount,
+          rendererFrameCpuTimings.uiDrawCallAvgMs,
+          rendererFrameCpuTimings.uiDrawCallMaxMs,
+          rendererFrameCpuTimings.uiDrawCallMaxBatchIndex,
+          rendererFrameCpuTimings.uiDrawCallMaxTextureKey,
+          rendererFrameCpuTimings.uiDescriptorResolveTotalMs,
+          rendererFrameCpuTimings.uiDescriptorResolveMaxMs,
+          rendererFrameCpuTimings.uiDescriptorResolveMaxTextureKey,
+        };
+      const volt::app::AppUiFrameBindings uiBindings =
+          volt::app::buildAppUi(uiLayer, window, uiFrameArgs, frameStats, uiState);
       uiLayer.layoutPass();
-      uiLayer.paintPass();
+      g_lastUiBuildTimeMs.store(static_cast<int32_t>(std::round(uiBuildTimer.elapsedMilliseconds())), std::memory_order_relaxed);
 
-      renderer.submitScene({0U, 0U});
-      renderer.tick(forceResize);
+      const bool leftMouseDown = window.inputSnapshot().mouse.down[0];
+      const bool leftMousePressed = leftMousePressedThisWake || (leftMouseDown && !previousLeftMouseDown);
+      const std::uint64_t hoveredId = uiLayer.hoveredWidgetId();
+
+      requestFollowUpFrame =
+          volt::app::handleAppUiInteractions(window, uiBindings, uiState, hoveredId, leftMousePressed);
+
+      uiLayer.paintPass();
+      previousLeftMouseDown = leftMouseDown;
+      leftMousePressedThisWake = false;
+
+        const volt::core::Timer rendererTickTimer;
+        renderer->submitScene({0U, 0U});
+      renderer->tick(forceResize);
+        g_lastRendererTickTimeMs.store(
+          static_cast<int32_t>(std::round(rendererTickTimer.elapsedMilliseconds())),
+          std::memory_order_relaxed);
       eventDispatcher.dispatchQueued();
 
       uiLayer.endFrame();
@@ -299,6 +239,10 @@ int main() {
       });
       eventDispatcher.dispatchQueued();
       ++frameIndex;
+      g_lastRenderFrameCpuTimeMs.store(
+          static_cast<int32_t>(std::round(renderFrameCpuTimer.elapsedMilliseconds())),
+          std::memory_order_relaxed);
+      return requestFollowUpFrame;
     };
 
     window.setResizeRepaintCallback([&]() {
@@ -307,17 +251,32 @@ int main() {
       }
 
       callbackRepaintInProgress = true;
-      renderFrameNow(true);
+      renderDirty = renderFrameNow(false) || renderDirty;
       callbackRepaintInProgress = false;
     });
 
     while (!window.shouldClose()) {
-      const volt::core::Timer frameTimer;
+      const volt::core::Timer waitTimer;
+      const bool recentResizeActivityBeforeWait =
+          std::chrono::steady_clock::now() < continuousRenderUntil;
+      const bool shouldBlockForEvent =
+          window.isMinimized() || (!renderDirty && !recentResizeActivityBeforeWait);
 
-      window.pollEvents();
+      leftMousePressedThisWake = false;
+
+      if (shouldBlockForEvent) {
+        window.waitEvents();
+      } else {
+        window.pollEvents();
+      }
+      g_lastEventWaitTimeMs.store(
+          shouldBlockForEvent ? 0 : static_cast<int32_t>(std::round(waitTimer.elapsedMilliseconds())),
+          std::memory_order_relaxed);
       if (window.shouldClose()) {
         break;
       }
+
+      const volt::core::Timer frameTimer;
 
       const auto now = std::chrono::steady_clock::now();
       const double deltaSeconds = std::chrono::duration<double>(now - lastWake).count();
@@ -347,7 +306,6 @@ int main() {
 
       if (minimizedNow) {
         g_TickCount.fetch_add(logicTicksThisWake, std::memory_order_relaxed);
-        std::this_thread::sleep_for(std::chrono::duration<double>(kMinimizedWakeSeconds));
         continue;
       }
 
@@ -357,16 +315,15 @@ int main() {
       }
 
       const bool recentResizeActivity = (now < continuousRenderUntil);
-      (void)renderDirty;
-      (void)recentResizeActivity;
 
-      renderFrameNow(false);
-
-      if (resizedThisWake) {
+      if (renderDirty || recentResizeActivity) {
+        const bool requestFollowUpFrame = renderFrameNow(false);
+        if (resizedThisWake) {
+          window.acknowledgeResize();
+        }
+        renderDirty = requestFollowUpFrame || resizedThisWake;
+      } else if (resizedThisWake) {
         window.acknowledgeResize();
-        renderDirty = true;
-      } else {
-        renderDirty = false;
       }
 
       VOLT_LOG_TRACE_CAT(
@@ -378,6 +335,7 @@ int main() {
           " durationMs=",
           frameTimer.elapsedMilliseconds());
 
+      g_lastFrameTimeMs.store(static_cast<int32_t>(std::round(frameTimer.elapsedMilliseconds())), std::memory_order_relaxed);
       g_TickCount.fetch_add(logicTicksThisWake, std::memory_order_relaxed);
     }
 

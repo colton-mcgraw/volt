@@ -1,11 +1,12 @@
 #pragma once
 
-#include "volt/platform/InputState.hpp"
+#include "volt/platform/WindowBackend.hpp"
 
-#include <GLFW/glfw3.h>
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <string>
+#include <string_view>
 #include <utility>
 
 namespace volt::event {
@@ -14,9 +15,59 @@ class EventDispatcher;
 
 namespace volt::platform {
 
+struct WindowChromeRect {
+  float x{0.0F};
+  float y{0.0F};
+  float width{0.0F};
+  float height{0.0F};
+};
+
+struct WindowChromeLayout {
+  WindowChromeRect titleBar{};
+  WindowChromeRect titleIcon{};
+  WindowChromeRect titleText{};
+  WindowChromeRect dragRegion{};
+  WindowChromeRect minimizeButton{};
+  WindowChromeRect maximizeButton{};
+  WindowChromeRect closeButton{};
+  WindowChromeRect leftResize{};
+  WindowChromeRect rightResize{};
+  WindowChromeRect topResize{};
+  WindowChromeRect bottomResize{};
+  WindowChromeRect topLeftResize{};
+  WindowChromeRect topRightResize{};
+  WindowChromeRect bottomLeftResize{};
+  WindowChromeRect bottomRightResize{};
+
+  float titleBarPadding{0.0F};
+  float titleBarButtonSpacing{0.0F};
+  float titleTextBaselineY{0.0F};
+  float buttonTextBaselineY{0.0F};
+  bool hasResizeRegions{false};
+};
+
+struct WindowChromeWidgetIds {
+  std::uint64_t dragRegion{0U};
+  std::uint64_t minimizeButton{0U};
+  std::uint64_t maximizeButton{0U};
+  std::uint64_t closeButton{0U};
+  std::uint64_t leftResize{0U};
+  std::uint64_t rightResize{0U};
+  std::uint64_t topResize{0U};
+  std::uint64_t bottomResize{0U};
+  std::uint64_t topLeftResize{0U};
+  std::uint64_t topRightResize{0U};
+  std::uint64_t bottomLeftResize{0U};
+  std::uint64_t bottomRightResize{0U};
+};
+
 class Window {
  public:
-  Window(std::uint32_t width, std::uint32_t height, const std::string& title);
+  Window(
+      std::uint32_t width,
+      std::uint32_t height,
+      const std::string& title,
+      const WindowCreateOptions& options = {});
   ~Window();
 
   Window(const Window&) = delete;
@@ -36,28 +87,37 @@ class Window {
 
   [[nodiscard]] bool isMinimized() const;
   [[nodiscard]] std::pair<std::uint32_t, std::uint32_t> framebufferExtent() const;
+  [[nodiscard]] std::pair<std::uint32_t, std::uint32_t> logicalExtent() const;
+  [[nodiscard]] DisplayMetrics displayMetrics() const;
   [[nodiscard]] const InputState& inputSnapshot() const;
 
-  [[nodiscard]] GLFWwindow* nativeHandle() const;
+  [[nodiscard]] WindowBackendType backendType() const;
+  [[nodiscard]] void* nativeWindowHandle() const;
+  [[nodiscard]] void* nativeDisplayHandle() const;
+
+  void beginInteractiveMove();
+  void beginInteractiveResize(WindowResizeEdge edge);
+  [[nodiscard]] bool isMaximized() const;
+  void toggleMaximized();
+  void minimize();
+
+  [[nodiscard]] const std::string& title() const;
+  [[nodiscard]] const char* titleIconTextureId() const;
+  [[nodiscard]] std::string_view minimizeLabel() const;
+  [[nodiscard]] std::string_view maximizeLabel() const;
+  [[nodiscard]] std::string_view closeLabel() const;
+  [[nodiscard]] WindowChromeLayout buildChromeLayout(
+      std::uint32_t framebufferWidth,
+      std::uint32_t framebufferHeight) const;
+  void handleChromePointerPress(
+      bool leftMousePressed,
+      std::uint64_t hoveredWidgetId,
+      const WindowChromeWidgetIds& widgetIds);
 
  private:
-  void resetTransientInputState();
-
-  static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
-  static void refreshCallback(GLFWwindow* window);
-  static void iconifyCallback(GLFWwindow* window, int iconified);
-  static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-  static void cursorPosCallback(GLFWwindow* window, double xPos, double yPos);
-  static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-  static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset);
-
-  static inline int glfwRefCount_{0};
-  GLFWwindow* window_{nullptr};
-  bool framebufferResized_{false};
-  bool minimized_{false};
-  InputState inputState_{};
-  volt::event::EventDispatcher* eventDispatcher_{nullptr};
-  std::function<void()> resizeRepaintCallback_{};
+  std::string title_{};
+  WindowCreateOptions options_{};
+  std::unique_ptr<WindowBackend> backend_;
 };
 
 }  // namespace volt::platform

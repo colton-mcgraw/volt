@@ -24,6 +24,7 @@ struct Rect {
 struct UiTextCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   std::string text;
   std::string fontFamily{"default"};
   float fontSizePx{14.0F};
@@ -34,6 +35,7 @@ struct UiTextCommand {
 struct UiRectCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   Color fill{};
   float cornerRadiusPx{0.0F};
 };
@@ -41,6 +43,7 @@ struct UiRectCommand {
 struct UiImageCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   std::string imageKey;
   Color tint{};
 };
@@ -48,6 +51,7 @@ struct UiImageCommand {
 struct UiIconCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   std::string iconKey;
   Color tint{};
 };
@@ -55,12 +59,14 @@ struct UiIconCommand {
 struct UiChartScaffoldCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   std::string chartKind;
 };
 
 struct UiSchematicScaffoldCommand {
   std::uint64_t widgetId{0};
   Rect bounds{};
+  Rect clipRect{};
   std::string modelName;
 };
 

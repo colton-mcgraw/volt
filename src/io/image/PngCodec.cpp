@@ -15,13 +15,23 @@ constexpr std::array<char, 4> kChunkIhdr = {'I', 'H', 'D', 'R'};
 constexpr std::array<char, 4> kChunkIdat = {'I', 'D', 'A', 'T'};
 constexpr std::array<char, 4> kChunkIend = {'I', 'E', 'N', 'D'};
 
-std::uint64_t filterCost(const std::vector<std::uint8_t>& row) {
-  std::uint64_t score = 0U;
-  for (std::uint8_t value : row) {
-    const int signedValue = static_cast<std::int8_t>(value);
-    score += static_cast<std::uint64_t>(signedValue < 0 ? -signedValue : signedValue);
+bool isPngChunkTypeValid(const std::array<char, 4>& type) {
+  for (char ch : type) {
+    const std::uint8_t byte = static_cast<std::uint8_t>(ch);
+    const bool isUpper = byte >= static_cast<std::uint8_t>('A') && byte <= static_cast<std::uint8_t>('Z');
+    const bool isLower = byte >= static_cast<std::uint8_t>('a') && byte <= static_cast<std::uint8_t>('z');
+    if (!isUpper && !isLower) {
+      return false;
+    }
   }
-  return score;
+
+  // Reserved bit (third character) must be uppercase per PNG spec.
+  return (static_cast<std::uint8_t>(type[2]) & 0x20U) == 0U;
+}
+
+std::uint64_t filterByteCost(std::uint8_t value) {
+  const int signedValue = static_cast<std::int8_t>(value);
+  return static_cast<std::uint64_t>(signedValue < 0 ? -signedValue : signedValue);
 }
 
 }  // namespace
@@ -45,6 +55,7 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
   bool sawIhdr = false;
   bool sawIend = false;
   bool sawIdat = false;
+  bool sawNonIdatAfterIdat = false;
   std::vector<std::uint8_t> idat;
 
   std::size_t offset = 8U;
@@ -69,6 +80,11 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
         static_cast<char>(bytes[offset + 3U]),
     };
     offset += 4U;
+
+    if (!isPngChunkTypeValid(chunkType)) {
+      error = "png chunk type invalid";
+      return false;
+    }
 
     if (offset + 4U > bytes.size() ||
         static_cast<std::size_t>(chunkLength) > bytes.size() - offset - 4U) {
@@ -122,6 +138,10 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
       interlaceMethod = bytes[chunkDataOffset + 12U];
       sawIhdr = true;
     } else if (chunkType == kChunkIdat) {
+      if (sawNonIdatAfterIdat) {
+        error = "png IDAT chunks must be consecutive";
+        return false;
+      }
       sawIdat = true;
       if (idat.size() > std::numeric_limits<std::size_t>::max() - chunkLength) {
         error = "png IDAT data too large";
@@ -132,13 +152,24 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
           bytes.begin() + static_cast<std::ptrdiff_t>(chunkDataOffset),
           bytes.begin() + static_cast<std::ptrdiff_t>(chunkDataOffset + chunkLength));
     } else if (chunkType == kChunkIend) {
+      if (chunkLength != 0U) {
+        error = "png IEND size invalid";
+        return false;
+      }
       sawIend = true;
       break;
+    } else if (sawIdat) {
+      sawNonIdatAfterIdat = true;
     }
   }
 
   if (!sawIhdr || !sawIend || !sawIdat || idat.empty()) {
     error = "png missing required chunks";
+    return false;
+  }
+
+  if (offset != bytes.size()) {
+    error = "png trailing data after IEND";
     return false;
   }
 
@@ -212,6 +243,7 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
 
   const std::uint8_t* inflatedData = inflated.data();
   std::uint8_t* unfilteredData = unfiltered.data();
+  const std::size_t prefixBytes = std::min(bytesPerPixel, rowBytes);
 
   std::size_t srcOffset = 0U;
   for (std::uint32_t y = 0U; y < height; ++y) {
@@ -226,11 +258,10 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
         std::memcpy(dstRow, srcRow, rowBytes);
         break;
       case 1U: {
-        const std::size_t prefix = std::min(bytesPerPixel, rowBytes);
-        for (std::size_t x = 0U; x < prefix; ++x) {
+        for (std::size_t x = 0U; x < prefixBytes; ++x) {
           dstRow[x] = srcRow[x];
         }
-        for (std::size_t x = prefix; x < rowBytes; ++x) {
+        for (std::size_t x = prefixBytes; x < rowBytes; ++x) {
           dstRow[x] = static_cast<std::uint8_t>(srcRow[x] + dstRow[x - bytesPerPixel]);
         }
         break;
@@ -245,21 +276,20 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
         }
         break;
       case 3U: {
-        const std::size_t prefix = std::min(bytesPerPixel, rowBytes);
         if (prevRow == nullptr) {
-          for (std::size_t x = 0U; x < prefix; ++x) {
+          for (std::size_t x = 0U; x < prefixBytes; ++x) {
             dstRow[x] = srcRow[x];
           }
-          for (std::size_t x = prefix; x < rowBytes; ++x) {
+          for (std::size_t x = prefixBytes; x < rowBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(
                 srcRow[x] + static_cast<std::uint8_t>(static_cast<unsigned int>(dstRow[x - bytesPerPixel]) / 2U));
           }
         } else {
-          for (std::size_t x = 0U; x < prefix; ++x) {
+          for (std::size_t x = 0U; x < prefixBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(
                 srcRow[x] + static_cast<std::uint8_t>(static_cast<unsigned int>(prevRow[x]) / 2U));
           }
-          for (std::size_t x = prefix; x < rowBytes; ++x) {
+          for (std::size_t x = prefixBytes; x < rowBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(
                 srcRow[x] +
                 static_cast<std::uint8_t>((static_cast<unsigned int>(dstRow[x - bytesPerPixel]) +
@@ -270,19 +300,18 @@ bool decodePng(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
         break;
       }
       case 4U: {
-        const std::size_t prefix = std::min(bytesPerPixel, rowBytes);
         if (prevRow == nullptr) {
-          for (std::size_t x = 0U; x < prefix; ++x) {
+          for (std::size_t x = 0U; x < prefixBytes; ++x) {
             dstRow[x] = srcRow[x];
           }
-          for (std::size_t x = prefix; x < rowBytes; ++x) {
+          for (std::size_t x = prefixBytes; x < rowBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(srcRow[x] + dstRow[x - bytesPerPixel]);
           }
         } else {
-          for (std::size_t x = 0U; x < prefix; ++x) {
+          for (std::size_t x = 0U; x < prefixBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(srcRow[x] + pathPredictor(0U, prevRow[x], 0U));
           }
-          for (std::size_t x = prefix; x < rowBytes; ++x) {
+          for (std::size_t x = prefixBytes; x < rowBytes; ++x) {
             dstRow[x] = static_cast<std::uint8_t>(
                 srcRow[x] + pathPredictor(dstRow[x - bytesPerPixel], prevRow[x], prevRow[x - bytesPerPixel]));
           }
@@ -376,60 +405,64 @@ bool encodePngRgbaFile(const std::filesystem::path& path, const RawImage& image)
     const std::uint8_t* row = src + static_cast<std::size_t>(y) * rowBytes;
     const std::uint8_t* prevRow = y > 0U ? row - rowBytes : nullptr;
 
-    std::uint64_t bestScore = std::numeric_limits<std::uint64_t>::max();
+    std::uint64_t bestScore = 0U;
     std::uint8_t bestFilter = 0U;
 
     for (std::size_t x = 0U; x < rowBytes; ++x) {
       candidate[x] = row[x];
+      bestScore += filterByteCost(candidate[x]);
     }
-    bestScore = filterCost(candidate);
     bestFilter = 0U;
     best.swap(candidate);
 
+    std::uint64_t score = 0U;
     for (std::size_t x = 0U; x < rowBytes; ++x) {
       const std::uint8_t left = x >= kBytesPerPixel ? row[x - kBytesPerPixel] : 0U;
       candidate[x] = static_cast<std::uint8_t>(row[x] - left);
+      score += filterByteCost(candidate[x]);
     }
-    std::uint64_t score = filterCost(candidate);
     if (score < bestScore) {
       bestScore = score;
       bestFilter = 1U;
       best.swap(candidate);
     }
 
+    score = 0U;
     for (std::size_t x = 0U; x < rowBytes; ++x) {
       const std::uint8_t up = prevRow != nullptr ? prevRow[x] : 0U;
       candidate[x] = static_cast<std::uint8_t>(row[x] - up);
+      score += filterByteCost(candidate[x]);
     }
-    score = filterCost(candidate);
     if (score < bestScore) {
       bestScore = score;
       bestFilter = 2U;
       best.swap(candidate);
     }
 
+    score = 0U;
     for (std::size_t x = 0U; x < rowBytes; ++x) {
       const std::uint8_t left = x >= kBytesPerPixel ? row[x - kBytesPerPixel] : 0U;
       const std::uint8_t up = prevRow != nullptr ? prevRow[x] : 0U;
       const std::uint8_t predictor =
           static_cast<std::uint8_t>((static_cast<unsigned int>(left) + static_cast<unsigned int>(up)) / 2U);
       candidate[x] = static_cast<std::uint8_t>(row[x] - predictor);
+      score += filterByteCost(candidate[x]);
     }
-    score = filterCost(candidate);
     if (score < bestScore) {
       bestScore = score;
       bestFilter = 3U;
       best.swap(candidate);
     }
 
+    score = 0U;
     for (std::size_t x = 0U; x < rowBytes; ++x) {
       const std::uint8_t left = x >= kBytesPerPixel ? row[x - kBytesPerPixel] : 0U;
       const std::uint8_t up = prevRow != nullptr ? prevRow[x] : 0U;
       const std::uint8_t upLeft =
           (prevRow != nullptr && x >= kBytesPerPixel) ? prevRow[x - kBytesPerPixel] : 0U;
       candidate[x] = static_cast<std::uint8_t>(row[x] - pathPredictor(left, up, upLeft));
+      score += filterByteCost(candidate[x]);
     }
-    score = filterCost(candidate);
     if (score < bestScore) {
       bestFilter = 4U;
       best.swap(candidate);

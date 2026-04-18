@@ -1,5 +1,6 @@
 #include "volt/io/assets/ImageAssetService.hpp"
 
+#include "volt/io/assets/Font.hpp"
 #include "volt/io/assets/Manifest.hpp"
 #include "volt/io/image/ImageDecoder.hpp"
 
@@ -7,15 +8,13 @@
 
 #include <array>
 #include <cctype>
+#include <chrono>
 #include <string_view>
 
 namespace volt::io {
 namespace {
 
-KeyValueManifest& imageManifest() {
-  static KeyValueManifest manifest(std::filesystem::path("assets") / "manifest.json");
-  return manifest;
-}
+constexpr auto kImageHotReloadPollInterval = std::chrono::milliseconds(250);
 
 std::array<std::uint8_t, 4> fallbackColorFromKey(const std::string& key) {
   std::uint32_t hash = 2166136261u;
@@ -74,7 +73,7 @@ std::string ImageAssetService::resolveImagePathForKey(const std::string& texture
 
   const std::string normalizedKey = normalizeImageKey(textureKey);
 
-  auto& manifest = imageManifest();
+  auto& manifest = manifestService();
   manifest.refresh(false);
   if (!manifest.isDisabled()) {
     const auto resolved = manifest.resolvedPathFor(normalizedKey);
@@ -106,12 +105,18 @@ LoadedImageAsset ImageAssetService::loadImage(const std::string& textureKey) {
     return makeBlankPlaceholderImage(textureKey);
   }
 
+  if (const auto cachedImage = decodedImageCacheByPath_.find(path);
+      cachedImage != decodedImageCacheByPath_.end()) {
+    return cachedImage->second;
+  }
+
   LoadedImageAsset image{};
   image.resolvedPath = path;
 
   if (endsWithCaseInsensitive(path, ".svg")) {
     auto placeholder = makeBlankPlaceholderImage(textureKey);
     placeholder.resolvedPath = path;
+    decodedImageCacheByPath_[path] = placeholder;
     return placeholder;
   }
 
@@ -126,6 +131,7 @@ LoadedImageAsset ImageAssetService::loadImage(const std::string& textureKey) {
         "'");
     auto placeholder = makeBlankPlaceholderImage(textureKey);
     placeholder.resolvedPath = path;
+    decodedImageCacheByPath_[path] = placeholder;
     return placeholder;
   }
 
@@ -133,37 +139,83 @@ LoadedImageAsset ImageAssetService::loadImage(const std::string& textureKey) {
   image.height = decoded.height;
   image.rgba = std::move(decoded.rgba);
   image.placeholder = false;
+  decodedImageCacheByPath_[path] = image;
   return image;
 }
 
 bool ImageAssetService::hasImageChanged(const std::string& textureKey) {
+  const auto imageCheckStart = std::chrono::steady_clock::now();
+  const auto now = imageCheckStart;
+  auto logSlowCheck = [&](std::string_view reason) {
+    const double imageCheckMs = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - imageCheckStart).count();
+    if (imageCheckMs >= 10.0) {
+      VOLT_LOG_WARN_CAT(
+          volt::core::logging::Category::kIO,
+          "Slow image hot-reload check | key=",
+          textureKey,
+          " | reason=",
+          reason,
+          " | ms=",
+          imageCheckMs);
+    }
+  };
   if (textureKey.empty() || textureKey == "__white") {
     return false;
   }
 
   const std::string normalizedKey = normalizeImageKey(textureKey);
+  const bool isDefaultFontTextureKey = normalizedKey == "ui-font-default";
+  const std::uint64_t fontAtlasRevision = isDefaultFontTextureKey ? defaultFontAtlasRevision() : 0U;
+  auto it = imageEntryState_.find(normalizedKey);
 
-  auto& manifest = imageManifest();
-  const auto oldManifestTimestamp = manifest.manifestTimestamp();
-  manifest.refresh(false);
-  if (manifest.manifestTimestamp() != oldManifestTimestamp) {
-    return true;
+  auto& manifest = manifestService();
+  if (now >= nextManifestRefreshTime_) {
+    const auto oldManifestTimestamp = manifest.manifestTimestamp();
+    manifest.refresh(false);
+    if (manifest.manifestTimestamp() != oldManifestTimestamp) {
+      ++manifestGeneration_;
+    }
+    nextManifestRefreshTime_ = now + kImageHotReloadPollInterval;
+  }
+
+  if (it != imageEntryState_.end()) {
+    if (isDefaultFontTextureKey && it->second.fontAtlasRevision != fontAtlasRevision) {
+      decodedImageCacheByPath_.erase(it->second.resolvedPath);
+      it->second.fontAtlasRevision = fontAtlasRevision;
+      it->second.nextChangePollTime = now;
+      logSlowCheck("fontAtlasRevisionChanged");
+      return true;
+    }
+
+    if (it->second.manifestGeneration == manifestGeneration_ && now < it->second.nextChangePollTime) {
+      return false;
+    }
   }
 
   const auto newResolvedPath = manifest.resolvedPathFor(normalizedKey);
-  auto it = imageEntryState_.find(normalizedKey);
 
   if (!newResolvedPath.has_value()) {
     if (it != imageEntryState_.end()) {
+      decodedImageCacheByPath_.erase(it->second.resolvedPath);
       imageEntryState_.erase(it);
+      logSlowCheck("resolvedPathRemoved");
       return true;
     }
+    logSlowCheck("resolvedPathMissing");
     return false;
   }
 
   if (it == imageEntryState_.end() || it->second.resolvedPath != newResolvedPath.value()) {
     ImageEntryState entry{};
     entry.resolvedPath = newResolvedPath.value();
+    entry.fontAtlasRevision = fontAtlasRevision;
+    entry.manifestGeneration = manifestGeneration_;
+    entry.nextChangePollTime = now + kImageHotReloadPollInterval;
+
+    if (it != imageEntryState_.end()) {
+      decodedImageCacheByPath_.erase(it->second.resolvedPath);
+    }
 
     std::error_code ec;
     const auto writeTime = std::filesystem::last_write_time(entry.resolvedPath, ec);
@@ -174,21 +226,31 @@ bool ImageAssetService::hasImageChanged(const std::string& textureKey) {
 
     const bool existed = (it != imageEntryState_.end());
     imageEntryState_[normalizedKey] = entry;
+    logSlowCheck(existed ? "resolvedPathChanged" : "entryCreated");
     return existed;
   }
+
+  it->second.manifestGeneration = manifestGeneration_;
+  it->second.nextChangePollTime = now + kImageHotReloadPollInterval;
 
   std::error_code ec;
   const auto currentTime = std::filesystem::last_write_time(newResolvedPath.value(), ec);
   if (ec) {
+    decodedImageCacheByPath_.erase(newResolvedPath.value());
+    logSlowCheck("lastWriteTimeError");
     return false;
   }
 
   if (!it->second.hasWriteTime || currentTime != it->second.lastWrite) {
+    decodedImageCacheByPath_.erase(newResolvedPath.value());
     it->second.lastWrite = currentTime;
     it->second.hasWriteTime = true;
+    it->second.nextChangePollTime = now + kImageHotReloadPollInterval;
+    logSlowCheck("fileWriteTimeChanged");
     return true;
   }
 
+  logSlowCheck("unchanged");
   return false;
 }
 

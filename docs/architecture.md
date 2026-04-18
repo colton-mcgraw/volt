@@ -13,7 +13,7 @@
   - Physics/domain equation helpers built on top of typed math quantities.
   - SPICE-oriented modeling scaffolding (netlist/model/stamping/simulation contracts).
 - `src/platform`
-  - Platform implementation sources (currently GLFW-backed).
+  - Platform window/input abstraction and backend implementations (Win32 active, Linux/macOS scaffolded).
 - `src/render`
   - Rendering implementation sources and Vulkan backend.
 - `src/ui`

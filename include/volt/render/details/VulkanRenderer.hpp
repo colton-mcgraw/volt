@@ -1,7 +1,10 @@
 #pragma once
 
+#include "volt/render/Renderer.hpp"
+#include "volt/render/details/VectorTextWorker.hpp"
 #include "volt/math/Matrix.hpp"
 #include "volt/math/Vector.hpp"
+#include "volt/ui/UIRenderTypes.hpp"
 
 #include <array>
 #include <chrono>
@@ -11,9 +14,13 @@
 #include <unordered_map>
 #include <string>
 #include <unordered_set>
+#include <memory>
 #include <vector>
 #include <vulkan/vulkan.h>
-#include <GLFW/glfw3.h>
+
+namespace volt::platform {
+class Window;
+}
 
 namespace volt::event {
 class EventDispatcher;
@@ -21,31 +28,28 @@ class EventDispatcher;
 
 namespace volt::ui {
 struct UiMeshData;
+struct UiVectorTextBatch;
 }
 
-namespace volt::render {
+namespace volt::render::details {
 
-class VulkanRenderer {
+class VulkanRenderer final : public Renderer {
  public:
-  VulkanRenderer(GLFWwindow* window, const char* appName);
+  VulkanRenderer(volt::platform::Window& window, const char* appName);
   ~VulkanRenderer();
 
   VulkanRenderer(const VulkanRenderer&) = delete;
   VulkanRenderer& operator=(const VulkanRenderer&) = delete;
 
-  struct SceneSubmission {
-    std::uint32_t meshCount{0};
-    std::uint32_t instanceCount{0};
-  };
-
   using UiPassCallback = std::function<void(VkCommandBuffer, std::uint32_t, std::uint32_t)>;
-  using UiMeshProvider = std::function<const volt::ui::UiMeshData*()>;
 
-  void submitScene(const SceneSubmission& submission);
+  void submitScene(const SceneSubmission& submission) override;
   void setUiPassCallback(UiPassCallback callback);
-  void setUiMeshProvider(UiMeshProvider provider);
-  void setEventDispatcher(volt::event::EventDispatcher* dispatcher);
-  void tick(bool framebufferResized);
+  void setUiMeshProvider(UiMeshProvider provider) override;
+  void setEventDispatcher(volt::event::EventDispatcher* dispatcher) override;
+  void tick(bool framebufferResized) override;
+  [[nodiscard]] VectorTextGpuTimings vectorTextGpuTimings() const override;
+  [[nodiscard]] FrameCpuTimings frameCpuTimings() const override;
 
  private:
   struct QueueFamilyIndices {
@@ -61,6 +65,8 @@ class VulkanRenderer {
     std::vector<VkPresentModeKHR> presentModes;
   };
 
+  struct UiTextureResource;
+
   void createInstance(const char* appName);
   void setupDebugMessenger();
   void cleanupDebugMessenger();
@@ -71,10 +77,17 @@ class VulkanRenderer {
   void createSwapchainImageViews();
   void createScaffoldDepthResources();
   void createScaffoldRenderPass();
+  void createUiOffscreenRenderPass();
   void createScaffoldPipelineLayout();
   void createUiTextureResources();
+  void createUiFontComputeResources();
+  void createUiVectorTextComputeResources();
   void createScaffoldGraphicsPipeline();
   void createUiGraphicsPipeline();
+  void createUiOpaqueGraphicsPipeline();
+  void createUiTextSdfGraphicsPipeline();
+  void createUiOffscreenGraphicsPipeline();
+  void createUiOffscreenTextSdfGraphicsPipeline();
   void createScaffoldFramebuffers();
   void createFrameScaffoldResources();
 
@@ -84,9 +97,16 @@ class VulkanRenderer {
   void cleanupScaffoldFramebuffers();
   void cleanupScaffoldGraphicsPipeline();
   void cleanupUiGraphicsPipeline();
+  void cleanupUiOpaqueGraphicsPipeline();
+  void cleanupUiTextSdfGraphicsPipeline();
+  void cleanupUiOffscreenGraphicsPipeline();
+  void cleanupUiOffscreenTextSdfGraphicsPipeline();
   void cleanupUiTextureResources();
+  void cleanupUiFontComputeResources();
+  void cleanupUiVectorTextComputeResources();
   void cleanupScaffoldPipelineLayout();
   void cleanupScaffoldRenderPass();
+  void cleanupUiOffscreenRenderPass();
   void cleanupFrameScaffoldResources();
 
   [[nodiscard]] bool beginFrameScaffold();
@@ -110,11 +130,34 @@ class VulkanRenderer {
   void updateScaffoldCameraMatrices();
   void ensureUiScaffoldBufferCapacity(std::size_t vertexBytes, std::size_t indexBytes);
   void createUiScaffoldBuffers(std::size_t vertexBytes, std::size_t indexBytes);
-  void destroyUiScaffoldBuffers();
+  void destroyUiScaffoldBuffers(bool deferDestruction = false);
   void uploadUiMeshData(const volt::ui::UiMeshData& meshData);
   void recordUiMeshDraws(VkCommandBuffer commandBuffer, const volt::ui::UiMeshData& meshData);
+  void recordUiMeshDrawsForExtent(
+      VkCommandBuffer commandBuffer,
+      const volt::ui::UiMeshData& meshData,
+      std::uint32_t targetWidth,
+      std::uint32_t targetHeight,
+      float uiWidth,
+      float uiHeight,
+      float scaleX,
+      float scaleY,
+      VkPipeline solidPipeline,
+      VkPipeline opaqueSolidPipeline,
+      VkPipeline textPipeline,
+      bool emitLogs,
+      bool updateFrameStats);
+  void prepareUiRetainedPanels(const volt::ui::UiMeshData& meshData);
+  void prepareUiVectorTextBatches(const volt::ui::UiMeshData& meshData);
+  void cleanupUiVectorTextTransientResources();
   void createUiTextureResourceForKey(const std::string& textureKey);
-  void destroyUiTextureResource(const std::string& textureKey);
+  void destroyUiTextureResource(const std::string& textureKey, bool deferDestruction = true);
+  void releaseUiTextureResource(UiTextureResource& resource);
+  void releaseRetiredUiTextureResources(std::uint32_t frameSlot);
+  void retireBufferResource(VkBuffer& buffer, VkDeviceMemory& memory, const char* label = nullptr);
+  void releaseRetiredBufferResources(std::uint32_t frameSlot);
+  [[nodiscard]] bool renderUiVectorTextBatchToTexture(const volt::ui::UiVectorTextBatch& batch, std::string& outError);
+  [[nodiscard]] bool renderUiRetainedPanelToTexture(const volt::ui::UiRetainedPanel& panel, std::string& outError);
   [[nodiscard]] VkDescriptorSet resolveUiDescriptorSetForBatch(const std::string& textureKey);
 
   struct FrameSync {
@@ -143,7 +186,7 @@ class VulkanRenderer {
       VkMemoryPropertyFlags properties) const;
     [[nodiscard]] VkShaderModule createShaderModule(const std::vector<char>& code) const;
 
-  GLFWwindow* window_{nullptr};
+  volt::platform::Window* window_{nullptr};
   VkInstance instance_{VK_NULL_HANDLE};
   VkDebugUtilsMessengerEXT debugMessenger_{VK_NULL_HANDLE};
   VkSurfaceKHR surface_{VK_NULL_HANDLE};
@@ -163,28 +206,89 @@ class VulkanRenderer {
   VkFormat scaffoldDepthFormat_{VK_FORMAT_UNDEFINED};
   VkExtent2D swapchainExtent_{};
   VkRenderPass scaffoldRenderPass_{VK_NULL_HANDLE};
+  VkRenderPass uiOffscreenRenderPass_{VK_NULL_HANDLE};
   VkPipelineLayout scaffoldPipelineLayout_{VK_NULL_HANDLE};
   VkDescriptorSetLayout uiDescriptorSetLayout_{VK_NULL_HANDLE};
+  VkDescriptorSetLayout uiFontComputeDescriptorSetLayout_{VK_NULL_HANDLE};
+  VkDescriptorSetLayout uiVectorTextComputeDescriptorSetLayout_{VK_NULL_HANDLE};
+  VkDescriptorSetLayout uiVectorTextPrefixScanDescriptorSetLayout_{VK_NULL_HANDLE};
+  VkPipelineLayout uiVectorTextPrefixScanPipelineLayout_{VK_NULL_HANDLE};
+  VkDescriptorSetLayout uiVectorTextExclusiveScanDescriptorSetLayout_{VK_NULL_HANDLE};
+  VkPipelineLayout uiVectorTextExclusiveScanPipelineLayout_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextExclusiveScanPipeline_{VK_NULL_HANDLE};
   VkPipeline scaffoldGraphicsPipeline_{VK_NULL_HANDLE};
   VkPipeline uiGraphicsPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiOpaqueGraphicsPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiTextSdfGraphicsPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiOffscreenGraphicsPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiOffscreenTextSdfGraphicsPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiFontComputePipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextFlattenCountPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextFlattenEmitPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextBinCountPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextBinEmitPipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextFinePipeline_{VK_NULL_HANDLE};
+  VkPipeline uiVectorTextPrefixScanPipeline_{VK_NULL_HANDLE};
   VkDescriptorPool uiDescriptorPool_{VK_NULL_HANDLE};
+  VkDescriptorPool uiFontComputeDescriptorPool_{VK_NULL_HANDLE};
+  VkDescriptorPool uiVectorTextComputeDescriptorPool_{VK_NULL_HANDLE};
   VkDescriptorSet uiDescriptorSet_{VK_NULL_HANDLE};
+  VkPipelineLayout uiFontComputePipelineLayout_{VK_NULL_HANDLE};
+  VkPipelineLayout uiVectorTextComputePipelineLayout_{VK_NULL_HANDLE};
   struct UiTextureResource {
     VkImage image{VK_NULL_HANDLE};
     VkDeviceMemory imageMemory{VK_NULL_HANDLE};
     VkImageView imageView{VK_NULL_HANDLE};
+    VkFramebuffer framebuffer{VK_NULL_HANDLE};
     VkDescriptorSet descriptorSet{VK_NULL_HANDLE};
+    std::uint64_t fontAtlasRevision{0U};
+    std::uint64_t vectorTextSignature{0U};
+    std::uint64_t retainedPanelSignature{0U};
+    std::uint32_t width{0U};
+    std::uint32_t height{0U};
   };
   std::unordered_map<std::string, UiTextureResource> uiTextureResources_;
+  static constexpr std::uint32_t kMaxFramesInFlight = 3;
+  std::array<std::vector<UiTextureResource>, kMaxFramesInFlight> retiredUiTextureResources_{};
+  struct RetiredBufferResource {
+    VkBuffer buffer{VK_NULL_HANDLE};
+    VkDeviceMemory memory{VK_NULL_HANDLE};
+    const char* label{nullptr};
+  };
+  std::array<std::vector<RetiredBufferResource>, kMaxFramesInFlight> retiredBufferResources_{};
   VkImage uiTextureImage_{VK_NULL_HANDLE};
   VkDeviceMemory uiTextureImageMemory_{VK_NULL_HANDLE};
   VkImageView uiTextureImageView_{VK_NULL_HANDLE};
   VkSampler uiTextureSampler_{VK_NULL_HANDLE};
   std::unordered_set<std::string> unresolvedTextureKeysLogged_;
+  std::unordered_set<std::string> uiVectorTextTransientKeys_;
+
+  struct UiSdfPushConstants {
+    volt::math::Mat4f uiTransform{volt::math::Mat4f::identity()};
+    float pxRange{0.0F};
+    float edge{0.5F};
+    float aaStrength{0.35F};
+    float msdfMode{0.0F};
+    float msdfConfidenceLow{0.01F};
+    float msdfConfidenceHigh{0.07F};
+    float subpixelBlendStrength{0.85F};
+    float smallTextSharpenStrength{0.28F};
+  };
+
+  struct UiVectorTextPushConstants {
+    std::uint32_t curveCount{0};
+    std::uint32_t segmentCount{0};
+    std::uint32_t imageWidth{0};
+    std::uint32_t imageHeight{0};
+    std::uint32_t tilesWide{0};
+    std::uint32_t tilesHigh{0};
+    float flatnessThresholdPx{0.25F};
+    float pad0{0.0F};
+    volt::ui::Color color{};
+  };
 
   VkCommandPool scaffoldCommandPool_{VK_NULL_HANDLE};
   std::vector<VkCommandBuffer> scaffoldCommandBuffers_;
-  static constexpr std::uint32_t kMaxFramesInFlight = 2;
   std::array<FrameSync, kMaxFramesInFlight> frameSync_{};
   std::uint32_t currentFrameSlot_{0};
   std::uint32_t acquiredImageIndex_{0};
@@ -201,14 +305,21 @@ class VulkanRenderer {
   UiMeshProvider uiMeshProvider_{};
   VkBuffer uiVertexBuffer_{VK_NULL_HANDLE};
   VkDeviceMemory uiVertexBufferMemory_{VK_NULL_HANDLE};
+  void* uiVertexBufferMapped_{nullptr};
   VkBuffer uiIndexBuffer_{VK_NULL_HANDLE};
   VkDeviceMemory uiIndexBufferMemory_{VK_NULL_HANDLE};
+  void* uiIndexBufferMapped_{nullptr};
   std::size_t uiVertexBufferCapacityBytes_{0};
   std::size_t uiIndexBufferCapacityBytes_{0};
   volt::event::EventDispatcher* eventDispatcher_{nullptr};
   std::uint64_t resizeListenerId_{0};
   bool resizeEventPending_{false};
   std::chrono::steady_clock::time_point lastResizeEventAt_{};
+  std::chrono::steady_clock::time_point lastFrameStallLogAt_{};
+  VectorTextGpuTimings latestVectorTextGpuTimings_{};
+  FrameCpuTimings latestFrameCpuTimings_{};
+  
+  std::unique_ptr<VectorTextWorker> vectorTextWorker_{};
 };
 
-}  // namespace volt::render
+}  // namespace volt::render::details

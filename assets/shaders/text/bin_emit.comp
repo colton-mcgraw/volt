@@ -1,0 +1,80 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+struct LineSegment {
+  vec2 p0;
+  vec2 p1;
+  uint path_id;
+  uint curve_index;
+};
+
+layout(set = 0, binding = 3, std430) readonly buffer SegmentBuffer {
+  LineSegment segments[];
+};
+
+layout(set = 0, binding = 7, std430) buffer TileFillPtrBuffer {
+  uint tileFillPtr[];
+};
+
+layout(set = 0, binding = 8, std430) buffer TileSegmentListBuffer {
+  uint tileSegmentList[];
+};
+
+layout(push_constant) uniform PushConstants {
+  uint curveCount;
+  uint segmentCount;
+  uint imageWidth;
+  uint imageHeight;
+  uint tilesWide;
+  uint tilesHigh;
+  float flatnessThresholdPx;
+  float pad0;
+  vec4 color;
+} pc;
+
+const float kTileSize = 16.0;
+
+int tileCoordX(float x) {
+  return clamp(int(floor(x / kTileSize)), 0, int(pc.tilesWide) - 1);
+}
+
+int tileCoordY(float y) {
+  return clamp(int(floor(y / kTileSize)), 0, int(pc.tilesHigh) - 1);
+}
+
+uint tileId(int x, int y) {
+  return uint(y) * pc.tilesWide + uint(x);
+}
+
+void main() {
+  uint segmentIndex = gl_GlobalInvocationID.x;
+  if (segmentIndex >= pc.segmentCount) {
+    return;
+  }
+
+  LineSegment segment = segments[segmentIndex];
+  vec2 p0 = segment.p0;
+  vec2 p1 = segment.p1;
+  vec2 delta = p1 - p0;
+  float maxComponent = max(abs(delta.x), abs(delta.y));
+  int steps = clamp(int(ceil(maxComponent / kTileSize)) + 1, 1, 256);
+
+  int previousTileX = -1;
+  int previousTileY = -1;
+  for (int step = 0; step <= steps; ++step) {
+    float t = steps > 0 ? float(step) / float(steps) : 0.0;
+    vec2 point = mix(p0, p1, t);
+    int tileX = tileCoordX(point.x);
+    int tileY = tileCoordY(point.y);
+    if (tileX == previousTileX && tileY == previousTileY) {
+      continue;
+    }
+
+    uint tid = tileId(tileX, tileY);
+    uint slot = atomicAdd(tileFillPtr[tid], 1u);
+    tileSegmentList[slot] = segmentIndex;
+    previousTileX = tileX;
+    previousTileY = tileY;
+  }
+}

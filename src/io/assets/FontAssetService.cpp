@@ -21,6 +21,18 @@ bool FontAssetService::getDefaultFontPackedQuad(int glyphIndex,
   return ::volt::io::defaultFontPackedQuad(glyphIndex, x, y, outQuad);
 }
 
+float FontAssetService::getDefaultFontKerningAdvance(int leftGlyphIndex, int rightGlyphIndex) {
+  return ::volt::io::defaultFontKerningAdvance(leftGlyphIndex, rightGlyphIndex);
+}
+
+bool FontAssetService::getDefaultFontVectorGlyph(int glyphIndex, FontVectorGlyph& outGlyph) {
+  return ::volt::io::defaultFontVectorGlyph(glyphIndex, outGlyph);
+}
+
+const std::vector<FontVectorCurve>& FontAssetService::getDefaultFontVectorCurves() {
+  return ::volt::io::defaultFontVectorCurves();
+}
+
 const std::string& FontAssetService::getDefaultFontTextureKey() {
   return ::volt::io::defaultFontTextureKey();
 }

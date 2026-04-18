@@ -45,7 +45,6 @@ Project domain: [volteda.net](https://volteda.net)
 ## Dependency Strategy
 
 - Required:
-  - `glfw3`
   - `Vulkan`
   - `spdlog`
 

@@ -40,6 +40,9 @@ void setFeatureEnabled(Feature feature, bool enabled);
 [[nodiscard]] bool isCategoryEnabled(Category category);
 void setCategoryEnabled(Category category, bool enabled);
 
+[[nodiscard]] bool shouldLog(Category category, LogLevel level);
+[[nodiscard]] bool shouldLog(LogLevel level);
+
 [[nodiscard]] std::string_view categoryName(Category category);
 [[nodiscard]] std::string_view configuredLevelName();
 [[nodiscard]] std::string enabledCategoriesSummary();
@@ -62,25 +65,41 @@ std::string buildMessage(Args&&... args) {
 
 #if defined(VOLT_ENABLE_LOGGING) && VOLT_ENABLE_LOGGING
 #define VOLT_LOG_INFO_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kInfo,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kInfo)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kInfo,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 #define VOLT_LOG_WARN_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kWarn,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kWarn)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kWarn,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 #define VOLT_LOG_ERROR_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kError,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kError)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kError,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 #define VOLT_LOG_CRITICAL_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kCritical,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kCritical)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kCritical,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 
 #define VOLT_LOG_INFO(...) \
   VOLT_LOG_INFO_CAT(::volt::core::logging::Category::kCore, __VA_ARGS__)
@@ -103,15 +122,23 @@ std::string buildMessage(Args&&... args) {
 
 #if defined(VOLT_ENABLE_DEBUG_LOGGING) && VOLT_ENABLE_DEBUG_LOGGING
 #define VOLT_LOG_TRACE_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kTrace,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kTrace)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kTrace,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 #define VOLT_LOG_DEBUG_CAT(category, ...) \
-  ::volt::core::logging::log(\
-      category,\
-      ::volt::core::logging::LogLevel::kDebug,\
-      ::volt::core::logging::detail::buildMessage(__VA_ARGS__))
+  do { \
+    if (::volt::core::logging::shouldLog(category, ::volt::core::logging::LogLevel::kDebug)) { \
+      ::volt::core::logging::log(\
+          category,\
+          ::volt::core::logging::LogLevel::kDebug,\
+          ::volt::core::logging::detail::buildMessage(__VA_ARGS__)); \
+    } \
+  } while (0)
 
 #define VOLT_LOG_TRACE(...) \
   VOLT_LOG_TRACE_CAT(::volt::core::logging::Category::kCore, __VA_ARGS__)

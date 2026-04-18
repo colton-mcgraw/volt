@@ -1,0 +1,76 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8) in;
+
+struct LineSegment {
+  vec2 p0;
+  vec2 p1;
+  uint path_id;
+  uint curve_index;
+};
+
+layout(set = 0, binding = 3, std430) readonly buffer SegmentBuffer {
+  LineSegment segments[];
+};
+
+layout(set = 0, binding = 10, rgba8) uniform writeonly image2D outputImage;
+
+layout(push_constant) uniform PushConstants {
+  uint curveCount;
+  uint segmentCount;
+  uint imageWidth;
+  uint imageHeight;
+  uint tilesWide;
+  uint tilesHigh;
+  float flatnessThresholdPx;
+  float pad0;
+  vec4 color;
+} pc;
+
+int windingContribution(LineSegment segment, vec2 samplePoint) {
+  vec2 a = segment.p0;
+  vec2 b = segment.p1;
+  bool crosses = ((a.y <= samplePoint.y) && (b.y > samplePoint.y)) ||
+                 ((a.y > samplePoint.y) && (b.y <= samplePoint.y));
+  if (!crosses) {
+    return 0;
+  }
+
+  float yDelta = b.y - a.y;
+  if (abs(yDelta) < 1e-6) {
+    return 0;
+  }
+
+  float xAtY = a.x + (samplePoint.y - a.y) * (b.x - a.x) / yDelta;
+  if (xAtY > samplePoint.x) {
+    return 0;
+  }
+
+  return b.y > a.y ? 1 : -1;
+}
+
+float sampleCoverage(vec2 samplePoint) {
+  int winding = 0;
+  for (uint i = 0u; i < pc.segmentCount; ++i) {
+    winding += windingContribution(segments[i], samplePoint);
+  }
+  return winding != 0 ? 1.0 : 0.0;
+}
+
+void main() {
+  uvec2 pixel = gl_GlobalInvocationID.xy;
+  if (pixel.x >= pc.imageWidth || pixel.y >= pc.imageHeight) {
+    return;
+  }
+
+  vec2 pixelOrigin = vec2(pixel);
+  float coverage = 0.0;
+  coverage += sampleCoverage(pixelOrigin + vec2(0.25, 0.25));
+  coverage += sampleCoverage(pixelOrigin + vec2(0.75, 0.25));
+  coverage += sampleCoverage(pixelOrigin + vec2(0.25, 0.75));
+  coverage += sampleCoverage(pixelOrigin + vec2(0.75, 0.75));
+  coverage *= 0.25;
+
+  vec4 outColor = vec4(pc.color.rgb * (pc.color.a * coverage), pc.color.a * coverage);
+  imageStore(outputImage, ivec2(pixel), outColor);
+}

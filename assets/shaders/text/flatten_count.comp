@@ -1,0 +1,118 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+struct CurveInput {
+  vec2 p0;
+  vec2 p1;
+  vec2 p2;
+  vec2 p3;
+  uint path_id;
+  uint is_cubic;
+};
+
+layout(set = 0, binding = 0, std430) readonly buffer CurveBuffer {
+  CurveInput curves[];
+};
+
+layout(set = 0, binding = 1, std430) buffer CurveCountBuffer {
+  uint curveCounts[];
+};
+
+layout(push_constant) uniform PushConstants {
+  uint curveCount;
+  uint segmentCount;
+  uint imageWidth;
+  uint imageHeight;
+  uint tilesWide;
+  uint tilesHigh;
+  float flatnessThresholdPx;
+  float pad0;
+  vec4 color;
+} pc;
+
+struct Cubic {
+  vec2 p0;
+  vec2 p1;
+  vec2 p2;
+  vec2 p3;
+};
+
+struct SplitResult {
+  Cubic left;
+  Cubic right;
+};
+
+SplitResult splitCubic(Cubic c) {
+  vec2 m01 = (c.p0 + c.p1) * 0.5;
+  vec2 m12 = (c.p1 + c.p2) * 0.5;
+  vec2 m23 = (c.p2 + c.p3) * 0.5;
+  vec2 m012 = (m01 + m12) * 0.5;
+  vec2 m123 = (m12 + m23) * 0.5;
+  vec2 mid = (m012 + m123) * 0.5;
+
+  SplitResult result;
+  result.left = Cubic(c.p0, m01, m012, mid);
+  result.right = Cubic(mid, m123, m23, c.p3);
+  return result;
+}
+
+Cubic quadraticToCubic(vec2 p0, vec2 p1, vec2 p2) {
+  vec2 c1 = p0 + (2.0 / 3.0) * (p1 - p0);
+  vec2 c2 = p2 + (2.0 / 3.0) * (p1 - p2);
+  return Cubic(p0, c1, c2, p2);
+}
+
+bool isFlat(Cubic c, float thresholdSq) {
+  vec2 chord = c.p3 - c.p0;
+  float chordLenSq = dot(chord, chord);
+  if (chordLenSq < 1e-8) {
+    return dot(c.p1 - c.p0, c.p1 - c.p0) < thresholdSq &&
+           dot(c.p2 - c.p0, c.p2 - c.p0) < thresholdSq;
+  }
+
+  vec2 perp = vec2(-chord.y, chord.x);
+  float cross1 = abs(dot(c.p1 - c.p0, perp));
+  float cross2 = abs(dot(c.p2 - c.p0, perp));
+  float maxCrossSq = max(cross1, cross2);
+  maxCrossSq *= maxCrossSq;
+  return maxCrossSq < (16.0 / 9.0) * thresholdSq * chordLenSq;
+}
+
+#define MAX_DEPTH 20
+
+uint countSegments(Cubic root, float thresholdPx) {
+  float thresholdSq = thresholdPx * thresholdPx;
+  Cubic stack[MAX_DEPTH];
+  int top = 0;
+  uint count = 0u;
+  stack[0] = root;
+
+  while (top >= 0) {
+    Cubic c = stack[top];
+    if (isFlat(c, thresholdSq) || top >= MAX_DEPTH - 1) {
+      ++count;
+      --top;
+    } else {
+      SplitResult split = splitCubic(c);
+      stack[top] = split.right;
+      stack[top + 1] = split.left;
+      ++top;
+    }
+  }
+
+  return count;
+}
+
+void main() {
+  uint curveIndex = gl_GlobalInvocationID.x;
+  if (curveIndex >= pc.curveCount) {
+    return;
+  }
+
+  CurveInput inputCurve = curves[curveIndex];
+  Cubic cubicCurve = inputCurve.is_cubic != 0u
+      ? Cubic(inputCurve.p0, inputCurve.p1, inputCurve.p2, inputCurve.p3)
+      : quadraticToCubic(inputCurve.p0, inputCurve.p1, inputCurve.p2);
+  curveCounts[curveIndex] = countSegments(cubicCurve, pc.flatnessThresholdPx);
+}

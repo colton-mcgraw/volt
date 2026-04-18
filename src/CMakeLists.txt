@@ -63,18 +63,30 @@ volt_set_warnings(volt_event)
 
 add_library(volt_platform
   platform/Window.cpp
+  platform/WindowBackendFactory.cpp
+  platform/details/Win32WindowBackend.cpp
+  platform/details/LinuxWindowBackend.cpp
+  platform/details/MacOSWindowBackend.cpp
 )
 
 target_include_directories(volt_platform PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_platform PUBLIC glfw volt_event volt_core)
+target_link_libraries(volt_platform PUBLIC volt_event volt_core)
+if(WIN32)
+  target_link_libraries(volt_platform PUBLIC user32 dwmapi shcore)
+endif()
 volt_set_warnings(volt_platform)
 
 add_library(volt_render
-  render/VulkanRenderer.cpp
+  render/RendererFactory.cpp
+  render/details/VulkanRenderer.cpp
+  render/details/VectorTextWorker.cpp
 )
 
 target_include_directories(volt_render PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_render PUBLIC Vulkan::Vulkan glfw volt_event volt_core volt_math volt_io)
+target_link_libraries(volt_render PUBLIC Vulkan::Vulkan volt_event volt_core volt_math volt_io)
+if(WIN32)
+  target_compile_definitions(volt_render PRIVATE VK_USE_PLATFORM_WIN32_KHR NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
 
 volt_set_warnings(volt_render)
 
@@ -94,6 +106,7 @@ add_library(volt_io
   io/assets/ImageAssetService.cpp
   io/assets/ModelAssetService.cpp
   io/assets/FontAssetService.cpp
+  io/assets/SfntFontAtlas.cpp
   io/compression/CanonicalHuffman.cpp
   io/compression/DeflateHuffman.cpp
   io/compression/ZlibEnvelope.cpp
@@ -124,11 +137,17 @@ endif()
 volt_set_warnings(volt_io)
 
 add_executable(volt_app
+  app/AppUi.cpp
   app/main.cpp
 )
 
 target_link_libraries(volt_app PRIVATE volt_core volt_math volt_physics volt_event volt_platform volt_render volt_ui volt_io)
 volt_set_warnings(volt_app)
+
+set(VOLT_DEFAULT_EMBEDDED_FONT "${PROJECT_SOURCE_DIR}/assets/fonts/DefaultFont.ttf")
+if(NOT EXISTS "${VOLT_DEFAULT_EMBEDDED_FONT}")
+  message(FATAL_ERROR "Required embedded default font is missing: ${VOLT_DEFAULT_EMBEDDED_FONT}")
+endif()
 
 find_program(VOLT_GLSLC_EXECUTABLE
   NAMES glslc
@@ -137,8 +156,20 @@ find_program(VOLT_GLSLC_EXECUTABLE
 if(VOLT_GLSLC_EXECUTABLE)
   add_custom_command(TARGET volt_app POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/shaders
+    COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/shaders/text
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/ui.vert -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/ui.vert.spv
     COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/scaffold.vert -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/scaffold.vert.spv
     COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/scaffold.frag -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/scaffold.frag.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/msdfgen.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/msdfgen.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text.frag -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text.frag.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/ui_text_sdf.frag -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/ui_text_sdf.frag.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/flatten_count.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/flatten_count.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/flatten_emit.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/flatten_emit.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/bin_count.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/bin_count.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/bin_emit.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/bin_emit.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/fine.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/fine.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/prefix_scan.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/prefix_scan.comp.spv
+    COMMAND ${VOLT_GLSLC_EXECUTABLE} ${PROJECT_SOURCE_DIR}/assets/shaders/text/exclusive_scan.comp -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/text/exclusive_scan.comp.spv
     COMMENT "Compiling Vulkan shaders for runtime")
 else()
   message(WARNING "glslc not found; Vulkan shader binaries will not be generated for volt_app runtime")

@@ -82,7 +82,7 @@ if ([string]::IsNullOrWhiteSpace($visualStudioGenerator)) {
 
 Write-Info "Detected Visual Studio generator: $visualStudioGenerator"
 
-Invoke-Checked -Command "cmake" -CommandArgs @("--preset", $configurePreset, "-B", $BuildDir, "-G", $visualStudioGenerator, "--fresh")
+Invoke-Checked -Command "cmake" -CommandArgs @("--preset", $configurePreset, "-B", $BuildDir, "--fresh")
 
 if (-not $SkipBuild) {
   Invoke-Checked -Command "cmake" -CommandArgs @("--build", $BuildDir, "--config", $Configuration)

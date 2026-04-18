@@ -18,10 +18,6 @@
       "name": "windows-msvc",
       "inherits": "base",
       "binaryDir": "${sourceDir}/build/windows-msvc-vs",
-      "architecture": {
-        "value": "x64",
-        "strategy": "set"
-      },
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -67,10 +63,8 @@
       "configurePreset": "windows-msvc",
       "configuration": "Debug",
       "environment": {
-        "VOLT_LOG_LEVEL": "trace",
-        "VOLT_LOG_CATEGORIES": "all",
-        "VOLT_EVENT_TRACE": "1",
-        "VOLT_TICK_TRACE": "1"
+        "VOLT_LOG_LEVEL": "warn",
+        "VOLT_LOG_CATEGORIES": ""
       }
     },
     {
@@ -78,10 +72,8 @@
       "configurePreset": "windows-msvc-vcpkg",
       "configuration": "Debug",
       "environment": {
-        "VOLT_LOG_LEVEL": "trace",
-        "VOLT_LOG_CATEGORIES": "all",
-        "VOLT_EVENT_TRACE": "1",
-        "VOLT_TICK_TRACE": "1"
+        "VOLT_LOG_LEVEL": "warn",
+        "VOLT_LOG_CATEGORIES": ""
       }
     },
     {

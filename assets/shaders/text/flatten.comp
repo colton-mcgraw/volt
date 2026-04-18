@@ -1,0 +1,90 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) readonly buffer CurveBuffer {
+    CurveInput curves[];
+};
+
+layout(set = 0, binding = 1, std430) readonly buffer OffsetBuffer {
+    uint segment_offsets[];  // result of prefix sum
+};
+
+layout(set = 0, binding = 2, std430) readonly buffer Params {
+    uint curve_count;
+    float flatness_threshold;
+};
+
+layout(set = 0, binding = 3, std430) writeonly buffer SegmentBuffer {
+    LineSegment segments[];
+};
+
+layout(set = 0, binding = 4, std430) writeonly buffer MetaBuffer {
+    CurveMeta meta[];
+};
+
+// --- Paste struct/split/flatness/quadratic_to_cubic definitions here ---
+// (same as shader 1 — in practice use a #include or push them into
+//  a common header that gets prepended at pipeline compile time)
+
+#define MAX_DEPTH 20
+
+void emit_segments(Cubic root, float threshold,
+                   uint path_id, uint curve_idx,
+                   uint base_offset)
+{
+    float threshold_sq = threshold * threshold;
+
+    Cubic stack[MAX_DEPTH];
+    int top = 0;
+    stack[0] = root;
+    uint emit_idx = 0u;
+
+    while (top >= 0) {
+        Cubic c = stack[top];
+
+        if (is_flat(c, threshold_sq) || top >= MAX_DEPTH - 1) {
+            LineSegment seg;
+            seg.p0          = c.p0;
+            seg.p1          = c.p3;
+            seg.path_id     = path_id;
+            seg.curve_index = curve_idx;
+
+            segments[base_offset + emit_idx] = seg;
+            emit_idx++;
+            top--;
+        } else {
+            SplitResult s = split_cubic(c);
+            stack[top]     = s.right;
+            stack[top + 1] = s.left;
+            top++;
+        }
+    }
+}
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= curve_count) return;
+
+    CurveInput ci = curves[idx];
+
+    Cubic c;
+    if (ci.is_cubic == 1u) {
+        c = Cubic(ci.p0, ci.p1, ci.p2, ci.p3);
+    } else {
+        c = quadratic_to_cubic(ci.p0, ci.p1, ci.p2);
+    }
+
+    uint base  = segment_offsets[idx];
+    uint count = segment_offsets[idx + 1] - base;
+    // Note: for the last curve, store total in segment_offsets[curve_count]
+    // or carry it separately — see note below
+
+    emit_segments(c, flatness_threshold, ci.path_id, idx, base);
+
+    // Write metadata
+    CurveMeta m;
+    m.segment_offset = base;
+    m.segment_count  = count;
+    meta[idx] = m;
+}

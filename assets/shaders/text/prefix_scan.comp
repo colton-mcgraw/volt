@@ -1,0 +1,58 @@
+#version 450
+
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+
+layout(binding = 0, std430) readonly buffer InputCounts {
+  uint counts[];
+};
+
+layout(binding = 1, std430) writeonly buffer OutputOffsets {
+  uint offsets[];
+};
+
+layout(binding = 2, std430) buffer OutputTotal {
+  uint totalOut;
+};
+
+shared uint sharedCounts[256];
+shared uint sharedOffsets[256];
+
+void main() {
+  uint gid = gl_GlobalInvocationID.x;
+  uint lid = gl_LocalInvocationID.x;
+
+  uint count = (gid < counts.length() ? counts[gid] : 0u);
+  sharedCounts[lid] = count;
+  barrier();
+
+  // Blelloch scan within workgroup
+  uint offset = 0u;
+  
+  // Upsweep phase: reduce step
+  for (uint d = 1u; d < 256u; d *= 2u) {
+    if (lid >= d) {
+      offset = sharedCounts[lid - d];
+    }
+    barrier();
+    if (lid >= d) {
+      sharedCounts[lid] += offset;
+    }
+    barrier();
+  }
+
+  // At this point, each element contains the sum of all elements up to and including itself
+  // Now compute exclusive offsets: offsets[i] = inclusive_sum[i-1]
+  uint exclusiveOffset = (lid > 0u ? sharedCounts[lid - 1u] : 0u);
+  sharedOffsets[lid] = exclusiveOffset;
+  barrier();
+
+  if (gid < counts.length()) {
+    offsets[gid] = sharedOffsets[lid];
+  }
+
+  // Last thread writes the total
+  barrier();
+  if (lid == 255u) {
+    totalOut = sharedCounts[255u];
+  }
+}

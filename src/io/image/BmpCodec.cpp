@@ -10,6 +10,8 @@ constexpr std::size_t kBmpFileHeaderBytes = 14U;
 constexpr std::size_t kBmpInfoHeaderBytes = 40U;
 constexpr std::size_t kBmpPixelDataOffset = kBmpFileHeaderBytes + kBmpInfoHeaderBytes;
 constexpr std::size_t kMaxDecodedImageBytes = 256U * 1024U * 1024U;
+constexpr std::uint32_t kBmpCompressionRgb = 0U;
+constexpr std::uint32_t kBmpCompressionBitfields = 3U;
 
 void writeU16LeAt(std::vector<std::uint8_t>& out, std::size_t offset, std::uint16_t value) {
   out[offset + 0U] = static_cast<std::uint8_t>(value & 0xFFU);
@@ -21,6 +23,60 @@ void writeU32LeAt(std::vector<std::uint8_t>& out, std::size_t offset, std::uint3
   out[offset + 1U] = static_cast<std::uint8_t>((value >> 8U) & 0xFFU);
   out[offset + 2U] = static_cast<std::uint8_t>((value >> 16U) & 0xFFU);
   out[offset + 3U] = static_cast<std::uint8_t>((value >> 24U) & 0xFFU);
+}
+
+std::uint8_t decodeMaskedChannel(std::uint32_t packedPixel, std::uint32_t mask) {
+  if (mask == 0U) {
+    return 255U;
+  }
+
+  std::uint32_t shift = 0U;
+  while (((mask >> shift) & 1U) == 0U && shift < 31U) {
+    ++shift;
+  }
+
+  const std::uint32_t maskBits = mask >> shift;
+  if (maskBits == 0U) {
+    return 0U;
+  }
+
+  const std::uint32_t value = (packedPixel & mask) >> shift;
+  const std::uint64_t scaled = static_cast<std::uint64_t>(value) * 255U + (maskBits / 2U);
+  return static_cast<std::uint8_t>(scaled / maskBits);
+}
+
+bool readBitfieldMasks(const std::vector<std::uint8_t>& bytes,
+                       std::uint32_t dibHeaderSize,
+                       std::uint32_t& redMask,
+                       std::uint32_t& greenMask,
+                       std::uint32_t& blueMask,
+                       std::uint32_t& alphaMask) {
+  redMask = 0U;
+  greenMask = 0U;
+  blueMask = 0U;
+  alphaMask = 0U;
+
+  if (dibHeaderSize >= 56U) {
+    const std::size_t maskOffset = kBmpFileHeaderBytes + 40U;
+    return volt::io::codec::readU32Le(bytes, maskOffset + 0U, redMask) &&
+           volt::io::codec::readU32Le(bytes, maskOffset + 4U, greenMask) &&
+           volt::io::codec::readU32Le(bytes, maskOffset + 8U, blueMask) &&
+           volt::io::codec::readU32Le(bytes, maskOffset + 12U, alphaMask);
+  }
+
+  if (dibHeaderSize < 40U) {
+    return false;
+  }
+
+  const std::size_t maskOffset = kBmpFileHeaderBytes + static_cast<std::size_t>(dibHeaderSize);
+  if (!volt::io::codec::readU32Le(bytes, maskOffset + 0U, redMask) ||
+      !volt::io::codec::readU32Le(bytes, maskOffset + 4U, greenMask) ||
+      !volt::io::codec::readU32Le(bytes, maskOffset + 8U, blueMask)) {
+    return false;
+  }
+
+  volt::io::codec::readU32Le(bytes, maskOffset + 12U, alphaMask);
+  return true;
 }
 
 }  // namespace
@@ -57,8 +113,13 @@ bool decodeBmp(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
     return false;
   }
 
-  if (dibHeaderSize < 40U || planes != 1U || compression != 0U) {
+  if (dibHeaderSize < 40U || planes != 1U) {
     error = "bmp header format unsupported";
+    return false;
+  }
+
+  if (compression != kBmpCompressionRgb && compression != kBmpCompressionBitfields) {
+    error = "bmp compression unsupported";
     return false;
   }
 
@@ -74,6 +135,34 @@ bool decodeBmp(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
 
   if (bitsPerPixel != 24U && bitsPerPixel != 32U) {
     error = "bmp bit depth unsupported";
+    return false;
+  }
+
+  if (compression == kBmpCompressionBitfields && bitsPerPixel != 32U) {
+    error = "bmp bitfields bit depth unsupported";
+    return false;
+  }
+
+  if (dibHeaderSize > std::numeric_limits<std::size_t>::max() - kBmpFileHeaderBytes) {
+    error = "bmp header size overflow";
+    return false;
+  }
+
+  const std::size_t minimumPixelDataOffset =
+      kBmpFileHeaderBytes + static_cast<std::size_t>(dibHeaderSize) +
+      ((compression == kBmpCompressionBitfields && dibHeaderSize == kBmpInfoHeaderBytes) ? 12U : 0U);
+  if (pixelDataOffset < minimumPixelDataOffset) {
+    error = "bmp pixel data offset invalid";
+    return false;
+  }
+
+  std::uint32_t redMask = 0x00FF0000U;
+  std::uint32_t greenMask = 0x0000FF00U;
+  std::uint32_t blueMask = 0x000000FFU;
+  std::uint32_t alphaMask = 0xFF000000U;
+  if (compression == kBmpCompressionBitfields &&
+      !readBitfieldMasks(bytes, dibHeaderSize, redMask, greenMask, blueMask, alphaMask)) {
+    error = "bmp bitfield masks missing";
     return false;
   }
 
@@ -128,6 +217,31 @@ bool decodeBmp(const std::vector<std::uint8_t>& bytes, RawImage& outImage, std::
 
   const std::uint8_t* bytesData = bytes.data();
   std::uint8_t* outData = outImage.rgba.data();
+
+  if (bitsPerPixel == 32U && compression == kBmpCompressionBitfields) {
+    for (std::uint32_t y = 0U; y < absHeight; ++y) {
+      const std::uint32_t srcY = topDown ? y : (absHeight - 1U - y);
+      const std::uint8_t* src = bytesData + static_cast<std::size_t>(pixelDataOffset) +
+                                static_cast<std::size_t>(srcY) * rowStride;
+      std::uint8_t* dst = outData + static_cast<std::size_t>(y) * static_cast<std::size_t>(absWidth) * 4U;
+
+      for (std::uint32_t x = 0U; x < absWidth; ++x) {
+        const std::uint32_t packedPixel =
+            static_cast<std::uint32_t>(src[0U]) |
+            (static_cast<std::uint32_t>(src[1U]) << 8U) |
+            (static_cast<std::uint32_t>(src[2U]) << 16U) |
+            (static_cast<std::uint32_t>(src[3U]) << 24U);
+        dst[0U] = decodeMaskedChannel(packedPixel, redMask);
+        dst[1U] = decodeMaskedChannel(packedPixel, greenMask);
+        dst[2U] = decodeMaskedChannel(packedPixel, blueMask);
+        dst[3U] = decodeMaskedChannel(packedPixel, alphaMask);
+        src += 4U;
+        dst += 4U;
+      }
+    }
+
+    return true;
+  }
 
   if (bitsPerPixel == 32U) {
     for (std::uint32_t y = 0U; y < absHeight; ++y) {

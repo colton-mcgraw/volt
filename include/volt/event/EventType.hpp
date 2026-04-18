@@ -9,6 +9,7 @@ enum class EventType {
   kWindowResized,
   kWindowMinimized,
   kKeyInput,
+  kTextInput,
   kMouseMoved,
   kMouseButton,
   kMouseScrolled,

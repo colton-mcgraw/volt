@@ -1,11 +1,13 @@
 #include "volt/io/image/ImageDecoder.hpp"
 #include "volt/io/image/ImageEncoder.hpp"
 
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -65,6 +67,47 @@ volt::io::RawImage makeLargeImage() {
   return image;
 }
 
+std::optional<std::filesystem::path> findWorkspaceRootWithAssets() {
+  std::error_code ec;
+  std::filesystem::path cursor = std::filesystem::current_path(ec);
+  if (ec) {
+    return std::nullopt;
+  }
+
+  for (int depth = 0; depth < 12; ++depth) {
+    const std::filesystem::path manifestPath = cursor / "assets" / "manifest.json";
+    const std::filesystem::path imagesPath = cursor / "assets" / "images";
+    if (std::filesystem::exists(manifestPath, ec) && !ec &&
+        std::filesystem::exists(imagesPath, ec) && !ec) {
+      return cursor;
+    }
+
+    if (!cursor.has_parent_path()) {
+      break;
+    }
+    const std::filesystem::path parent = cursor.parent_path();
+    if (parent == cursor) {
+      break;
+    }
+    cursor = parent;
+  }
+
+  return std::nullopt;
+}
+
+std::string assetRoundTripTag(const std::filesystem::path& path) {
+  std::string tag = path.stem().string();
+  std::string extension = path.extension().string();
+  if (!extension.empty() && extension.front() == '.') {
+    extension.erase(extension.begin());
+  }
+  if (!extension.empty()) {
+    tag += "-";
+    tag += extension;
+  }
+  return tag;
+}
+
 bool readFileBytes(const std::filesystem::path& path, std::vector<std::uint8_t>& out) {
   std::ifstream in(path, std::ios::binary);
   if (!in.is_open()) {
@@ -94,6 +137,17 @@ bool writeFileBytes(const std::filesystem::path& path, const std::vector<std::ui
 
   out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
   return out.good();
+}
+
+void writeU32LeAt(std::vector<std::uint8_t>& bytes, std::size_t offset, std::uint32_t value) {
+  if (offset + 4U > bytes.size()) {
+    return;
+  }
+
+  bytes[offset + 0U] = static_cast<std::uint8_t>(value & 0xFFU);
+  bytes[offset + 1U] = static_cast<std::uint8_t>((value >> 8U) & 0xFFU);
+  bytes[offset + 2U] = static_cast<std::uint8_t>((value >> 16U) & 0xFFU);
+  bytes[offset + 3U] = static_cast<std::uint8_t>((value >> 24U) & 0xFFU);
 }
 
 bool containsJpegMarker(const std::vector<std::uint8_t>& bytes, std::uint8_t marker) {
@@ -307,6 +361,76 @@ int main() {
   }
 
   {
+    const std::filesystem::path goodBmpPath = outputDir / "offset-good.bmp";
+    const bool encoded = volt::io::encodeImageFile(goodBmpPath, source, volt::io::ImageEncodeFormat::kBmp);
+    ok = expect(encoded, "BMP offset fixture encode should succeed") && ok;
+
+    std::vector<std::uint8_t> bmpBytes;
+    const bool readOk = encoded && readFileBytes(goodBmpPath, bmpBytes);
+    ok = expect(readOk, "BMP offset fixture should be readable") && ok;
+
+    if (readOk && bmpBytes.size() >= 54U) {
+      writeU32LeAt(bmpBytes, 10U, 40U);
+      const std::filesystem::path badBmpPath = outputDir / "offset-bad.bmp";
+      const bool wrote = writeFileBytes(badBmpPath, bmpBytes);
+      ok = expect(wrote, "offset-corrupt BMP fixture should be writable") && ok;
+
+      volt::io::RawImage decoded{};
+      const bool decodedOk = wrote && volt::io::decodeImageFile(badBmpPath, decoded);
+      ok = expect(!decodedOk, "BMP decode should fail on invalid pixel data offset") && ok;
+    } else {
+      ok = expect(false, "BMP offset fixture was unexpectedly short") && ok;
+    }
+  }
+
+  {
+    const std::filesystem::path goodBmpPath = outputDir / "bitfields-good.bmp";
+    const bool encoded = volt::io::encodeImageFile(goodBmpPath, source, volt::io::ImageEncodeFormat::kBmp);
+    ok = expect(encoded, "BMP bitfields fixture encode should succeed") && ok;
+
+    std::vector<std::uint8_t> bmpBytes;
+    const bool readOk = encoded && readFileBytes(goodBmpPath, bmpBytes);
+    ok = expect(readOk, "BMP bitfields fixture should be readable") && ok;
+
+    if (readOk && bmpBytes.size() >= 54U) {
+      writeU32LeAt(bmpBytes, 30U, 3U);
+      const std::filesystem::path badBmpPath = outputDir / "bitfields-bad.bmp";
+      const bool wrote = writeFileBytes(badBmpPath, bmpBytes);
+      ok = expect(wrote, "bitfields-corrupt BMP fixture should be writable") && ok;
+
+      volt::io::RawImage decoded{};
+      const bool decodedOk = wrote && volt::io::decodeImageFile(badBmpPath, decoded);
+      ok = expect(!decodedOk, "BMP decode should fail when bitfield masks are missing") && ok;
+    } else {
+      ok = expect(false, "BMP bitfields fixture was unexpectedly short") && ok;
+    }
+  }
+
+  {
+    const std::filesystem::path goodPngPath = outputDir / "trailing-good.png";
+    const bool encoded = volt::io::encodeImageFile(goodPngPath, source, volt::io::ImageEncodeFormat::kPng);
+    ok = expect(encoded, "PNG trailing fixture encode should succeed") && ok;
+
+    std::vector<std::uint8_t> pngBytes;
+    const bool readOk = encoded && readFileBytes(goodPngPath, pngBytes);
+    ok = expect(readOk, "PNG trailing fixture should be readable") && ok;
+
+    if (readOk && !pngBytes.empty()) {
+      pngBytes.push_back(0xABU);
+      pngBytes.push_back(0xCDU);
+      const std::filesystem::path badPngPath = outputDir / "trailing-bad.png";
+      const bool wrote = writeFileBytes(badPngPath, pngBytes);
+      ok = expect(wrote, "trailing-corrupt PNG fixture should be writable") && ok;
+
+      volt::io::RawImage decoded{};
+      const bool decodedOk = wrote && volt::io::decodeImageFile(badPngPath, decoded);
+      ok = expect(!decodedOk, "PNG decode should fail on trailing bytes after IEND") && ok;
+    } else {
+      ok = expect(false, "PNG trailing fixture was unexpectedly short") && ok;
+    }
+  }
+
+  {
     const std::filesystem::path jpgPath = outputDir / "roundtrip.jpg";
     const bool encoded = volt::io::encodeImageFile(jpgPath, source, volt::io::ImageEncodeFormat::kJpeg, 90);
     ok = expect(encoded, "JPEG encode should succeed") && ok;
@@ -351,6 +475,72 @@ int main() {
     const std::filesystem::path jpgPath = outputDir / "oversized.jpg";
     const bool encoded = volt::io::encodeImageFile(jpgPath, oversized, volt::io::ImageEncodeFormat::kJpeg, 90);
     ok = expect(!encoded, "JPEG encode should reject SOF0-oversized dimensions") && ok;
+  }
+
+  {
+    const auto workspaceRoot = findWorkspaceRootWithAssets();
+    ok = expect(workspaceRoot.has_value(), "locate workspace root with assets/images fixtures") && ok;
+
+    if (workspaceRoot.has_value()) {
+      const std::array<std::filesystem::path, 4> assetPaths = {
+          std::filesystem::path("assets") / "images" / "volt.png",
+          std::filesystem::path("assets") / "images" / "codec-render-test.png",
+          std::filesystem::path("assets") / "images" / "codec-render-test.jpg",
+          std::filesystem::path("assets") / "images" / "codec-render-test.bmp",
+      };
+
+      for (const auto& relativeAssetPath : assetPaths) {
+        const std::filesystem::path sourcePath = *workspaceRoot / relativeAssetPath;
+        const std::string assetLabel = relativeAssetPath.generic_string();
+
+        std::error_code existsEc;
+        const bool exists = std::filesystem::exists(sourcePath, existsEc) && !existsEc;
+        ok = expect(exists, "asset fixture should exist: " + assetLabel) && ok;
+        if (!exists) {
+          continue;
+        }
+
+        volt::io::RawImage decodedSource{};
+        const bool decodedSourceOk = volt::io::decodeImageFile(sourcePath, decodedSource);
+        ok = expect(decodedSourceOk, "asset decode should succeed: " + assetLabel) && ok;
+        if (!decodedSourceOk) {
+          continue;
+        }
+
+        ok = expect(decodedSource.width > 1U && decodedSource.height > 1U,
+                    "asset decode should not return placeholder-sized dimensions: " + assetLabel) &&
+             ok;
+
+        const std::size_t expectedBytes =
+            static_cast<std::size_t>(decodedSource.width) * static_cast<std::size_t>(decodedSource.height) * 4U;
+        ok = expect(decodedSource.rgba.size() == expectedBytes,
+                    "asset decode should produce tightly packed RGBA bytes: " + assetLabel) &&
+             ok;
+
+        const std::filesystem::path roundTripPath =
+            outputDir / ("asset-roundtrip-" + assetRoundTripTag(relativeAssetPath) + ".png");
+
+        const bool encodedRoundTrip =
+            volt::io::encodeImageFile(roundTripPath, decodedSource, volt::io::ImageEncodeFormat::kPng);
+        ok = expect(encodedRoundTrip, "asset roundtrip PNG encode should succeed: " + assetLabel) && ok;
+
+        volt::io::RawImage decodedRoundTrip{};
+        const bool decodedRoundTripOk = encodedRoundTrip &&
+                                        volt::io::decodeImageFile(roundTripPath, decodedRoundTrip);
+        ok = expect(decodedRoundTripOk, "asset roundtrip PNG decode should succeed: " + assetLabel) && ok;
+        if (!decodedRoundTripOk) {
+          continue;
+        }
+
+        ok = expect(decodedRoundTrip.width == decodedSource.width &&
+                        decodedRoundTrip.height == decodedSource.height,
+                    "asset roundtrip dimensions should match source decode: " + assetLabel) &&
+             ok;
+        ok = expect(decodedRoundTrip.rgba == decodedSource.rgba,
+                    "asset roundtrip RGBA should match source decode exactly: " + assetLabel) &&
+             ok;
+      }
+    }
   }
 
   if (!ok) {
