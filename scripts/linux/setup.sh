@@ -19,16 +19,19 @@ if ! command -v cmake >/dev/null 2>&1; then
 fi
 log "Found CMake"
 
-if command -v c++ >/dev/null 2>&1; then
-  log "Found C++ compiler: $(c++ --version | head -n 1)"
-elif command -v g++ >/dev/null 2>&1; then
-  log "Found C++ compiler: $(g++ --version | head -n 1)"
-elif command -v clang++ >/dev/null 2>&1; then
-  log "Found C++ compiler: $(clang++ --version | head -n 1)"
-else
-  printf '[setup] ERROR: No C++ compiler found (c++, g++, or clang++).\n' >&2
+if ! command -v clang++ >/dev/null 2>&1; then
+  printf '[setup] ERROR: clang++ is not installed or not on PATH.
+' >&2
   exit 1
 fi
+log "Found C++ compiler: $(clang++ --version | head -n 1)"
+
+if ! command -v ninja >/dev/null 2>&1; then
+  printf '[setup] ERROR: Ninja is not installed or not on PATH.
+' >&2
+  exit 1
+fi
+log "Found Ninja"
 
 if [[ -n "${VULKAN_SDK:-}" ]]; then
   log "VULKAN_SDK detected: ${VULKAN_SDK}"
@@ -66,5 +69,5 @@ elif [[ "${require_vcpkg}" -eq 1 ]]; then
   printf '[setup] ERROR: VCPKG_ROOT is required but no valid vcpkg toolchain path was found.\n' >&2
   exit 1
 else
-  log "vcpkg not detected. Will use non-vcpkg preset."
+  log "vcpkg not detected. Configuring without the vcpkg toolchain."
 fi

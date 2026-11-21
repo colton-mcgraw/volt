@@ -2,23 +2,38 @@ cmake_minimum_required(VERSION 3.25)
 
 project(
   Volt
-  VERSION 0.1.0
+  VERSION 0.3.0
   DESCRIPTION "Modern cross-platform Volt electronics design platform"
   LANGUAGES CXX
 )
 
-include(cmake/CompilerWarnings.cmake)
+# Clang is the only supported toolchain on every platform (clang++ or clang-cl,
+# including Apple Clang). Use the presets in CMakePresets.json to select it.
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang$")
+  message(FATAL_ERROR
+    "Volt requires Clang, but the selected compiler is "
+    "${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}).\n"
+    "Configure with a preset, e.g. `cmake --preset windows-clang`, "
+    "or pass -DCMAKE_CXX_COMPILER=clang++.")
+endif()
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Put every executable in one place per configuration so runtime assets staged
+# next to volt_app are found regardless of generator.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
+
+include(cmake/CompilerWarnings.cmake)
 include(CTest)
 
-find_package(Vulkan REQUIRED)
+# glslc is optional: without it the app still builds, but shaders are not compiled.
+find_package(Vulkan REQUIRED OPTIONAL_COMPONENTS glslc)
 
-add_subdirectory(src)
+add_subdirectory(volt/src)
 
 if(BUILD_TESTING)
-  add_subdirectory(tests)
+  add_subdirectory(volt/tests)
 endif()

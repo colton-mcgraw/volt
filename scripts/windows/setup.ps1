@@ -42,12 +42,15 @@ if (-not (Test-Command "cmake")) {
 }
 Write-Info "Found CMake"
 
-# We only require cl.exe for Visual Studio generator workflows.
-if (-not (Test-Command "cl")) {
-  Write-Info "MSVC compiler not currently on PATH. This can still work if CMake locates Visual Studio automatically."
-} else {
-  Write-Info "Found MSVC compiler"
+if (-not (Test-Command "clang++")) {
+  throw "clang++ (LLVM) is not installed or not available on PATH."
 }
+Write-Info "Found Clang"
+
+if (-not (Test-Command "ninja")) {
+  throw "Ninja is not installed or not available on PATH."
+}
+Write-Info "Found Ninja"
 
 if ($env:VULKAN_SDK) {
   Write-Info "VULKAN_SDK detected: $env:VULKAN_SDK"
@@ -61,5 +64,5 @@ if ($vcpkgRoot) {
 } elseif ($RequireVcpkg) {
   throw "VCPKG_ROOT is required but no valid vcpkg toolchain path was found."
 } else {
-  Write-Info "vcpkg not detected. Will use non-vcpkg preset."
+  Write-Info "vcpkg not detected. Configuring without the vcpkg toolchain."
 }

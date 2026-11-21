@@ -1,0 +1,54 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "clang-base",
+      "hidden": true,
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "windows-clang",
+      "displayName": "Windows (Clang)",
+      "inherits": "clang-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    },
+    {
+      "name": "linux-clang",
+      "displayName": "Linux (Clang)",
+      "inherits": "clang-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
+    },
+    {
+      "name": "macos-clang",
+      "displayName": "macOS (Clang)",
+      "inherits": "clang-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "windows-clang-debug", "configurePreset": "windows-clang", "configuration": "Debug" },
+    { "name": "windows-clang-release", "configurePreset": "windows-clang", "configuration": "Release" },
+    { "name": "linux-clang-debug", "configurePreset": "linux-clang", "configuration": "Debug" },
+    { "name": "linux-clang-release", "configurePreset": "linux-clang", "configuration": "Release" },
+    { "name": "macos-clang-debug", "configurePreset": "macos-clang", "configuration": "Debug" },
+    { "name": "macos-clang-release", "configurePreset": "macos-clang", "configuration": "Release" }
+  ],
+  "testPresets": [
+    {
+      "name": "test-base",
+      "hidden": true,
+      "configuration": "Debug",
+      "output": { "outputOnFailure": true }
+    },
+    { "name": "windows-clang", "inherits": "test-base", "configurePreset": "windows-clang" },
+    { "name": "linux-clang", "inherits": "test-base", "configurePreset": "linux-clang" },
+    { "name": "macos-clang", "inherits": "test-base", "configurePreset": "macos-clang" }
+  ]
+}

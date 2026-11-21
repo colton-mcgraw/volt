@@ -45,26 +45,36 @@ fi
 
 if [[ "${use_vcpkg}" -eq 1 ]]; then
   bash "${setup_script}" --require-vcpkg
+  if [[ -z "${VCPKG_ROOT:-}" ]]; then
+    for candidate in "${HOME}/vcpkg" "/opt/vcpkg"; do
+      if [[ -f "${candidate}/scripts/buildsystems/vcpkg.cmake" ]]; then
+        VCPKG_ROOT="${candidate}"
+        break
+      fi
+    done
+  fi
 else
   bash "${setup_script}"
 fi
 
+case "$(uname -s)" in
+  Darwin) configure_preset="macos-clang" ;;
+  *) configure_preset="linux-clang" ;;
+esac
+
+configure_args=()
 if [[ "${use_vcpkg}" -eq 1 ]]; then
-  configure_preset="linux-gcc-vcpkg"
-  if [[ -z "${build_dir}" ]]; then
-    build_dir="build/bootstrap/linux-gcc-vcpkg"
-  fi
-else
-  configure_preset="linux-gcc"
-  if [[ -z "${build_dir}" ]]; then
-    build_dir="build/bootstrap/linux-gcc"
-  fi
+  configure_args+=("-DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+fi
+
+if [[ -z "${build_dir}" ]]; then
+  build_dir="build/bootstrap/${configure_preset}"
 fi
 
 log "Selected configure preset: ${configure_preset}"
 log "Selected build directory: ${build_dir}"
 
-cmake --preset "${configure_preset}" -B "${build_dir}"
+cmake --preset "${configure_preset}" -B "${build_dir}" ${configure_args[@]+"${configure_args[@]}"}
 
 if [[ "${skip_build}" -eq 0 ]]; then
   cmake --build "${build_dir}"
