@@ -1,3 +1,7 @@
+
+# -------------------------------------------------------------
+# Core
+
 add_library(volt_core
   core/AppConfig.cpp
   core/Logging.cpp
@@ -36,6 +40,31 @@ target_compile_definitions(volt_core PUBLIC
 
 volt_set_warnings(volt_core)
 
+# -------------------------------------------------------------
+# Codec
+
+add_library(volt_codec
+  codec/compression/CanonicalHuffman.cpp
+  codec/compression/DeflateCodec.cpp
+  codec/compression/DeflateHuffman.cpp
+  codec/compression/HuffmanCodec.cpp
+  codec/compression/ZlibEnvelope.cpp
+  codec/image/BmpCodec.cpp
+  codec/image/ImageDecoder.cpp
+  codec/image/ImageEncoder.cpp
+  codec/image/JpegCodec.cpp
+  codec/image/PngCodec.cpp
+  codec/text/Json.cpp
+)
+
+target_include_directories(volt_codec PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(volt_codec PUBLIC volt_core)
+volt_set_warnings(volt_codec)
+
+
+# -------------------------------------------------------------
+# Math
+
 add_library(volt_math
   math/Math.cpp
 )
@@ -43,6 +72,9 @@ add_library(volt_math
 target_include_directories(volt_math PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(volt_math PUBLIC volt_core)
 volt_set_warnings(volt_math)
+
+# -------------------------------------------------------------
+# Physics
 
 add_library(volt_physics
   physics/Physics.cpp
@@ -53,6 +85,9 @@ target_include_directories(volt_physics PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(volt_physics PUBLIC volt_core volt_math)
 volt_set_warnings(volt_physics)
 
+# -------------------------------------------------------------
+# Event system
+
 add_library(volt_event
   event/EventDispatcher.cpp
 )
@@ -61,67 +96,72 @@ target_include_directories(volt_event PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(volt_event PUBLIC volt_core)
 volt_set_warnings(volt_event)
 
+# -------------------------------------------------------------
+# Platform
+
 add_library(volt_platform
-  platform/Window.cpp
+  platform/platform.cpp
 )
 
 target_include_directories(volt_platform PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_platform PUBLIC glfw volt_event volt_core)
+target_link_libraries(volt_platform PUBLIC volt_event volt_core)
 volt_set_warnings(volt_platform)
 
+# -------------------------------------------------------------
+# Renderer
+
 add_library(volt_render
-  render/VulkanRenderer.cpp
+  render/renderer.cpp
 )
 
 target_include_directories(volt_render PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_render PUBLIC Vulkan::Vulkan glfw volt_event volt_core volt_math volt_io)
+target_link_libraries(volt_render PUBLIC Vulkan::Vulkan volt_event volt_core volt_math)
 
 volt_set_warnings(volt_render)
 
+# -------------------------------------------------------------
+# Text
+
+add_library(volt_text
+  text/Utf.cpp
+)
+
+target_include_directories(volt_text PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(volt_text PUBLIC volt_core)
+
+
+volt_set_warnings(volt_text)
+
+# -------------------------------------------------------------
+# UI
+
 add_library(volt_ui
-  ui/UIMesh.cpp
-  ui/UIStyle.cpp
-  ui/UIText.cpp
-  ui/UILayer.cpp
+  ui/ui.cpp
 )
 
 target_include_directories(volt_ui PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_ui PUBLIC volt_platform volt_event volt_core volt_io)
+target_link_libraries(volt_ui PUBLIC volt_platform volt_event volt_core)
 volt_set_warnings(volt_ui)
 
 add_library(volt_io
-  io/assets/AssetManager.cpp
-  io/assets/ImageAssetService.cpp
-  io/assets/ModelAssetService.cpp
-  io/assets/FontAssetService.cpp
-  io/compression/CanonicalHuffman.cpp
-  io/compression/DeflateHuffman.cpp
-  io/compression/ZlibEnvelope.cpp
-  io/compression/DeflateCodec.cpp
-  io/assets/Font.cpp
-  io/compression/HuffmanCodec.cpp
-  io/image/BmpCodec.cpp
-  io/image/PngCodec.cpp
-  io/image/ImageDecoder.cpp
-  io/image/ImageEncoder.cpp
-  io/image/JpegCodec.cpp
   io/assets/Manifest.cpp
-  io/text/Json.cpp
   io/import/ImportPipeline.cpp
   io/import/ImporterRegistry.cpp
   io/import/StepImporter.cpp
   io/import/ThreeMfImporter.cpp
-  io/text/Utf.cpp
 )
 
 target_include_directories(volt_io PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(volt_io PUBLIC volt_event volt_core volt_math)
+target_link_libraries(volt_io PUBLIC volt_event volt_core volt_math volt_codec volt_text)
 
 if(WIN32)
   target_link_libraries(volt_io PRIVATE windowscodecs ole32)
 endif()
 
 volt_set_warnings(volt_io)
+
+target_link_libraries(volt_render PUBLIC volt_io)
+target_link_libraries(volt_ui PUBLIC volt_io)
 
 add_executable(volt_app
   app/main.cpp
