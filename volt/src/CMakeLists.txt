@@ -166,27 +166,106 @@ add_subdirectory(ui)
 
 add_executable(volt_app
   main.cpp
+  app/ui/renderer.cpp
+  app/ui/glyph_cache.cpp
+  app/ui/images.cpp
+  app/ui/documents.cpp
+  app/ui/schematic_document.cpp
+  app/ui/services.cpp
+  app/ui/services_dialogs.cpp
+  app/ui/project_history.cpp
+  app/ui/file_dialogs.cpp
+  app/ui/window_manager.cpp
+  app/ui/windows/content.cpp
+  app/ui/windows/menus.cpp
+  app/ui/windows/status_bar.cpp
+  app/ui/windows/about.cpp
+  app/ui/windows/preferences.cpp
+  app/ui/windows/image_viewer.cpp
+  app/ui/windows/project_manager.cpp
+  app/ui/windows/schematic_editor.cpp
+  app/ui/windows/schematic_tools.cpp
+  app/ui/windows/schematic_view.cpp
+  app/ui/windows/schematic_properties.cpp
+  app/ui/windows/board_editor.cpp
+  app/ui/windows/board_view.cpp
+  app/ui/windows/library_browser.cpp
+  app/ui/windows/parts_panel.cpp
+  app/ui/windows/library_model.cpp
+  app/ui/windows/part_match.cpp
+  app/ui/windows/library_dialogs.cpp
+  app/ui/windows/library_clipboard.cpp
+  app/ui/windows/library_widgets.cpp
+  app/ui/windows/part_editor.cpp
+  app/ui/windows/part_editor_model.cpp
+  app/schematic/renderer.cpp
+  app/board/renderer.cpp
+  app/board/scene.cpp
+  app/board/model.cpp
+  app/board/model_upload.cpp
+  app/simulation/compute.cpp
 )
 
-target_link_libraries(volt_app PRIVATE volt_core Vulkan::Vulkan)
+if(WIN32)
+  # The application icon (see volt.rc).
+  target_sources(volt_app PRIVATE volt.rc)
+  set_property(SOURCE volt.rc APPEND PROPERTY OBJECT_DEPENDS ${PROJECT_SOURCE_DIR}/assets/images/volt.ico)
+endif()
+
+target_link_libraries(volt_app PRIVATE volt_core volt_platform volt_gpu volt_ui volt_font volt_image volt_model volt_library volt_history volt_schematic)
 volt_set_warnings(volt_app)
 
-if(TARGET Vulkan::glslc)
-  add_custom_command(TARGET volt_app POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/shaders
-    COMMAND Vulkan::glslc ${PROJECT_SOURCE_DIR}/assets/shaders/scaffold.vert -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/scaffold.vert.spv
-    COMMAND Vulkan::glslc ${PROJECT_SOURCE_DIR}/assets/shaders/scaffold.frag -o $<TARGET_FILE_DIR:volt_app>/assets/shaders/scaffold.frag.spv
-    COMMENT "Compiling Vulkan shaders for runtime")
-else()
-  message(WARNING "glslc not found; Vulkan shader binaries will not be generated for volt_app runtime")
-endif()
+# Shaders are compiled to SPIR-V with the build and become part of the
+# executable: glslc writes each as the initializer of an array of words, and
+# the renderer that uses it includes that as <shaders/NAME.inc>. So there is
+# nothing to find at run time, and no shader that can be out of step with the
+# code that feeds it.
+set(shader_source_dir ${PROJECT_SOURCE_DIR}/assets/shaders)
+set(shader_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/generated)
+file(MAKE_DIRECTORY ${shader_binary_dir}/shaders)
+
+# What the shaders #include: a change there rebuilds all of them.
+set(shader_includes
+  ${shader_source_dir}/color.glsl
+  ${shader_source_dir}/ui.glsl
+  ${shader_source_dir}/schematic.glsl
+  ${shader_source_dir}/board.glsl
+)
+
+foreach(shader IN ITEMS
+    ui_quad.vert
+    ui_quad.frag
+    schematic_grid.vert
+    schematic_grid.frag
+    schematic_segment.vert
+    schematic_segment.frag
+    board_box.vert
+    board_box.frag
+    board_mesh.vert
+    board_mesh.frag
+    simulation_relax.comp)
+  set(shader_output ${shader_binary_dir}/shaders/${shader}.inc)
+  add_custom_command(
+    OUTPUT ${shader_output}
+    COMMAND Vulkan::glslc -mfmt=c -I ${shader_source_dir} ${shader_source_dir}/${shader} -o ${shader_output}
+    DEPENDS ${shader_source_dir}/${shader} ${shader_includes}
+    COMMENT "Compiling shader ${shader}"
+    VERBATIM)
+  target_sources(volt_app PRIVATE ${shader_output})
+endforeach()
+
+target_include_directories(volt_app PRIVATE ${shader_binary_dir})
 
 add_custom_command(TARGET volt_app POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/images
   COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/ui
   COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/fonts
+  COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/models
+  COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:volt_app>/assets/libraries
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_SOURCE_DIR}/assets/manifest.json $<TARGET_FILE_DIR:volt_app>/assets/manifest.json
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/images $<TARGET_FILE_DIR:volt_app>/assets/images
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/ui $<TARGET_FILE_DIR:volt_app>/assets/ui
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/fonts $<TARGET_FILE_DIR:volt_app>/assets/fonts
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/models $<TARGET_FILE_DIR:volt_app>/assets/models
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/assets/libraries $<TARGET_FILE_DIR:volt_app>/assets/libraries
   COMMENT "Staging runtime assets")

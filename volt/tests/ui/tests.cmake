@@ -21,3 +21,16 @@ endforeach()
 volt_add_test(volt_ui_toggle_list_tests ui/toggle_list_tests.cpp)
 target_link_libraries(volt_ui_toggle_list_tests PRIVATE volt_ui volt_font)
 target_compile_definitions(volt_ui_toggle_list_tests PRIVATE VOLT_ASSETS_DIR="${PROJECT_SOURCE_DIR}/assets")
+
+# The application's pieces that need no GPU: the image index space, and how a
+# loaded model becomes the board's meshes and instances (its source files
+# compiled in, since the application is an executable).
+volt_add_test(volt_app_tests app/app_tests.cpp ${PROJECT_SOURCE_DIR}/volt/src/app/board/model.cpp
+  ${PROJECT_SOURCE_DIR}/volt/src/app/board/scene.cpp)
+target_link_libraries(volt_app_tests PRIVATE volt_model)
+
+# The demo board's part models: the committed STEP files are what
+# app/demo_parts.hpp writes, and load clean.
+volt_add_test(volt_app_demo_parts_tests app/demo_parts_tests.cpp)
+target_link_libraries(volt_app_demo_parts_tests PRIVATE volt_model)
+target_compile_definitions(volt_app_demo_parts_tests PRIVATE VOLT_MODEL_ASSETS="${PROJECT_SOURCE_DIR}/assets/models")

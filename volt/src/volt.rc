@@ -1,0 +1,9 @@
+// Windows resources of the executable.
+//
+// The application icon. Explorer shows the executable with the first icon it
+// finds, and platform::initialize() gives it to the window class by this ID
+// (platform::windows::app_icon_resource in <platform/windows/window.hpp>), so
+// every window, the taskbar and Alt+Tab show it too.
+//
+// volt.ico is assets/images/volt.svg drawn at 16 to 256 pixels.
+1 ICON "../../assets/images/volt.ico"

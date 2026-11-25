@@ -1,0 +1,58 @@
+#version 450
+
+// One relaxation sweep over a resistive network: every node takes the
+// potential its neighbors, as they were before the sweep, pull it to. See
+// <app/simulation/network.hpp>, whose relax() is the same thing on the CPU;
+// the two have to stay in agreement.
+layout(local_size_x = 64) in;
+
+// volt::simulation::packed_node
+struct node_data {
+  uint first;  // its edges are edges[first] to edges[first + count - 1]
+  uint count;
+  uint held;   // nonzero: `value` is its potential, and it stays there
+  float value; // otherwise the current fed into it
+};
+
+// volt::simulation::packed_edge
+struct edge_data {
+  uint other;
+  float conductance;
+};
+
+layout(set = 0, binding = 0) readonly buffer node_buffer { node_data nodes[]; };
+layout(set = 0, binding = 1) readonly buffer edge_buffer { edge_data edges[]; };
+
+// Several sets of potentials, one after the other. A sweep reads one and
+// writes another.
+layout(set = 0, binding = 2) buffer state_buffer { float potentials[]; };
+
+layout(push_constant) uniform sweep_constants {
+  uint source;      // where the set to read starts
+  uint destination; // where the set to write starts
+  uint count;       // nodes in the network
+} sweep;
+
+void main() {
+  uint index = gl_GlobalInvocationID.x;
+  if (index >= sweep.count)
+    return;
+
+  node_data node = nodes[index];
+  if (node.held != 0u) {
+    potentials[sweep.destination + index] = node.value;
+    return;
+  }
+
+  // Kirchhoff's current law, solved for this node's potential.
+  float current = node.value;
+  float conductance = 0.0;
+  for (uint i = node.first; i < node.first + node.count; ++i) {
+    current += edges[i].conductance * potentials[sweep.source + edges[i].other];
+    conductance += edges[i].conductance;
+  }
+
+  // Connected to nothing: keep what it had.
+  potentials[sweep.destination + index] =
+      conductance > 0.0 ? current / conductance : potentials[sweep.source + index];
+}

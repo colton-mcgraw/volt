@@ -29,8 +29,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
 include(cmake/CompilerWarnings.cmake)
 include(CTest)
 
-# glslc is optional: without it the app still builds, but shaders are not compiled.
-find_package(Vulkan REQUIRED OPTIONAL_COMPONENTS glslc)
+# glslc (part of the Vulkan SDK) compiles the shaders into the app, see volt/src.
+find_package(Vulkan REQUIRED COMPONENTS glslc)
 
 add_subdirectory(volt/src)
 
