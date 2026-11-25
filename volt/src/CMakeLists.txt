@@ -142,6 +142,7 @@ volt_set_warnings(volt_gpu)
 # window: files in, plain data out. Their directories hold their sources and
 # say how they are built.
 add_subdirectory(image)
+add_subdirectory(font)
 
 # -------------------------------------------------------------
 # App
