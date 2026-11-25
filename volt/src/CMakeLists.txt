@@ -149,6 +149,9 @@ add_subdirectory(model)
 add_subdirectory(json)
 add_subdirectory(library)
 
+# Change history: undo and redo, and a project's snapshots and branches.
+add_subdirectory(history)
+
 # -------------------------------------------------------------
 # App
 
