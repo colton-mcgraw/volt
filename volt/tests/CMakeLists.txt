@@ -36,5 +36,8 @@ volt_add_test(volt_math_transform_tests math/transform_tests.cpp)
 volt_add_test(volt_math_fraction_tests math/fraction_tests.cpp)
 volt_add_test(volt_math_electrical_tests math/electrical_tests.cpp)
 
+# <gpu/color.hpp> is plain math, so it is tested without a device.
+volt_add_test(volt_gpu_color_tests gpu/color_tests.cpp)
+
 # Modules that bring more than a file or two list their own tests.
 include(platform/tests.cmake)

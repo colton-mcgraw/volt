@@ -107,6 +107,35 @@ target_link_libraries(volt_platform PUBLIC volt_core)
 volt_set_warnings(volt_platform)
 
 # -------------------------------------------------------------
+# GPU
+
+# The Vulkan device and the frame loop, shared by every renderer and by the
+# simulation's compute work. Only gpu/<os>/surface.cpp touches the window
+# system, which is why volt_platform stays a private dependency.
+add_library(volt_gpu STATIC
+  gpu/vulkan.cpp
+  gpu/context.cpp
+  gpu/swapchain.cpp
+  gpu/presenter.cpp
+  gpu/buffer.cpp
+  gpu/target.cpp
+  gpu/texture.cpp
+  gpu/pipeline.cpp
+  gpu/retire.cpp
+)
+
+if(WIN32)
+  target_sources(volt_gpu PRIVATE gpu/windows/surface.cpp)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_sources(volt_gpu PRIVATE gpu/linux/surface.cpp)
+endif()
+
+target_link_libraries(volt_gpu
+  PUBLIC volt_core Vulkan::Vulkan
+  PRIVATE volt_platform)
+volt_set_warnings(volt_gpu)
+
+# -------------------------------------------------------------
 # App
 
 add_executable(volt_app
