@@ -145,6 +145,9 @@ add_subdirectory(image)
 add_subdirectory(font)
 add_subdirectory(model)
 
+# JSON, and on it the parts library, the catalog and the project file.
+add_subdirectory(json)
+
 # -------------------------------------------------------------
 # App
 
