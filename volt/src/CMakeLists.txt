@@ -152,6 +152,9 @@ add_subdirectory(library)
 # Change history: undo and redo, and a project's snapshots and branches.
 add_subdirectory(history)
 
+# The schematic document model: sheets, symbols, editing with undo, files.
+add_subdirectory(schematic)
+
 # -------------------------------------------------------------
 # App
 
