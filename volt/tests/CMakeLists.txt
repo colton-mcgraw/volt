@@ -39,6 +39,9 @@ volt_add_test(volt_math_electrical_tests math/electrical_tests.cpp)
 # <gpu/color.hpp> is plain math, so it is tested without a device.
 volt_add_test(volt_gpu_color_tests gpu/color_tests.cpp)
 
+# Likewise the network the simulation solves, and the CPU version of its kernel.
+volt_add_test(volt_simulation_network_tests simulation/network_tests.cpp)
+
 # Modules that bring more than a file or two list their own tests.
 include(image/tests.cmake)
 include(font/tests.cmake)
