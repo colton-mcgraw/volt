@@ -143,6 +143,7 @@ volt_set_warnings(volt_gpu)
 # say how they are built.
 add_subdirectory(image)
 add_subdirectory(font)
+add_subdirectory(model)
 
 # -------------------------------------------------------------
 # App
