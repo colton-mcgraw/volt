@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Feature sheet for the SVG rasterizer's visual check: each cell exercises
+     one group of features. Expected look, by row and column:
+     1: gold pentagram with a hole (evenodd) | the same one filled (nonzero) |
+        radial gradient, white focus up-left, pad | diagonal reflected stripes
+     2: zigzag with miter joins | round joins and caps | bevel joins, square caps |
+        dashed ring with round dots
+     3: pie of three arc slices | two overlapping circles, the group at half
+        opacity on the left, each at half on the right (darker overlap) |
+        a symbol drawn three times at different sizes | rounded rectangle
+        styled by CSS classes, translucent hsl stroke -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="300" viewBox="0 0 400 300">
+  <style>
+    .card { fill: hsl(200, 70%, 85%); stroke: hsla(200, 80%, 30%, 0.6) }
+    .card.thick { stroke-width: 6px }
+    #pie > path { fill: black } /* combinator: not supported, ignored */
+  </style>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+      <stop offset="0" stop-color="white"/>
+      <stop offset="0.5" stop-color="#3a7bd5"/>
+      <stop offset="1" stop-color="#1a2a6c"/>
+    </radialGradient>
+    <linearGradient id="stripes" x1="0" y1="0" x2="0.25" y2="0" spreadMethod="reflect"
+                    gradientTransform="rotate(45 0.5 0.5)">
+      <stop offset="0" style="stop-color: tomato"/>
+      <stop offset="1" style="stop-color: rebeccapurple; stop-opacity: 0.9"/>
+    </linearGradient>
+    <symbol id="badge" viewBox="0 0 10 10">
+      <circle cx="5" cy="5" r="4.5" fill="seagreen"/>
+      <path d="M2.5 5.2 L4.3 7 L7.6 3.2" fill="none" stroke="white" stroke-width="1.2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <path id="star" d="M50 8 L78 93 L5 40 L95 40 L22 93 Z"/>
+  </defs>
+
+  <!-- row 1 -->
+  <use href="#star" fill="gold" stroke="#806000" fill-rule="evenodd"/>
+  <use xlink:href="#star" x="100" fill="gold" stroke="#806000"/>
+  <circle cx="250" cy="50" r="42" fill="url(#glow)"/>
+  <rect x="308" y="8" width="84" height="84" rx="6" fill="url(#stripes)"/>
+
+  <!-- row 2 -->
+  <g fill="none" stroke="#2b6cb0" stroke-width="9">
+    <polyline points="12,185 30,120 50,185 70,120 88,185" stroke-linejoin="miter"/>
+    <polyline points="112,185 130,120 150,185 170,120 188,185" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="212,185 230,120 250,185 270,120 288,185" stroke-linejoin="bevel" stroke-linecap="square"/>
+    <circle cx="350" cy="150" r="35" stroke="crimson" stroke-width="7" stroke-dasharray="0 14"
+            stroke-dashoffset="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- row 3 -->
+  <g id="pie" transform="translate(50 250)">
+    <path d="M0 0 L40 0 A40 40 0 0 1 -20 34.64 Z" fill="#e53e3e"/>
+    <path d="M0 0 L-20 34.64 A40 40 0 0 1 -20 -34.64 Z" fill="#38a169"/>
+    <path d="m0 0 -20-34.64a40 40 0 0 1 60 34.64z" fill="#3182ce"/>
+  </g>
+  <g opacity="0.5">
+    <circle cx="118" cy="250" r="22" fill="navy"/>
+    <circle cx="138" cy="250" r="22" fill="navy"/>
+  </g>
+  <circle cx="162" cy="250" r="22" fill="navy" fill-opacity="0.5"/>
+  <circle cx="182" cy="250" r="22" fill="navy" opacity="0.5"/>
+  <use href="#badge" x="210" y="215" width="30" height="30"/>
+  <use href="#badge" x="245" y="230" width="20" height="20"/>
+  <use href="#badge" x="270" y="240" width="10" height="10"/>
+  <rect class="card thick" x="295" y="212" width="95" height="76" rx="14" ry="8"/>
+  <text x="300" y="250">text is skipped</text>
+</svg>

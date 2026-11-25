@@ -40,4 +40,5 @@ volt_add_test(volt_math_electrical_tests math/electrical_tests.cpp)
 volt_add_test(volt_gpu_color_tests gpu/color_tests.cpp)
 
 # Modules that bring more than a file or two list their own tests.
+include(image/tests.cmake)
 include(platform/tests.cmake)

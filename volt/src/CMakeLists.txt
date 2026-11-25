@@ -136,6 +136,14 @@ target_link_libraries(volt_gpu
 volt_set_warnings(volt_gpu)
 
 # -------------------------------------------------------------
+# Images, fonts, models
+
+# Each is a library of its own that knows nothing about the GPU or the
+# window: files in, plain data out. Their directories hold their sources and
+# say how they are built.
+add_subdirectory(image)
+
+# -------------------------------------------------------------
 # App
 
 add_executable(volt_app
