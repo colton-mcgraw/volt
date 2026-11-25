@@ -1,0 +1,2251 @@
+{
+  "format": "volt-library",
+  "format_version": 1,
+  "name": "volt-connectors",
+  "title": "Volt Connectors",
+  "description": "Pin headers and sockets, JST wire-to-board, USB, power and screw terminals.",
+  "version": "2026.11.0",
+  "author": "Volt",
+  "license": "CC0-1.0",
+  "parts": [
+    {
+      "id": "p-wfesge2b7665",
+      "name": "Pin header 1x1 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 1 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x1",
+      "package": "1x01 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x01",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "1"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-5axeexd025c6",
+      "name": "Pin header 1x2 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 2 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x2",
+      "package": "1x02 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "2"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-pszckdqn3t7a",
+      "name": "Pin header 1x3 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 3 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x3",
+      "package": "1x03 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "3"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-qzaep6jtch38",
+      "name": "Pin header 1x4 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 4 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x4",
+      "package": "1x04 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x04",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-g7453h1c6s0v",
+      "name": "Pin header 1x5 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 5 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x5",
+      "package": "1x05 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x05",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "5"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-9a227ctehjh9",
+      "name": "Pin header 1x6 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 6 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x6",
+      "package": "1x06 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x06",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-teecf7d2vsxq",
+      "name": "Pin header 1x7 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 7 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x7",
+      "package": "1x07 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x07",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "7"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-b121n2q66g51",
+      "name": "Pin header 1x8 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 8 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x8",
+      "package": "1x08 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x08",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-m4q4kgdr7ctb",
+      "name": "Pin header 1x9 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 9 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x9",
+      "package": "1x09 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x09",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "9"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-aww4zt0gxk47",
+      "name": "Pin header 1x10 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 10 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x10",
+      "package": "1x10 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x10",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-s9nyqqzx7418",
+      "name": "Pin header 1x11 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 11 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x11",
+      "package": "1x11 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x11",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x11_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "11"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-05e5nm6s5q1m",
+      "name": "Pin header 1x12 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 12 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x12",
+      "package": "1x12 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x12",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "12"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-799vrwn8vsv1",
+      "name": "Pin header 1x13 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 13 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x13",
+      "package": "1x13 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x13",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x13_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "13"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-6x74kvdf4wbg",
+      "name": "Pin header 1x14 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 14 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x14",
+      "package": "1x14 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x14",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x14_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "14"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-nb3k4ck07c72",
+      "name": "Pin header 1x15 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 15 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x15",
+      "package": "1x15 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x15",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x15_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "15"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-csr0afy0sr87",
+      "name": "Pin header 1x16 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 16 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x16",
+      "package": "1x16 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x16",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x16_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "16"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-30qfgtw6r2ja",
+      "name": "Pin header 1x17 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 17 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x17",
+      "package": "1x17 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x17",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x17_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "17"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-2kaq8qje6t0b",
+      "name": "Pin header 1x18 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 18 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x18",
+      "package": "1x18 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x18",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x18_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "18"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-hrmm76qgytg2",
+      "name": "Pin header 1x19 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 19 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x19",
+      "package": "1x19 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x19",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x19_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "19"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-dbjn4bpmsad5",
+      "name": "Pin header 1x20 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 20 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x20",
+      "package": "1x20 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x20",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "20"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-yxt76s8hbsps",
+      "name": "Pin header 1x21 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 21 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x21",
+      "package": "1x21 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x21",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x21_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "21"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-vgh8jhdc2e6f",
+      "name": "Pin header 1x22 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 22 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x22",
+      "package": "1x22 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x22",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x22_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "22"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-442gvzn7ctf3",
+      "name": "Pin header 1x23 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 23 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x23",
+      "package": "1x23 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x23",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x23_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "23"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-he7s4g0eh539",
+      "name": "Pin header 1x24 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 24 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x24",
+      "package": "1x24 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x24",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x24_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "24"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-21n7h9gagc1w",
+      "name": "Pin header 1x25 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 25 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x25",
+      "package": "1x25 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x25",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x25_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "25"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-zhkp48vjjwzb",
+      "name": "Pin header 1x26 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 26 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x26",
+      "package": "1x26 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x26",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x26_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "26"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-rvef19ckrtky",
+      "name": "Pin header 1x27 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 27 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x27",
+      "package": "1x27 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x27",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x27_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "27"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-nsd3dygwgy7k",
+      "name": "Pin header 1x28 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 28 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x28",
+      "package": "1x28 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x28",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x28_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "28"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-63qzjvf2d2zh",
+      "name": "Pin header 1x29 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 29 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x29",
+      "package": "1x29 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x29",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x29_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "29"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-mq6vxec1dype",
+      "name": "Pin header 1x30 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 30 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x30",
+      "package": "1x30 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x30",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x30_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "30"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-bmqbyvfmg42d",
+      "name": "Pin header 1x31 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 31 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x31",
+      "package": "1x31 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x31",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x31_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "31"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-e5am8enachev",
+      "name": "Pin header 1x32 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 32 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x32",
+      "package": "1x32 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x32",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x32_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "32"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-x65gkspxcps5",
+      "name": "Pin header 1x33 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 33 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x33",
+      "package": "1x33 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x33",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x33_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "33"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-8fr8hwz0vptd",
+      "name": "Pin header 1x34 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 34 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x34",
+      "package": "1x34 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x34",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x34_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "34"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-fkaag8wmbqwy",
+      "name": "Pin header 1x35 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 35 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x35",
+      "package": "1x35 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x35",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x35_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "35"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-jm0pqjbqfew9",
+      "name": "Pin header 1x36 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 36 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x36",
+      "package": "1x36 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x36",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x36_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "36"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-1r3kqnah07hy",
+      "name": "Pin header 1x37 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 37 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x37",
+      "package": "1x37 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x37",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x37_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "37"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wasacypd2b3m",
+      "name": "Pin header 1x38 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 38 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x38",
+      "package": "1x38 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x38",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x38_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "38"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-k5xxg0mesbp4",
+      "name": "Pin header 1x39 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 39 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x39",
+      "package": "1x39 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x39",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x39_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "39"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-zj250ax39mz2",
+      "name": "Pin header 1x40 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, single row, 40 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x40",
+      "package": "1x40 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x40",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x40_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "40"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-65hkc72zdxmg",
+      "name": "Pin header 2x2 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 4 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x2",
+      "package": "2x02 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x02",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-nkc2yq7ggdg2",
+      "name": "Pin header 2x3 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 6 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x3",
+      "package": "2x03 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x03",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-0dqme0v8fram",
+      "name": "Pin header 2x4 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 8 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x4",
+      "package": "2x04 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x04",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-7hjaj8ar4v42",
+      "name": "Pin header 2x5 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 10 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x5",
+      "package": "2x05 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x05",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x05_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-a46mr6nz6nd7",
+      "name": "Pin header 2x6 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 12 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x6",
+      "package": "2x06 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x06",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "12"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-shydh3mdh5a8",
+      "name": "Pin header 2x7 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 14 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x7",
+      "package": "2x07 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x07",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "14"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-4pqm93m5p5qq",
+      "name": "Pin header 2x8 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 16 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x8",
+      "package": "2x08 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x08",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "16"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-vahkepbac97a",
+      "name": "Pin header 2x9 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 18 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x9",
+      "package": "2x09 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x09",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x09_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "18"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-5j6y792gb6n6",
+      "name": "Pin header 2x10 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 20 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x10",
+      "package": "2x10 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x10",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x10_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "20"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-p19wcsb5dvga",
+      "name": "Pin header 2x11 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 22 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x11",
+      "package": "2x11 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x11",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x11_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "22"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-kyvx8nk3es28",
+      "name": "Pin header 2x12 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 24 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x12",
+      "package": "2x12 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x12",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x12_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "24"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wqq8atptg7f5",
+      "name": "Pin header 2x13 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 26 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x13",
+      "package": "2x13 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x13",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x13_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "26"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-9jbh0reytkt9",
+      "name": "Pin header 2x14 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 28 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x14",
+      "package": "2x14 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x14",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x14_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "28"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-tpqv8k1j4v6r",
+      "name": "Pin header 2x15 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 30 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x15",
+      "package": "2x15 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x15",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x15_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "30"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-q7mxfj6apjc8",
+      "name": "Pin header 2x16 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 32 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x16",
+      "package": "2x16 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x16",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x16_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "32"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-gfdmwwnvft9v",
+      "name": "Pin header 2x17 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 34 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x17",
+      "package": "2x17 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x17",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x17_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "34"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-x7x0a9gq6y5j",
+      "name": "Pin header 2x18 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 36 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x18",
+      "package": "2x18 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x18",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x18_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "36"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-et76t75dhqnz",
+      "name": "Pin header 2x19 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 38 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x19",
+      "package": "2x19 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x19",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x19_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "38"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-2tzth0kem3cm",
+      "name": "Pin header 2x20 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 40 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x20",
+      "package": "2x20 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x20",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "40"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-hbrjxgrzphc5",
+      "name": "Pin header 2x21 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 42 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x21",
+      "package": "2x21 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x21",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x21_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "42"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-r42mzpq5hvsy",
+      "name": "Pin header 2x22 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 44 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x22",
+      "package": "2x22 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x22",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x22_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "44"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-z6mbc8e1dnh0",
+      "name": "Pin header 2x23 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 46 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x23",
+      "package": "2x23 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x23",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x23_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "46"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-yta7xvc4cj2f",
+      "name": "Pin header 2x24 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 48 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x24",
+      "package": "2x24 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x24",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x24_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "48"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-dr12w5pwa4k4",
+      "name": "Pin header 2x25 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 50 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x25",
+      "package": "2x25 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x25",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x25_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "50"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-4sehj0cn1010",
+      "name": "Pin header 2x26 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 52 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x26",
+      "package": "2x26 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x26",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x26_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "52"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-v10bvzf1bxjj",
+      "name": "Pin header 2x27 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 54 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x27",
+      "package": "2x27 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x27",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x27_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "54"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-afqyeavh3cy3",
+      "name": "Pin header 2x28 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 56 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x28",
+      "package": "2x28 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x28",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x28_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "56"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-sr9remf4hff8",
+      "name": "Pin header 2x29 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 58 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x29",
+      "package": "2x29 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x29",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x29_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "58"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-b89jat0jm5ma",
+      "name": "Pin header 2x30 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 60 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x30",
+      "package": "2x30 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x30",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x30_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "60"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-mbr1adxygz8c",
+      "name": "Pin header 2x31 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 62 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x31",
+      "package": "2x31 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x31",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x31_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "62"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-xtppzq7vgqb3",
+      "name": "Pin header 2x32 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 64 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x32",
+      "package": "2x32 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x32",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x32_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "64"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-esvtmc68gj0s",
+      "name": "Pin header 2x33 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 66 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x33",
+      "package": "2x33 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x33",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x33_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "66"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-f7wgw6djfrew",
+      "name": "Pin header 2x34 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 68 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x34",
+      "package": "2x34 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x34",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x34_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "68"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-83afxtgyyqcb",
+      "name": "Pin header 2x35 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 70 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x35",
+      "package": "2x35 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x35",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x35_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "70"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-1cns3mve483w",
+      "name": "Pin header 2x36 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 72 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x36",
+      "package": "2x36 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x36",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x36_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "72"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-j8jw3hwmkfe7",
+      "name": "Pin header 2x37 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 74 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x37",
+      "package": "2x37 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x37",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x37_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "74"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-kse4xy4cxc82",
+      "name": "Pin header 2x38 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 76 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x38",
+      "package": "2x38 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x38",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x38_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "76"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wyahrw7b6cnh",
+      "name": "Pin header 2x39 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 78 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x39",
+      "package": "2x39 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x39",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x39_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "78"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-8rsbtpn8zgdc",
+      "name": "Pin header 2x40 2.54mm",
+      "category": "Connectors/Pin Headers",
+      "description": "Pin header, double rows, 80 pins, 2.54mm pitch, vertical, through hole",
+      "value": "2x40",
+      "package": "2x40 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_02x40",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_2x40_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "male", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "80"},
+        {"name": "Rows", "value": "2"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-gpxh8mc7xetb",
+      "name": "Pin socket 1x1 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 1 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x1",
+      "package": "1x01 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x01",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "1"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-9sy6q9sgrnq7",
+      "name": "Pin socket 1x2 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 2 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x2",
+      "package": "1x02 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "2"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-tntpj8jzwaa6",
+      "name": "Pin socket 1x3 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 3 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x3",
+      "package": "1x03 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "3"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-kdmmp8dhg965",
+      "name": "Pin socket 1x4 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 4 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x4",
+      "package": "1x04 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x04",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wjg1j6ggs8km",
+      "name": "Pin socket 1x5 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 5 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x5",
+      "package": "1x05 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x05",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "5"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-55fjymp29m1e",
+      "name": "Pin socket 1x6 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 6 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x6",
+      "package": "1x06 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x06",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-p80a6yevngaw",
+      "name": "Pin socket 1x7 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 7 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x7",
+      "package": "1x07 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x07",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "7"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-fv11pgnq2ncz",
+      "name": "Pin socket 1x8 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 8 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x8",
+      "package": "1x08 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x08",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-8qfzp4s3jmae",
+      "name": "Pin socket 1x9 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 9 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x9",
+      "package": "1x09 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x09",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "9"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-e3nnsy4z2508",
+      "name": "Pin socket 1x10 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 10 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x10",
+      "package": "1x10 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x10",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-x4fbpbsxpyvc",
+      "name": "Pin socket 1x11 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 11 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x11",
+      "package": "1x11 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x11",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x11_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "11"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-mnfann7qct0a",
+      "name": "Pin socket 1x12 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 12 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x12",
+      "package": "1x12 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x12",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "12"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-bjb31bz870tj",
+      "name": "Pin socket 1x13 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 13 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x13",
+      "package": "1x13 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x13",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x13_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "13"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-jjaht4eqspyg",
+      "name": "Pin socket 1x14 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 14 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x14",
+      "package": "1x14 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x14",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x14_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "14"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-1y1h86t5qj2b",
+      "name": "Pin socket 1x15 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 15 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x15",
+      "package": "1x15 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x15",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x15_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "15"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-8ddczppzvyaz",
+      "name": "Pin socket 1x16 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 16 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x16",
+      "package": "1x16 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x16",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x16_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "16"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-f9n7g1kkcfk9",
+      "name": "Pin socket 1x17 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 17 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x17",
+      "package": "1x17 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x17",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x17_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "17"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-ppategcqz2bd",
+      "name": "Pin socket 1x18 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 18 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x18",
+      "package": "1x18 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x18",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x18_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "18"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-53nkvyzzvpkm",
+      "name": "Pin socket 1x19 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 19 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x19",
+      "package": "1x19 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x19",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x19_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "19"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-hdh9hby0m8hj",
+      "name": "Pin socket 1x20 2.54mm",
+      "category": "Connectors/Pin Sockets",
+      "description": "Female pin socket, single row, 20 pins, 2.54mm pitch, vertical, through hole",
+      "value": "1x20",
+      "package": "1x20 P2.54mm",
+      "prefix": "J",
+      "symbol": "Conn_01x20",
+      "footprint": "Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical",
+      "keywords": ["connector", "header", "female", "2.54mm", "0.1in", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "20"},
+        {"name": "Rows", "value": "1"},
+        {"name": "Pitch", "value": "2.54", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-sczt33w1km0y",
+      "name": "JST PH 2 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 2 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B2B-PH-K-S",
+      "value": "2P",
+      "package": "JST PH 1x02",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "2"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-txg1b64wkcme",
+      "name": "JST PH 3 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 3 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B3B-PH-K-S",
+      "value": "3P",
+      "package": "JST PH 1x03",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "3"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-fvq7grxjnfwr",
+      "name": "JST PH 4 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 4 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B4B-PH-K-S",
+      "value": "4P",
+      "package": "JST PH 1x04",
+      "prefix": "J",
+      "symbol": "Conn_01x04",
+      "footprint": "Connector_JST:JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-8vyynsnwet2q",
+      "name": "JST PH 5 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 5 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B5B-PH-K-S",
+      "value": "5P",
+      "package": "JST PH 1x05",
+      "prefix": "J",
+      "symbol": "Conn_01x05",
+      "footprint": "Connector_JST:JST_PH_B5B-PH-K_1x05_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "5"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-dd0d8pmt84yy",
+      "name": "JST PH 6 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 6 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B6B-PH-K-S",
+      "value": "6P",
+      "package": "JST PH 1x06",
+      "prefix": "J",
+      "symbol": "Conn_01x06",
+      "footprint": "Connector_JST:JST_PH_B6B-PH-K_1x06_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-y5rcp7emeerr",
+      "name": "JST PH 7 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 7 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B7B-PH-K-S",
+      "value": "7P",
+      "package": "JST PH 1x07",
+      "prefix": "J",
+      "symbol": "Conn_01x07",
+      "footprint": "Connector_JST:JST_PH_B7B-PH-K_1x07_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "7"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-k2rc9majgy4z",
+      "name": "JST PH 8 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 8 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B8B-PH-K-S",
+      "value": "8P",
+      "package": "JST PH 1x08",
+      "prefix": "J",
+      "symbol": "Conn_01x08",
+      "footprint": "Connector_JST:JST_PH_B8B-PH-K_1x08_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-w15ga22yet7d",
+      "name": "JST PH 9 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 9 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B9B-PH-K-S",
+      "value": "9P",
+      "package": "JST PH 1x09",
+      "prefix": "J",
+      "symbol": "Conn_01x09",
+      "footprint": "Connector_JST:JST_PH_B9B-PH-K_1x09_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "9"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-2dqr4nf8amzq",
+      "name": "JST PH 10 pins",
+      "category": "Connectors/JST",
+      "description": "JST PH series wire-to-board header, 10 positions, 2.00mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B10B-PH-K-S",
+      "value": "10P",
+      "package": "JST PH 1x10",
+      "prefix": "J",
+      "symbol": "Conn_01x10",
+      "footprint": "Connector_JST:JST_PH_B10B-PH-K_1x10_P2.00mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Pitch", "value": "2.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-zzpd70s635v3",
+      "name": "JST XH 2 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 2 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B2B-XH-A",
+      "value": "2P",
+      "package": "JST XH 1x02",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "2"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-medn33vkckr3",
+      "name": "JST XH 3 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 3 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B3B-XH-A",
+      "value": "3P",
+      "package": "JST XH 1x03",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "3"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-d7jk9k0bqrmt",
+      "name": "JST XH 4 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 4 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B4B-XH-A",
+      "value": "4P",
+      "package": "JST XH 1x04",
+      "prefix": "J",
+      "symbol": "Conn_01x04",
+      "footprint": "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-2h2q7w6caav3",
+      "name": "JST XH 5 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 5 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B5B-XH-A",
+      "value": "5P",
+      "package": "JST XH 1x05",
+      "prefix": "J",
+      "symbol": "Conn_01x05",
+      "footprint": "Connector_JST:JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "5"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-vwxzj0vpkhqa",
+      "name": "JST XH 6 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 6 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B6B-XH-A",
+      "value": "6P",
+      "package": "JST XH 1x06",
+      "prefix": "J",
+      "symbol": "Conn_01x06",
+      "footprint": "Connector_JST:JST_XH_B6B-XH-A_1x06_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-06jasegg53z4",
+      "name": "JST XH 7 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 7 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B7B-XH-A",
+      "value": "7P",
+      "package": "JST XH 1x07",
+      "prefix": "J",
+      "symbol": "Conn_01x07",
+      "footprint": "Connector_JST:JST_XH_B7B-XH-A_1x07_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "7"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-shkm2qecrf9q",
+      "name": "JST XH 8 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 8 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B8B-XH-A",
+      "value": "8P",
+      "package": "JST XH 1x08",
+      "prefix": "J",
+      "symbol": "Conn_01x08",
+      "footprint": "Connector_JST:JST_XH_B8B-XH-A_1x08_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-e683qgwpt8bf",
+      "name": "JST XH 9 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 9 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B9B-XH-A",
+      "value": "9P",
+      "package": "JST XH 1x09",
+      "prefix": "J",
+      "symbol": "Conn_01x09",
+      "footprint": "Connector_JST:JST_XH_B9B-XH-A_1x09_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "9"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wp51s0jaktgv",
+      "name": "JST XH 10 pins",
+      "category": "Connectors/JST",
+      "description": "JST XH series wire-to-board header, 10 positions, 2.50mm pitch, through hole, top entry",
+      "manufacturer": "JST",
+      "mpn": "B10B-XH-A",
+      "value": "10P",
+      "package": "JST XH 1x10",
+      "prefix": "J",
+      "symbol": "Conn_01x10",
+      "footprint": "Connector_JST:JST_XH_B10B-XH-A_1x10_P2.50mm_Vertical",
+      "keywords": ["connector", "jst", "wire to board", "tht"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Pitch", "value": "2.50", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-j1twn8fdqkry",
+      "name": "JST SH 2 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 2 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM02B-SRSS-TB",
+      "value": "2P",
+      "package": "JST SH 1x02",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "Connector_JST:JST_SH_SM02B-SRSS-TB_1x02-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "2"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-fgj50jj93vg8",
+      "name": "JST SH 3 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 3 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM03B-SRSS-TB",
+      "value": "3P",
+      "package": "JST SH 1x03",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "Connector_JST:JST_SH_SM03B-SRSS-TB_1x03-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "3"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-rex6r72d5fq3",
+      "name": "JST SH 4 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 4 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM04B-SRSS-TB",
+      "value": "4P",
+      "package": "JST SH 1x04",
+      "prefix": "J",
+      "symbol": "Conn_01x04",
+      "footprint": "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "4"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-d18rd22hv93a",
+      "name": "JST SH 5 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 5 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM05B-SRSS-TB",
+      "value": "5P",
+      "package": "JST SH 1x05",
+      "prefix": "J",
+      "symbol": "Conn_01x05",
+      "footprint": "Connector_JST:JST_SH_SM05B-SRSS-TB_1x05-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "5"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-63458x7917zn",
+      "name": "JST SH 6 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 6 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM06B-SRSS-TB",
+      "value": "6P",
+      "package": "JST SH 1x06",
+      "prefix": "J",
+      "symbol": "Conn_01x06",
+      "footprint": "Connector_JST:JST_SH_SM06B-SRSS-TB_1x06-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "6"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-357vnyjfwhm1",
+      "name": "JST SH 7 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 7 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM07B-SRSS-TB",
+      "value": "7P",
+      "package": "JST SH 1x07",
+      "prefix": "J",
+      "symbol": "Conn_01x07",
+      "footprint": "Connector_JST:JST_SH_SM07B-SRSS-TB_1x07-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "7"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-wxvfvn1z48n2",
+      "name": "JST SH 8 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 8 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM08B-SRSS-TB",
+      "value": "8P",
+      "package": "JST SH 1x08",
+      "prefix": "J",
+      "symbol": "Conn_01x08",
+      "footprint": "Connector_JST:JST_SH_SM08B-SRSS-TB_1x08-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "8"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-hy29z4prbkfz",
+      "name": "JST SH 9 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 9 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM09B-SRSS-TB",
+      "value": "9P",
+      "package": "JST SH 1x09",
+      "prefix": "J",
+      "symbol": "Conn_01x09",
+      "footprint": "Connector_JST:JST_SH_SM09B-SRSS-TB_1x09-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "9"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-zt3r971yzq0a",
+      "name": "JST SH 10 pins",
+      "category": "Connectors/JST",
+      "description": "JST SH series wire-to-board header, 10 positions, 1.00mm pitch, SMD, side entry",
+      "manufacturer": "JST",
+      "mpn": "SM10B-SRSS-TB",
+      "value": "10P",
+      "package": "JST SH 1x10",
+      "prefix": "J",
+      "symbol": "Conn_01x10",
+      "footprint": "Connector_JST:JST_SH_SM10B-SRSS-TB_1x10-1MP_P1.00mm_Horizontal",
+      "keywords": ["connector", "jst", "wire to board", "smd"],
+      "parameters": [
+        {"name": "Positions", "value": "10"},
+        {"name": "Pitch", "value": "1.00", "unit": "mm"}
+      ]
+    },
+    {
+      "id": "p-f4cjwcg9ebxg",
+      "name": "USB-C receptacle (USB 2.0)",
+      "category": "Connectors/USB",
+      "description": "USB Type-C receptacle, USB 2.0, 16 pins, SMD, horizontal",
+      "manufacturer": "GCT",
+      "mpn": "USB4105-GF-A",
+      "value": "USB4105-GF-A",
+      "package": "USB-C",
+      "prefix": "J",
+      "symbol": "USB_C_Receptacle_USB2.0",
+      "footprint": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+      "keywords": ["connector", "usb", "usb-c", "type-c", "smd"]
+    },
+    {
+      "id": "p-6af56kxydc1y",
+      "name": "Micro-USB B receptacle",
+      "category": "Connectors/USB",
+      "description": "Micro-USB type B receptacle, 5 pins, SMD, horizontal",
+      "manufacturer": "Molex",
+      "mpn": "1050170001",
+      "value": "1050170001",
+      "package": "Micro-USB",
+      "prefix": "J",
+      "symbol": "USB_B_Micro",
+      "footprint": "Connector_USB:USB_Micro-B_Molex_105017-0001",
+      "keywords": ["connector", "usb", "micro-usb", "smd"]
+    },
+    {
+      "id": "p-x7yy262ct03m",
+      "name": "DC barrel jack 2.1mm",
+      "category": "Connectors/Power",
+      "description": "DC power jack, 2.1mm center pin, 5.5mm barrel, through hole",
+      "manufacturer": "CUI Devices",
+      "mpn": "PJ-002A",
+      "value": "PJ-002A",
+      "package": "Barrel jack",
+      "prefix": "J",
+      "symbol": "Barrel_Jack",
+      "footprint": "Connector_BarrelJack:BarrelJack_CUI_PJ-002A_Horizontal",
+      "keywords": ["connector", "power", "barrel", "dc jack", "tht"]
+    },
+    {
+      "id": "p-e1616d8hhvjr",
+      "name": "Screw terminal 2 pins 5.08mm",
+      "category": "Connectors/Terminal Blocks",
+      "description": "PCB screw terminal block, 2 positions, 5.08mm pitch",
+      "manufacturer": "Phoenix Contact",
+      "mpn": "1729128",
+      "value": "1729128",
+      "package": "MKDS 1,5/2-5,08",
+      "prefix": "J",
+      "symbol": "Conn_01x02",
+      "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+      "keywords": ["connector", "terminal", "screw", "tht"]
+    },
+    {
+      "id": "p-1f616d8hjvjr",
+      "name": "Screw terminal 3 pins 5.08mm",
+      "category": "Connectors/Terminal Blocks",
+      "description": "PCB screw terminal block, 3 positions, 5.08mm pitch",
+      "manufacturer": "Phoenix Contact",
+      "mpn": "1729131",
+      "value": "1729131",
+      "package": "MKDS 1,5/3-5,08",
+      "prefix": "J",
+      "symbol": "Conn_01x03",
+      "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
+      "keywords": ["connector", "terminal", "screw", "tht"]
+    }
+  ]
+}

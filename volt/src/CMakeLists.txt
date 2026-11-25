@@ -147,6 +147,7 @@ add_subdirectory(model)
 
 # JSON, and on it the parts library, the catalog and the project file.
 add_subdirectory(json)
+add_subdirectory(library)
 
 # -------------------------------------------------------------
 # App

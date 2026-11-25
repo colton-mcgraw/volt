@@ -1,0 +1,2617 @@
+{
+  "format": "volt-library",
+  "format_version": 1,
+  "name": "volt-inductors",
+  "title": "Volt Inductors",
+  "description": "Multilayer chip inductors in 0402 to 1206, and shielded SMD power inductors.",
+  "version": "2026.11.0",
+  "author": "Volt",
+  "license": "CC0-1.0",
+  "parts": [
+    {
+      "id": "p-3szn8gb49sv6",
+      "name": "1nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1nH ±5%, 0402 (1005 metric)",
+      "value": "1nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zn81s3gv20s9",
+      "name": "1.2nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.2nH ±5%, 0402 (1005 metric)",
+      "value": "1.2nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-2576x6gvda9y",
+      "name": "1.5nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.5nH ±5%, 0402 (1005 metric)",
+      "value": "1.5nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.5n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xmfa7bfvcxdw",
+      "name": "1.8nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.8nH ±5%, 0402 (1005 metric)",
+      "value": "1.8nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.8n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-jr0w650zz2x0",
+      "name": "2.2nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.2nH ±5%, 0402 (1005 metric)",
+      "value": "2.2nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-5var4yzy65ae",
+      "name": "2.7nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.7nH ±5%, 0402 (1005 metric)",
+      "value": "2.7nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.7n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-eqrzjqzzq1fj",
+      "name": "3.3nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.3nH ±5%, 0402 (1005 metric)",
+      "value": "3.3nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.3n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-0v5rk9zzxt0e",
+      "name": "3.9nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.9nH ±5%, 0402 (1005 metric)",
+      "value": "3.9nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.9n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-bvdc5svw90kd",
+      "name": "4.7nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 4.7nH ±5%, 0402 (1005 metric)",
+      "value": "4.7nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "4.7n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zrd8gc3zakj7",
+      "name": "5.6nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 5.6nH ±5%, 0402 (1005 metric)",
+      "value": "5.6nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "5.6n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-8cz1avb1sfdw",
+      "name": "6.8nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 6.8nH ±5%, 0402 (1005 metric)",
+      "value": "6.8nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "6.8n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-409ctze0f0wv",
+      "name": "8.2nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 8.2nH ±5%, 0402 (1005 metric)",
+      "value": "8.2nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "8.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-sqpf33n8vd1t",
+      "name": "10nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 10nH ±5%, 0402 (1005 metric)",
+      "value": "10nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "10n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-39bqv6n89z8q",
+      "name": "12nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 12nH ±5%, 0402 (1005 metric)",
+      "value": "12nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "12n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-e1w8tpm8c6a3",
+      "name": "15nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 15nH ±5%, 0402 (1005 metric)",
+      "value": "15nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "15n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-18j0aem8kwx9",
+      "name": "18nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 18nH ±5%, 0402 (1005 metric)",
+      "value": "18nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "18n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-mz5rgmk5d204",
+      "name": "22nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 22nH ±5%, 0402 (1005 metric)",
+      "value": "22nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "22n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-72gmedk5m4dh",
+      "name": "27nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 27nH ±5%, 0402 (1005 metric)",
+      "value": "27nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "27n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-tawzq1q6tq5q",
+      "name": "33nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 33nH ±5%, 0402 (1005 metric)",
+      "value": "33nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "33n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-wbnp9tq6gtg4",
+      "name": "39nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 39nH ±5%, 0402 (1005 metric)",
+      "value": "39nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "39n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-5tk6xyd382q1",
+      "name": "47nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 47nH ±5%, 0402 (1005 metric)",
+      "value": "47nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "47n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-bgrtd5g4ng82",
+      "name": "56nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 56nH ±5%, 0402 (1005 metric)",
+      "value": "56nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "56n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-pys5tyf1qss4",
+      "name": "68nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 68nH ±5%, 0402 (1005 metric)",
+      "value": "68nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "68n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-pdwxys8z0mcp",
+      "name": "82nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 82nH ±5%, 0402 (1005 metric)",
+      "value": "82nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "82n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-bxz9pdnp56ge",
+      "name": "100nH 0402 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 100nH ±10%, 0402 (1005 metric)",
+      "value": "100nH",
+      "package": "0402",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0402_1005Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "100n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-y9c7z0v9r60q",
+      "name": "1nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1nH ±5%, 0603 (1608 metric)",
+      "value": "1nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-p0tkqx5dyxh8",
+      "name": "1.2nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.2nH ±5%, 0603 (1608 metric)",
+      "value": "1.2nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-b3197f6dv7a3",
+      "name": "1.5nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.5nH ±5%, 0603 (1608 metric)",
+      "value": "1.5nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.5n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-rb7j3p6dmv1n",
+      "name": "1.8nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.8nH ±5%, 0603 (1608 metric)",
+      "value": "1.8nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.8n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-3k6hphya2t88",
+      "name": "2.2nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.2nH ±5%, 0603 (1608 metric)",
+      "value": "2.2nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-rwbad5yakjhh",
+      "name": "2.7nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.7nH ±5%, 0603 (1608 metric)",
+      "value": "2.7nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.7n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-7x8yqfc89bhn",
+      "name": "3.3nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.3nH ±5%, 0603 (1608 metric)",
+      "value": "3.3nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.3n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-nerb5zc831s0",
+      "name": "3.9nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.9nH ±5%, 0603 (1608 metric)",
+      "value": "3.9nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.9n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-2dt2zwtbzh0m",
+      "name": "4.7nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 4.7nH ±5%, 0603 (1608 metric)",
+      "value": "4.7nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "4.7n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ydbpsnt7dpxe",
+      "name": "5.6nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 5.6nH ±5%, 0603 (1608 metric)",
+      "value": "5.6nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "5.6n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-dmqt06a7892n",
+      "name": "6.8nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 6.8nH ±5%, 0603 (1608 metric)",
+      "value": "6.8nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "6.8n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1hk7h5thyfdr",
+      "name": "8.2nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 8.2nH ±5%, 0603 (1608 metric)",
+      "value": "8.2nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "8.2n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-yypp788txtek",
+      "name": "10nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 10nH ±5%, 0603 (1608 metric)",
+      "value": "10nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "10n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-8rn4ed8tbwfq",
+      "name": "12nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 12nH ±5%, 0603 (1608 metric)",
+      "value": "12nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "12n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-9nhxgm8tc26a",
+      "name": "15nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 15nH ±5%, 0603 (1608 metric)",
+      "value": "15nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "15n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-6fzjpm7tne99",
+      "name": "18nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 18nH ±5%, 0603 (1608 metric)",
+      "value": "18nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "18n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-737ghj7xq4b6",
+      "name": "22nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 22nH ±5%, 0603 (1608 metric)",
+      "value": "22nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "22n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-mm6jks7xgyxr",
+      "name": "27nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 27nH ±5%, 0603 (1608 metric)",
+      "value": "27nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "27n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-9ts6cz5w2w3f",
+      "name": "33nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 33nH ±5%, 0603 (1608 metric)",
+      "value": "33nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "33n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-varf1h5w8ez8",
+      "name": "39nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 39nH ±5%, 0603 (1608 metric)",
+      "value": "39nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "39n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-6vawneezc5dt",
+      "name": "47nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 47nH ±5%, 0603 (1608 metric)",
+      "value": "47nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "47n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-054fm1byzs28",
+      "name": "56nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 56nH ±5%, 0603 (1608 metric)",
+      "value": "56nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "56n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-hya706c1jhxp",
+      "name": "68nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 68nH ±5%, 0603 (1608 metric)",
+      "value": "68nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "68n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xx7hcssjvs20",
+      "name": "82nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 82nH ±5%, 0603 (1608 metric)",
+      "value": "82nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "82n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-yfzqjvbyv68c",
+      "name": "100nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 100nH ±10%, 0603 (1608 metric)",
+      "value": "100nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "100n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-cyb5dek0ce3z",
+      "name": "120nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 120nH ±10%, 0603 (1608 metric)",
+      "value": "120nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "120n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-v24hgkj38qyd",
+      "name": "150nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 150nH ±10%, 0603 (1608 metric)",
+      "value": "150nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "150n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-pze6zg3pbxnn",
+      "name": "180nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 180nH ±10%, 0603 (1608 metric)",
+      "value": "180nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "180n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-n5e8c4vdkq8h",
+      "name": "220nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 220nH ±10%, 0603 (1608 metric)",
+      "value": "220nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "220n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-g3jp08tg737s",
+      "name": "270nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 270nH ±10%, 0603 (1608 metric)",
+      "value": "270nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "270n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-vkjwt4d54f1t",
+      "name": "330nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 330nH ±10%, 0603 (1608 metric)",
+      "value": "330nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "330n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-120k7k2z38pd",
+      "name": "390nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 390nH ±10%, 0603 (1608 metric)",
+      "value": "390nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "390n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-p33cbnph76fm",
+      "name": "470nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 470nH ±10%, 0603 (1608 metric)",
+      "value": "470nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "470n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-m7vhpsagq868",
+      "name": "560nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 560nH ±10%, 0603 (1608 metric)",
+      "value": "560nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "560n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ksqn6jgrfzwy",
+      "name": "680nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 680nH ±10%, 0603 (1608 metric)",
+      "value": "680nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "680n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-7fsfs8dmbyt0",
+      "name": "820nH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 820nH ±10%, 0603 (1608 metric)",
+      "value": "820nH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "820n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-d6dkx0v92jrp",
+      "name": "1µH 0603 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1µH ±10%, 0603 (1608 metric)",
+      "value": "1µH",
+      "package": "0603",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0603_1608Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-p4mtyyn5q1e9",
+      "name": "10nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 10nH ±5%, 0805 (2012 metric)",
+      "value": "10nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "10n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-0yj854p553fd",
+      "name": "12nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 12nH ±5%, 0805 (2012 metric)",
+      "value": "12nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "12n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1hsa2bp568az",
+      "name": "15nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 15nH ±5%, 0805 (2012 metric)",
+      "value": "15nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "15n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-eefe4jp5z5xh",
+      "name": "18nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 18nH ±5%, 0805 (2012 metric)",
+      "value": "18nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "18n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zx1znpq8h2k1",
+      "name": "22nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 22nH ±5%, 0805 (2012 metric)",
+      "value": "22nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "22n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-c688jxq8apak",
+      "name": "27nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 27nH ±5%, 0805 (2012 metric)",
+      "value": "27nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "27n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1abjxnk7wx74",
+      "name": "33nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 33nH ±5%, 0805 (2012 metric)",
+      "value": "33nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "33n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-3b49fem7j0kh",
+      "name": "39nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 39nH ±5%, 0805 (2012 metric)",
+      "value": "39nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "39n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ysqdetma6jtk",
+      "name": "47nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 47nH ±5%, 0805 (2012 metric)",
+      "value": "47nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "47n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-rhxb17v9s299",
+      "name": "56nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 56nH ±5%, 0805 (2012 metric)",
+      "value": "56nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "56n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-snx783vcvxny",
+      "name": "68nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 68nH ±5%, 0805 (2012 metric)",
+      "value": "68nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "68n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-5n3gwx1fnew5",
+      "name": "82nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 82nH ±5%, 0805 (2012 metric)",
+      "value": "82nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "82n", "unit": "H"},
+        {"name": "Tolerance", "value": "5", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-6dn96hp9aftm",
+      "name": "100nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 100nH ±10%, 0805 (2012 metric)",
+      "value": "100nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "100n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-m8p8cambtkwz",
+      "name": "120nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 120nH ±10%, 0805 (2012 metric)",
+      "value": "120nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "120n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-3jt4qpzeprmw",
+      "name": "150nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 150nH ±10%, 0805 (2012 metric)",
+      "value": "150nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "150n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ehfssvyhtmcb",
+      "name": "180nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 180nH ±10%, 0805 (2012 metric)",
+      "value": "180nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "180n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-x0g5mzbt2vb0",
+      "name": "220nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 220nH ±10%, 0805 (2012 metric)",
+      "value": "220nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "220n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-rj2cyhdxp7hk",
+      "name": "270nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 270nH ±10%, 0805 (2012 metric)",
+      "value": "270nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "270n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-3qkh1eggj48z",
+      "name": "330nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 330nH ±10%, 0805 (2012 metric)",
+      "value": "330nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "330n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-sdrsswxtjrex",
+      "name": "390nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 390nH ±10%, 0805 (2012 metric)",
+      "value": "390nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "390n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ye15vhxrjt3m",
+      "name": "470nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 470nH ±10%, 0805 (2012 metric)",
+      "value": "470nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "470n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-w3y6m3yw6cg2",
+      "name": "560nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 560nH ±10%, 0805 (2012 metric)",
+      "value": "560nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "560n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-bfngb8kmy5wj",
+      "name": "680nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 680nH ±10%, 0805 (2012 metric)",
+      "value": "680nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "680n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zxkpgedqe8gq",
+      "name": "820nH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 820nH ±10%, 0805 (2012 metric)",
+      "value": "820nH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "820n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-5dae6da84aqp",
+      "name": "1µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1µH ±10%, 0805 (2012 metric)",
+      "value": "1µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xyjbz7h7prr9",
+      "name": "1.2µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.2µH ±10%, 0805 (2012 metric)",
+      "value": "1.2µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-08tc0rh77qnx",
+      "name": "1.5µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.5µH ±10%, 0805 (2012 metric)",
+      "value": "1.5µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.5µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-3e91arg7msbx",
+      "name": "1.8µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.8µH ±10%, 0805 (2012 metric)",
+      "value": "1.8µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.8µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-8k04ecq6fc3c",
+      "name": "2.2µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.2µH ±10%, 0805 (2012 metric)",
+      "value": "2.2µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-knpx50q643hn",
+      "name": "2.7µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.7µH ±10%, 0805 (2012 metric)",
+      "value": "2.7µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.7µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-cdbcwk13n7rz",
+      "name": "3.3µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.3µH ±10%, 0805 (2012 metric)",
+      "value": "3.3µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.3µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ehncbv03qhgj",
+      "name": "3.9µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.9µH ±10%, 0805 (2012 metric)",
+      "value": "3.9µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.9µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-sa3zba724smx",
+      "name": "4.7µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 4.7µH ±10%, 0805 (2012 metric)",
+      "value": "4.7µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "4.7µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-nrrpbax36wdv",
+      "name": "5.6µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 5.6µH ±10%, 0805 (2012 metric)",
+      "value": "5.6µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "5.6µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-prmt98m1w3rx",
+      "name": "6.8µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 6.8µH ±10%, 0805 (2012 metric)",
+      "value": "6.8µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "6.8µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-afvrnbj26tep",
+      "name": "8.2µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 8.2µH ±10%, 0805 (2012 metric)",
+      "value": "8.2µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "8.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-nc8atyn51tr8",
+      "name": "10µH 0805 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 10µH ±10%, 0805 (2012 metric)",
+      "value": "10µH",
+      "package": "0805",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_0805_2012Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "10µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-rfek311340ca",
+      "name": "100nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 100nH ±10%, 1206 (3216 metric)",
+      "value": "100nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "100n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-t7v59es04rgq",
+      "name": "120nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 120nH ±10%, 1206 (3216 metric)",
+      "value": "120nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "120n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xxwfsmnzfbqd",
+      "name": "150nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 150nH ±10%, 1206 (3216 metric)",
+      "value": "150nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "150n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-gzy4gwetkeaa",
+      "name": "180nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 180nH ±10%, 1206 (3216 metric)",
+      "value": "180nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "180n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zhkez7kz34f3",
+      "name": "220nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 220nH ±10%, 1206 (3216 metric)",
+      "value": "220nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "220n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-a8fawcj28tbh",
+      "name": "270nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 270nH ±10%, 1206 (3216 metric)",
+      "value": "270nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "270n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xr33fx4ykz3b",
+      "name": "330nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 330nH ±10%, 1206 (3216 metric)",
+      "value": "330nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "330n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-72ztpeqkkbxc",
+      "name": "390nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 390nH ±10%, 1206 (3216 metric)",
+      "value": "390nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "390n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-cnaxae7tfktd",
+      "name": "470nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 470nH ±10%, 1206 (3216 metric)",
+      "value": "470nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "470n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ac3g8h5y335g",
+      "name": "560nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 560nH ±10%, 1206 (3216 metric)",
+      "value": "560nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "560n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-9dymvdxxzkt7",
+      "name": "680nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 680nH ±10%, 1206 (3216 metric)",
+      "value": "680nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "680n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xmfx2sh2rpac",
+      "name": "820nH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 820nH ±10%, 1206 (3216 metric)",
+      "value": "820nH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "820n", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-v21m27dn66ga",
+      "name": "1µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1µH ±10%, 1206 (3216 metric)",
+      "value": "1µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-k1gnggw443vc",
+      "name": "1.2µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.2µH ±10%, 1206 (3216 metric)",
+      "value": "1.2µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-2641pqw49axz",
+      "name": "1.5µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.5µH ±10%, 1206 (3216 metric)",
+      "value": "1.5µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.5µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-dyf160x4668s",
+      "name": "1.8µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 1.8µH ±10%, 1206 (3216 metric)",
+      "value": "1.8µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.8µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-a3vg45ravnd2",
+      "name": "2.2µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.2µH ±10%, 1206 (3216 metric)",
+      "value": "2.2µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-d9yrxrqag62c",
+      "name": "2.7µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 2.7µH ±10%, 1206 (3216 metric)",
+      "value": "2.7µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.7µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-yq83q3p9kay3",
+      "name": "3.3µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.3µH ±10%, 1206 (3216 metric)",
+      "value": "3.3µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.3µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-wky28wp9h06h",
+      "name": "3.9µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 3.9µH ±10%, 1206 (3216 metric)",
+      "value": "3.9µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.9µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-fqbr0av35w13",
+      "name": "4.7µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 4.7µH ±10%, 1206 (3216 metric)",
+      "value": "4.7µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "4.7µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-bknf3g75qasq",
+      "name": "5.6µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 5.6µH ±10%, 1206 (3216 metric)",
+      "value": "5.6µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "5.6µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-4ebh69a8pkdw",
+      "name": "6.8µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 6.8µH ±10%, 1206 (3216 metric)",
+      "value": "6.8µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "6.8µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-870ww5xe482r",
+      "name": "8.2µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 8.2µH ±10%, 1206 (3216 metric)",
+      "value": "8.2µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "8.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-z910akj276ke",
+      "name": "10µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 10µH ±10%, 1206 (3216 metric)",
+      "value": "10µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "10µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-hgsyzdj2h51a",
+      "name": "12µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 12µH ±10%, 1206 (3216 metric)",
+      "value": "12µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "12µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-c0ax3cj2ajdv",
+      "name": "15µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 15µH ±10%, 1206 (3216 metric)",
+      "value": "15µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "15µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-q14svzh2zdv4",
+      "name": "18µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 18µH ±10%, 1206 (3216 metric)",
+      "value": "18µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "18µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-608fker1sd6a",
+      "name": "22µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 22µH ±10%, 1206 (3216 metric)",
+      "value": "22µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "22µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1g6bjnr1p2aw",
+      "name": "27µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 27µH ±10%, 1206 (3216 metric)",
+      "value": "27µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "27µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-cv1m81n0mrfp",
+      "name": "33µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 33µH ±10%, 1206 (3216 metric)",
+      "value": "33µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "33µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-ezbmq8m0p289",
+      "name": "39µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 39µH ±10%, 1206 (3216 metric)",
+      "value": "39µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "39µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-vm2hw2s7j2nq",
+      "name": "47µH 1206 inductor",
+      "category": "Passives/Inductors/Chip",
+      "description": "Multilayer chip inductor, 47µH ±10%, 1206 (3216 metric)",
+      "value": "47µH",
+      "package": "1206",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_1206_3216Metric",
+      "keywords": ["inductor", "chip", "multilayer", "smd"],
+      "parameters": [
+        {"name": "Inductance", "value": "47µ", "unit": "H"},
+        {"name": "Tolerance", "value": "10", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-cjrcgqy8h9gr",
+      "name": "1µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 1µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-1R0M",
+      "value": "1µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "1µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-x2pm6b8p89b6",
+      "name": "1.5µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 1.5µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-1R5M",
+      "value": "1.5µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "1.5µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-n2xpe8gr1x30",
+      "name": "2.2µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 2.2µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-2R2M",
+      "value": "2.2µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "2.2µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-hvz2w9jss4ky",
+      "name": "3.3µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 3.3µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-3R3M",
+      "value": "3.3µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "3.3µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-wpe9gr1mkfrg",
+      "name": "4.7µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 4.7µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-4R7M",
+      "value": "4.7µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "4.7µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-q7jtws4ktcrv",
+      "name": "6.8µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 6.8µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-6R8M",
+      "value": "6.8µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "6.8µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-etpcb9ys1f3j",
+      "name": "10µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 10µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-100M",
+      "value": "10µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "10µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-98b7yhysyrvb",
+      "name": "15µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 15µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-150M",
+      "value": "15µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "15µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-vzzszazpfshe",
+      "name": "22µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 22µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-220M",
+      "value": "22µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "22µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xh9c6r2r46m1",
+      "name": "33µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 33µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-330M",
+      "value": "33µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "33µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-tz4acy9x6439",
+      "name": "47µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 47µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-470M",
+      "value": "47µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "47µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1758mq2v1vyb",
+      "name": "68µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 68µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-680M",
+      "value": "68µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "68µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-4v85xtxptkhf",
+      "name": "100µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 100µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-101M",
+      "value": "100µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "100µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-1c5ma79ttsnc",
+      "name": "150µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 150µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-151M",
+      "value": "150µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "150µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-zp1kdsxb7f1r",
+      "name": "220µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 220µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-221M",
+      "value": "220µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "220µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-xcar1n9dz474",
+      "name": "330µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 330µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-331M",
+      "value": "330µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "330µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-r5y7eh3evt25",
+      "name": "470µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 470µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-471M",
+      "value": "470µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "470µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-9fjq8k26bacy",
+      "name": "680µH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 680µH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-681M",
+      "value": "680µH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "680µ", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    },
+    {
+      "id": "p-mp8smqy8ht4s",
+      "name": "1mH power inductor 12x12mm",
+      "category": "Passives/Inductors/Power",
+      "description": "Shielded SMD power inductor, 1mH ±20%, 12.5x12.5x6mm",
+      "manufacturer": "Bourns",
+      "mpn": "SRR1260-102M",
+      "value": "1mH",
+      "package": "SRR1260",
+      "prefix": "L",
+      "device": "inductor",
+      "symbol": "L",
+      "footprint": "Inductor_SMD:L_Bourns_SRR1260",
+      "keywords": ["inductor", "power", "shielded", "smd", "buck"],
+      "parameters": [
+        {"name": "Inductance", "value": "1m", "unit": "H"},
+        {"name": "Tolerance", "value": "20", "unit": "%"}
+      ]
+    }
+  ]
+}

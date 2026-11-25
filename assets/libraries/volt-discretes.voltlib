@@ -1,0 +1,2833 @@
+{
+  "format": "volt-library",
+  "format_version": 1,
+  "name": "volt-discretes",
+  "title": "Volt Discretes",
+  "description": "LEDs, diodes (signal, rectifier, Schottky, Zener) and transistors (BJT, MOSFET).",
+  "version": "2026.11.0",
+  "author": "Volt",
+  "license": "CC0-1.0",
+  "parts": [
+    {
+      "id": "p-pa89w492crex",
+      "name": "LED Red 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "Red LED, chip, 0603, 2V at 20mA",
+      "value": "Red",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Red"},
+        {"name": "Wavelength", "value": "630", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-5qdmt030hc6b",
+      "name": "LED Orange 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "Orange LED, chip, 0603, 2V at 20mA",
+      "value": "Orange",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Orange"},
+        {"name": "Wavelength", "value": "605", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-vdd1m6k5x3zh",
+      "name": "LED Yellow 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "Yellow LED, chip, 0603, 2.1V at 20mA",
+      "value": "Yellow",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Yellow"},
+        {"name": "Wavelength", "value": "590", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.1", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-pfyqjs69m5wr",
+      "name": "LED Green 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "Green LED, chip, 0603, 2.2V at 20mA",
+      "value": "Green",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Green"},
+        {"name": "Wavelength", "value": "570", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-bjc1mtsjkz4c",
+      "name": "LED Blue 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "Blue LED, chip, 0603, 3V at 20mA",
+      "value": "Blue",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Blue"},
+        {"name": "Wavelength", "value": "470", "unit": "nm"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-89j75z7yv2s4",
+      "name": "LED White 0603",
+      "category": "Optoelectronics/LEDs",
+      "description": "White LED, chip, 0603, 3V at 20mA",
+      "value": "White",
+      "package": "0603",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "White"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-e0vnfm17scgy",
+      "name": "LED Red 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "Red LED, chip, 0805, 2V at 20mA",
+      "value": "Red",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Red"},
+        {"name": "Wavelength", "value": "630", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-dp1tcd9qvbdx",
+      "name": "LED Orange 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "Orange LED, chip, 0805, 2V at 20mA",
+      "value": "Orange",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Orange"},
+        {"name": "Wavelength", "value": "605", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-3p8g7cecrqcv",
+      "name": "LED Yellow 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "Yellow LED, chip, 0805, 2.1V at 20mA",
+      "value": "Yellow",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Yellow"},
+        {"name": "Wavelength", "value": "590", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.1", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-y9rhtrrdwtzk",
+      "name": "LED Green 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "Green LED, chip, 0805, 2.2V at 20mA",
+      "value": "Green",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Green"},
+        {"name": "Wavelength", "value": "570", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-3gv938xaj6jy",
+      "name": "LED Blue 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "Blue LED, chip, 0805, 3V at 20mA",
+      "value": "Blue",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Blue"},
+        {"name": "Wavelength", "value": "470", "unit": "nm"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-0cshxzrn3hjr",
+      "name": "LED White 0805",
+      "category": "Optoelectronics/LEDs",
+      "description": "White LED, chip, 0805, 3V at 20mA",
+      "value": "White",
+      "package": "0805",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_0805_2012Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "White"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-859cz4qy6kna",
+      "name": "LED Red 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "Red LED, chip, 1206, 2V at 20mA",
+      "value": "Red",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Red"},
+        {"name": "Wavelength", "value": "630", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-ff6edc5nxqdv",
+      "name": "LED Orange 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "Orange LED, chip, 1206, 2V at 20mA",
+      "value": "Orange",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Orange"},
+        {"name": "Wavelength", "value": "605", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-56x284tt7dhf",
+      "name": "LED Yellow 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "Yellow LED, chip, 1206, 2.1V at 20mA",
+      "value": "Yellow",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Yellow"},
+        {"name": "Wavelength", "value": "590", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.1", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-rd4dcge0evtx",
+      "name": "LED Green 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "Green LED, chip, 1206, 2.2V at 20mA",
+      "value": "Green",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Green"},
+        {"name": "Wavelength", "value": "570", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-segpmrr56rwn",
+      "name": "LED Blue 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "Blue LED, chip, 1206, 3V at 20mA",
+      "value": "Blue",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "Blue"},
+        {"name": "Wavelength", "value": "470", "unit": "nm"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-axybefgd0vv5",
+      "name": "LED White 1206",
+      "category": "Optoelectronics/LEDs",
+      "description": "White LED, chip, 1206, 3V at 20mA",
+      "value": "White",
+      "package": "1206",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_SMD:LED_1206_3216Metric",
+      "keywords": ["led", "light", "indicator", "smd"],
+      "parameters": [
+        {"name": "Color", "value": "White"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-02kgkzxebgd5",
+      "name": "LED Red 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Red LED, through hole, 3mm diameter, 2V at 20mA",
+      "value": "Red",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Red"},
+        {"name": "Wavelength", "value": "630", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-qbtbske3b5vx",
+      "name": "LED Orange 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Orange LED, through hole, 3mm diameter, 2V at 20mA",
+      "value": "Orange",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Orange"},
+        {"name": "Wavelength", "value": "605", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-dg8dp28h0a97",
+      "name": "LED Yellow 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Yellow LED, through hole, 3mm diameter, 2.1V at 20mA",
+      "value": "Yellow",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Yellow"},
+        {"name": "Wavelength", "value": "590", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.1", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-0gt89q4mdavv",
+      "name": "LED Green 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Green LED, through hole, 3mm diameter, 2.2V at 20mA",
+      "value": "Green",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Green"},
+        {"name": "Wavelength", "value": "570", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-hn82jsmgndj5",
+      "name": "LED Blue 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Blue LED, through hole, 3mm diameter, 3V at 20mA",
+      "value": "Blue",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Blue"},
+        {"name": "Wavelength", "value": "470", "unit": "nm"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-2hsctsmy78hd",
+      "name": "LED White 3mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "White LED, through hole, 3mm diameter, 3V at 20mA",
+      "value": "White",
+      "package": "3mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D3.0mm",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "White"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6s44b8wfev60",
+      "name": "LED Red 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Red LED, through hole, 5mm diameter, 2V at 20mA",
+      "value": "Red",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Red"},
+        {"name": "Wavelength", "value": "630", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-nggr999fsk6b",
+      "name": "LED Orange 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Orange LED, through hole, 5mm diameter, 2V at 20mA",
+      "value": "Orange",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Orange"},
+        {"name": "Wavelength", "value": "605", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-b49jesx7ffpt",
+      "name": "LED Yellow 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Yellow LED, through hole, 5mm diameter, 2.1V at 20mA",
+      "value": "Yellow",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Yellow"},
+        {"name": "Wavelength", "value": "590", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.1", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6ty3pfvjkd8s",
+      "name": "LED Green 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Green LED, through hole, 5mm diameter, 2.2V at 20mA",
+      "value": "Green",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Green"},
+        {"name": "Wavelength", "value": "570", "unit": "nm"},
+        {"name": "Forward voltage", "value": "2.2", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-vq273s6c1ynh",
+      "name": "LED Blue 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "Blue LED, through hole, 5mm diameter, 3V at 20mA",
+      "value": "Blue",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "Blue"},
+        {"name": "Wavelength", "value": "470", "unit": "nm"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-rgdpf5nk1r0j",
+      "name": "LED White 5mm",
+      "category": "Optoelectronics/LEDs",
+      "description": "White LED, through hole, 5mm diameter, 3V at 20mA",
+      "value": "White",
+      "package": "5mm",
+      "prefix": "D",
+      "device": "led",
+      "symbol": "LED",
+      "footprint": "LED_THT:LED_D5.0mm",
+      "model": "parts/LED_D5.0mm.step",
+      "keywords": ["led", "light", "indicator", "tht"],
+      "parameters": [
+        {"name": "Color", "value": "White"},
+        {"name": "Forward voltage", "value": "3", "unit": "V"},
+        {"name": "Forward current", "value": "20m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-bfsa5eatymj3",
+      "name": "1N4148",
+      "category": "Discretes/Diodes/Small signal",
+      "description": "Small signal diode, 100V 200mA, DO-35",
+      "manufacturer": "onsemi",
+      "mpn": "1N4148",
+      "value": "1N4148",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "signal"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "100", "unit": "V"},
+        {"name": "Forward current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-mkqqhjyvvcc1",
+      "name": "1N4148W",
+      "category": "Discretes/Diodes/Small signal",
+      "description": "Small signal diode, 100V 150mA, SOD-123",
+      "manufacturer": "Diodes Incorporated",
+      "mpn": "1N4148W",
+      "value": "1N4148W",
+      "package": "SOD-123",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_SMD:D_SOD-123",
+      "keywords": ["diode", "signal"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "100", "unit": "V"},
+        {"name": "Forward current", "value": "150m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-52zm57p04gak",
+      "name": "1N4148WS",
+      "category": "Discretes/Diodes/Small signal",
+      "description": "Small signal diode, 75V 150mA, SOD-323",
+      "manufacturer": "Diodes Incorporated",
+      "mpn": "1N4148WS",
+      "value": "1N4148WS",
+      "package": "SOD-323",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_SMD:D_SOD-323",
+      "keywords": ["diode", "signal"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "75", "unit": "V"},
+        {"name": "Forward current", "value": "150m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6ksrx795t373",
+      "name": "BAV99",
+      "category": "Discretes/Diodes/Small signal",
+      "description": "Small signal diode, 70V 200mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BAV99",
+      "value": "BAV99",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Dual_Series",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "signal"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "70", "unit": "V"},
+        {"name": "Forward current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-zp0shbatmfgh",
+      "name": "1N4001",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 50V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4001",
+      "value": "1N4001",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "50", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-j41shbatnfgh",
+      "name": "1N4002",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 100V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4002",
+      "value": "1N4002",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "100", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-5j1shbatpfgh",
+      "name": "1N4003",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 200V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4003",
+      "value": "1N4003",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "200", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-0kyrhbatffgh",
+      "name": "1N4004",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 400V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4004",
+      "value": "1N4004",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "400", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-k0zrhbatgfgh",
+      "name": "1N4005",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 600V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4005",
+      "value": "1N4005",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "600", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6ezrhbathfgh",
+      "name": "1N4006",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 800V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4006",
+      "value": "1N4006",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "800", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-svzrhbatjfgh",
+      "name": "1N4007",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 1kV 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N4007",
+      "value": "1N4007",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "1k", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-hxa3bvdvkehp",
+      "name": "1N5400",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 50V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5400",
+      "value": "1N5400",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "50", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-yfa3bvdvjehp",
+      "name": "1N5401",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 100V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5401",
+      "value": "1N5401",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "100", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-b2a3bvdvhehp",
+      "name": "1N5402",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 200V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5402",
+      "value": "1N5402",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "200", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-xkc3bvdvqehp",
+      "name": "1N5404",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 400V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5404",
+      "value": "1N5404",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "400", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-qrb3bvdvnehp",
+      "name": "1N5406",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 600V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5406",
+      "value": "1N5406",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "600", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-sg73bvdvbehp",
+      "name": "1N5408",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 1kV 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5408",
+      "value": "1N5408",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "1k", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-7nhkdk6hy3a6",
+      "name": "M7",
+      "category": "Discretes/Diodes/Rectifier",
+      "description": "Rectifier diode, 1kV 1A, SMA",
+      "manufacturer": "Diodes Incorporated",
+      "mpn": "M7",
+      "value": "M7",
+      "package": "SMA",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D",
+      "footprint": "Diode_SMD:D_SMA",
+      "keywords": ["diode", "rectifier"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "1k", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-s80f4sevgd38",
+      "name": "1N5817",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 20V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N5817",
+      "value": "1N5817",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "20", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-434f4sevsd38",
+      "name": "1N5818",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 30V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N5818",
+      "value": "1N5818",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "30", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-qg4f4sevtd38",
+      "name": "1N5819",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 40V 1A, DO-41",
+      "manufacturer": "onsemi",
+      "mpn": "1N5819",
+      "value": "1N5819",
+      "package": "DO-41",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "40", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-7vk15sev3268",
+      "name": "1N5820",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 20V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5820",
+      "value": "1N5820",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "20", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-mdk15sev2268",
+      "name": "1N5821",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 30V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5821",
+      "value": "1N5821",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "30", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-dpm15sev5268",
+      "name": "1N5822",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 40V 3A, DO-201AD",
+      "manufacturer": "onsemi",
+      "mpn": "1N5822",
+      "value": "1N5822",
+      "package": "DO-201AD",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_THT:D_DO-201AD_P15.24mm_Horizontal",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "40", "unit": "V"},
+        {"name": "Forward current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-15vxhvrpvx0q",
+      "name": "B5819W",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 40V 1A, SOD-123",
+      "manufacturer": "Diodes Incorporated",
+      "mpn": "B5819W",
+      "value": "B5819W",
+      "package": "SOD-123",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_SMD:D_SOD-123",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "40", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-74n54d95n287",
+      "name": "BAT54",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 30V 200mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BAT54",
+      "value": "BAT54",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "30", "unit": "V"},
+        {"name": "Forward current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-w19zrfxyachr",
+      "name": "BAT54S",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 30V 200mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BAT54S",
+      "value": "BAT54S",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Dual_Series",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "30", "unit": "V"},
+        {"name": "Forward current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-c82zrfxytbhr",
+      "name": "BAT54C",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 30V 200mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BAT54C",
+      "value": "BAT54C",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Dual_CommonCathode",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "30", "unit": "V"},
+        {"name": "Forward current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-44c7kc2rg4wm",
+      "name": "SS14",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 40V 1A, SMA",
+      "manufacturer": "onsemi",
+      "mpn": "SS14",
+      "value": "SS14",
+      "package": "SMA",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_SMD:D_SMA",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "40", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-azc7kc2rj4wm",
+      "name": "SS16",
+      "category": "Discretes/Diodes/Schottky",
+      "description": "Schottky diode, 60V 1A, SMA",
+      "manufacturer": "onsemi",
+      "mpn": "SS16",
+      "value": "SS16",
+      "package": "SMA",
+      "prefix": "D",
+      "device": "diode",
+      "symbol": "D_Schottky",
+      "footprint": "Diode_SMD:D_SMA",
+      "keywords": ["diode", "schottky"],
+      "parameters": [
+        {"name": "Reverse voltage", "value": "60", "unit": "V"},
+        {"name": "Forward current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-jpz35sn2td1s",
+      "name": "BZX84C2V4",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 2.4V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C2V4",
+      "value": "2.4V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "2.4", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-z8z35sn2sd1s",
+      "name": "BZX84C2V7",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 2.7V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C2V7",
+      "value": "2.7V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "2.7", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-d8wj1vn2svp7",
+      "name": "BZX84C3V0",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C3V0",
+      "value": "3V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-mztj1vn2pvp7",
+      "name": "BZX84C3V3",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.3V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C3V3",
+      "value": "3.3V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-vpsj1vn2kvp7",
+      "name": "BZX84C3V6",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.6V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C3V6",
+      "value": "3.6V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.6", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-2erj1vn2gvp7",
+      "name": "BZX84C3V9",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.9V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C3V9",
+      "value": "3.9V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.9", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-x8e2a7p23pay",
+      "name": "BZX84C4V3",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 4.3V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C4V3",
+      "value": "4.3V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "4.3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-hjc2a7p2znay",
+      "name": "BZX84C4V7",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 4.7V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C4V7",
+      "value": "4.7V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "4.7", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-rxm59ap2273j",
+      "name": "BZX84C5V1",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 5.1V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C5V1",
+      "value": "5.1V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "5.1", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-xwq59ap2973j",
+      "name": "BZX84C5V6",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 5.6V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C5V6",
+      "value": "5.6V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "5.6", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-4cgj62p2gbqt",
+      "name": "BZX84C6V2",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 6.2V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C6V2",
+      "value": "6.2V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "6.2", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-jtdj62p2abqt",
+      "name": "BZX84C6V8",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 6.8V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C6V8",
+      "value": "6.8V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "6.8", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-add7h5p2r86g",
+      "name": "BZX84C7V5",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 7.5V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C7V5",
+      "value": "7.5V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "7.5", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-eqxpshp2y2t6",
+      "name": "BZX84C8V2",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 8.2V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C8V2",
+      "value": "8.2V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "8.2", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-cwj8kkp2yv1n",
+      "name": "BZX84C9V1",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 9.1V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C9V1",
+      "value": "9.1V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "9.1", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-v0jm8986hhsf",
+      "name": "BZX84C10",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 10V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C10",
+      "value": "10V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "10", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-8khm8986ghsf",
+      "name": "BZX84C11",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 11V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C11",
+      "value": "11V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "11", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-1wjm8986khsf",
+      "name": "BZX84C12",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 12V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C12",
+      "value": "12V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "12", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-eejm8986jhsf",
+      "name": "BZX84C13",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 13V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C13",
+      "value": "13V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "13", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-m9km8986mhsf",
+      "name": "BZX84C15",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 15V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C15",
+      "value": "15V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "15", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-djmm8986qhsf",
+      "name": "BZX84C16",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 16V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C16",
+      "value": "16V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "16", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-3mem89869hsf",
+      "name": "BZX84C18",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 18V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C18",
+      "value": "18V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "18", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-0wy18986zwpf",
+      "name": "BZX84C20",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 20V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C20",
+      "value": "20V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "20", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-6qz189861xpf",
+      "name": "BZX84C22",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 22V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C22",
+      "value": "22V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "22", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-cj0289863xpf",
+      "name": "BZX84C24",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 24V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C24",
+      "value": "24V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "24", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-5v1289866xpf",
+      "name": "BZX84C27",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 27V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C27",
+      "value": "27V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "27", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-985889865sqf",
+      "name": "BZX84C30",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 30V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C30",
+      "value": "30V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "30", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-gz3889862sqf",
+      "name": "BZX84C33",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 33V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C33",
+      "value": "33V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "33", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-f36889867sqf",
+      "name": "BZX84C36",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 36V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C36",
+      "value": "36V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "36", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-e7888986csqf",
+      "name": "BZX84C39",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 39V ±5%, 250mW, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BZX84C39",
+      "value": "39V",
+      "package": "SOT-23",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "39", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "250m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-c1zk2nv37rn5",
+      "name": "BZX55C2V4",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 2.4V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C2V4",
+      "value": "2.4V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "2.4", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-5a0m2nv3arn5",
+      "name": "BZX55C2V7",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 2.7V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C2V7",
+      "value": "2.7V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "2.7", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-q4qj4rv36tvs",
+      "name": "BZX55C3V0",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C3V0",
+      "value": "3V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-ajqj4rv37tvs",
+      "name": "BZX55C3V3",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.3V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C3V3",
+      "value": "3.3V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-h9pj4rv34tvs",
+      "name": "BZX55C3V6",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.6V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C3V6",
+      "value": "3.6V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.6", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-cakj4rv3xsvs",
+      "name": "BZX55C3V9",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 3.9V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C3V9",
+      "value": "3.9V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "3.9", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-7tha0tv3gvd8",
+      "name": "BZX55C4V3",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 4.3V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C4V3",
+      "value": "4.3V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "4.3", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-v3ga0tv3cvd8",
+      "name": "BZX55C4V7",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 4.7V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C4V7",
+      "value": "4.7V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "4.7", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-e1na8wv3kmsr",
+      "name": "BZX55C5V1",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 5.1V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C5V1",
+      "value": "5.1V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "5.1", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-7apa8wv3pmsr",
+      "name": "BZX55C5V6",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 5.6V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C5V6",
+      "value": "5.6V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "5.6", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-td1cfzv31jqd",
+      "name": "BZX55C6V2",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 6.2V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C6V2",
+      "value": "6.2V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "6.2", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-w5xbfzv3qhqd",
+      "name": "BZX55C6V8",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 6.8V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C6V8",
+      "value": "6.8V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "6.8", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-mgjtb1w35zcw",
+      "name": "BZX55C7V5",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 7.5V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C7V5",
+      "value": "7.5V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "7.5", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-8dx3d4w3brfg",
+      "name": "BZX55C8V2",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 8.2V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C8V2",
+      "value": "8.2V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "8.2", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-2gej96w3f55z",
+      "name": "BZX55C9V1",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 9.1V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C9V1",
+      "value": "9.1V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "9.1", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-s0vd3cdtm15p",
+      "name": "BZX55C10",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 10V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C10",
+      "value": "10V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "10", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-6ktd3cdtk15p",
+      "name": "BZX55C11",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 11V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C11",
+      "value": "11V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "11", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-k5td3cdtj15p",
+      "name": "BZX55C12",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 12V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C12",
+      "value": "12V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "12", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-0rsd3cdth15p",
+      "name": "BZX55C13",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 13V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C13",
+      "value": "13V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "13", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-j9wd3cdtq15p",
+      "name": "BZX55C15",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 15V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C15",
+      "value": "15V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "15", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-zvvd3cdtp15p",
+      "name": "BZX55C16",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 16V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C16",
+      "value": "16V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "16", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-hdyd3cdtw15p",
+      "name": "BZX55C18",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 18V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C18",
+      "value": "18V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "18", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-2d1m3cdttx5p",
+      "name": "BZX55C20",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 20V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C20",
+      "value": "20V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "20", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-wh0m3cdtrx5p",
+      "name": "BZX55C22",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 22V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C22",
+      "value": "22V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "22", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-ppzk3cdtpx5p",
+      "name": "BZX55C24",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 24V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C24",
+      "value": "24V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "24", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-39zk3cdtnx5p",
+      "name": "BZX55C27",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 27V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C27",
+      "value": "27V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "27", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-bs7t3cdt0t6p",
+      "name": "BZX55C30",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 30V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C30",
+      "value": "30V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "30", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-y68t3cdt1t6p",
+      "name": "BZX55C33",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 33V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C33",
+      "value": "33V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "33", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-xaat3cdt6t6p",
+      "name": "BZX55C36",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 36V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C36",
+      "value": "36V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "36", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-0z3t3cdtqs6p",
+      "name": "BZX55C39",
+      "category": "Discretes/Diodes/Zener",
+      "description": "Zener diode, 39V ±5%, 500mW, DO-35",
+      "manufacturer": "Vishay",
+      "mpn": "BZX55C39",
+      "value": "39V",
+      "package": "DO-35",
+      "prefix": "D",
+      "device": "zener",
+      "symbol": "D_Zener",
+      "footprint": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+      "keywords": ["diode", "zener", "reference", "clamp"],
+      "parameters": [
+        {"name": "Zener voltage", "value": "39", "unit": "V"},
+        {"name": "Tolerance", "value": "5", "unit": "%"},
+        {"name": "Power rating", "value": "500m", "unit": "W"}
+      ]
+    },
+    {
+      "id": "p-g1a3qfm1grk6",
+      "name": "BC547B",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 45V 100mA, TO-92",
+      "manufacturer": "onsemi",
+      "mpn": "BC547B",
+      "value": "BC547B",
+      "package": "TO-92",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "45", "unit": "V"},
+        {"name": "Collector current", "value": "100m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-bv8v6dm1s01n",
+      "name": "BC557B",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP general purpose transistor, 45V 100mA, TO-92",
+      "manufacturer": "onsemi",
+      "mpn": "BC557B",
+      "value": "BC557B",
+      "package": "TO-92",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "45", "unit": "V"},
+        {"name": "Collector current", "value": "100m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-hsxae7m4crav",
+      "name": "BC847B",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 45V 100mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BC847B",
+      "value": "BC847B",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "45", "unit": "V"},
+        {"name": "Collector current", "value": "100m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6crj1am43bbd",
+      "name": "BC857B",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP general purpose transistor, 45V 100mA, SOT-23",
+      "manufacturer": "Nexperia",
+      "mpn": "BC857B",
+      "value": "BC857B",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "45", "unit": "V"},
+        {"name": "Collector current", "value": "100m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-vqvtrzcrmwjy",
+      "name": "2N3904",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 40V 200mA, TO-92",
+      "manufacturer": "onsemi",
+      "mpn": "2N3904",
+      "value": "2N3904",
+      "package": "TO-92",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-1kwtrzcrpwjy",
+      "name": "2N3906",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP general purpose transistor, 40V 200mA, TO-92",
+      "manufacturer": "onsemi",
+      "mpn": "2N3906",
+      "value": "2N3906",
+      "package": "TO-92",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-frxwv6fr7a3w",
+      "name": "MMBT3904",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 40V 200mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "MMBT3904",
+      "value": "MMBT3904",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-nkywv6fr9a3w",
+      "name": "MMBT3906",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP general purpose transistor, 40V 200mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "MMBT3906",
+      "value": "MMBT3906",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "200m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-cd25w3e23t0g",
+      "name": "PN2222A",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 40V 1A, TO-92",
+      "manufacturer": "onsemi",
+      "mpn": "PN2222A",
+      "value": "PN2222A",
+      "package": "TO-92",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-92_Inline",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "1", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-6mn5wjvh5x9x",
+      "name": "MMBT2222A",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN general purpose transistor, 40V 600mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "MMBT2222A",
+      "value": "MMBT2222A",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "40", "unit": "V"},
+        {"name": "Collector current", "value": "600m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-wjzhhtjasgh5",
+      "name": "BD139",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN medium power transistor, 80V 1.5A, TO-126",
+      "manufacturer": "STMicroelectronics",
+      "mpn": "BD139",
+      "value": "BD139",
+      "package": "TO-126",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-126-3_Vertical",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "80", "unit": "V"},
+        {"name": "Collector current", "value": "1.5", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-8pt8gtjargb5",
+      "name": "BD140",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP medium power transistor, 80V 1.5A, TO-126",
+      "manufacturer": "STMicroelectronics",
+      "mpn": "BD140",
+      "value": "BD140",
+      "package": "TO-126",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_THT:TO-126-3_Vertical",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "80", "unit": "V"},
+        {"name": "Collector current", "value": "1.5", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-nq81a71zepah",
+      "name": "TIP31C",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN power transistor, 100V 3A, TO-220",
+      "manufacturer": "onsemi",
+      "mpn": "TIP31C",
+      "value": "TIP31C",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "100", "unit": "V"},
+        {"name": "Collector current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-am8ma71zybdh",
+      "name": "TIP32C",
+      "category": "Discretes/Transistors/BJT",
+      "description": "PNP power transistor, 100V 3A, TO-220",
+      "manufacturer": "onsemi",
+      "mpn": "TIP32C",
+      "value": "TIP32C",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_PNP",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "bjt", "pnp"],
+      "parameters": [
+        {"name": "Type", "value": "PNP"},
+        {"name": "Collector-emitter voltage", "value": "100", "unit": "V"},
+        {"name": "Collector current", "value": "3", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-d5ha121zzryc",
+      "name": "TIP120",
+      "category": "Discretes/Transistors/BJT",
+      "description": "NPN Darlington transistor, 60V 5A, TO-220",
+      "manufacturer": "onsemi",
+      "mpn": "TIP120",
+      "value": "TIP120",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "bjt",
+      "symbol": "Q_NPN",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "bjt", "npn"],
+      "parameters": [
+        {"name": "Type", "value": "NPN"},
+        {"name": "Collector-emitter voltage", "value": "60", "unit": "V"},
+        {"name": "Collector current", "value": "5", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-p915b48m7p5q",
+      "name": "2N7002",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel small signal MOSFET, 60V 115mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "2N7002",
+      "value": "2N7002",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "60", "unit": "V"},
+        {"name": "Drain current", "value": "115m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-vayza1t720xx",
+      "name": "BSS138",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel logic level MOSFET, 50V 220mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "BSS138",
+      "value": "BSS138",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "50", "unit": "V"},
+        {"name": "Drain current", "value": "220m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-n29rg4mjvvs9",
+      "name": "BSS84",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "P-channel small signal MOSFET, 50V 130mA, SOT-23",
+      "manufacturer": "onsemi",
+      "mpn": "BSS84",
+      "value": "BSS84",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_PMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "pmos"],
+      "parameters": [
+        {"name": "Type", "value": "P-channel"},
+        {"name": "Drain-source voltage", "value": "50", "unit": "V"},
+        {"name": "Drain current", "value": "130m", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-fmk0mfz4dyds",
+      "name": "AO3400A",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel logic level MOSFET, 30V 5.7A, SOT-23",
+      "manufacturer": "Alpha & Omega",
+      "mpn": "AO3400A",
+      "value": "AO3400A",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "30", "unit": "V"},
+        {"name": "Drain current", "value": "5.7", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-jy18mfz4hxes",
+      "name": "AO3401A",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "P-channel logic level MOSFET, 30V 4A, SOT-23",
+      "manufacturer": "Alpha & Omega",
+      "mpn": "AO3401A",
+      "value": "AO3401A",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_PMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "pmos"],
+      "parameters": [
+        {"name": "Type", "value": "P-channel"},
+        {"name": "Drain-source voltage", "value": "30", "unit": "V"},
+        {"name": "Drain current", "value": "4", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-j51ggxvwqpn4",
+      "name": "IRLML2502",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel logic level MOSFET, 20V 4.2A, SOT-23",
+      "manufacturer": "Infineon",
+      "mpn": "IRLML2502",
+      "value": "IRLML2502",
+      "package": "SOT-23",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_SMD:SOT-23",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "20", "unit": "V"},
+        {"name": "Drain current", "value": "4.2", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-r2tfg7y75wm6",
+      "name": "IRLZ44N",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel logic level MOSFET, 55V 47A, TO-220",
+      "manufacturer": "Infineon",
+      "mpn": "IRLZ44N",
+      "value": "IRLZ44N",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "55", "unit": "V"},
+        {"name": "Drain current", "value": "47", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-17ek282ec18a",
+      "name": "IRF540N",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "N-channel power MOSFET, 100V 33A, TO-220",
+      "manufacturer": "Infineon",
+      "mpn": "IRF540N",
+      "value": "IRF540N",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_NMOS",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "mosfet", "nmos"],
+      "parameters": [
+        {"name": "Type", "value": "N-channel"},
+        {"name": "Drain-source voltage", "value": "100", "unit": "V"},
+        {"name": "Drain current", "value": "33", "unit": "A"}
+      ]
+    },
+    {
+      "id": "p-67seg7ewsjgc",
+      "name": "IRF9540N",
+      "category": "Discretes/Transistors/MOSFET",
+      "description": "P-channel power MOSFET, 100V 23A, TO-220",
+      "manufacturer": "Infineon",
+      "mpn": "IRF9540N",
+      "value": "IRF9540N",
+      "package": "TO-220",
+      "prefix": "Q",
+      "device": "mosfet",
+      "symbol": "Q_PMOS",
+      "footprint": "Package_TO_SOT_THT:TO-220-3_Vertical",
+      "keywords": ["transistor", "mosfet", "pmos"],
+      "parameters": [
+        {"name": "Type", "value": "P-channel"},
+        {"name": "Drain-source voltage", "value": "100", "unit": "V"},
+        {"name": "Drain current", "value": "23", "unit": "A"}
+      ]
+    }
+  ]
+}
