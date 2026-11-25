@@ -156,6 +156,12 @@ add_subdirectory(history)
 add_subdirectory(schematic)
 
 # -------------------------------------------------------------
+# Interface
+
+# The widget framework, free of the GPU and the window; see its directory.
+add_subdirectory(ui)
+
+# -------------------------------------------------------------
 # App
 
 add_executable(volt_app
