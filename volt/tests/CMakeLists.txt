@@ -30,4 +30,8 @@ function(volt_add_bench name)
   add_dependencies(run_volt_benches run_${name})
 endfunction()
 
-# No tests yet: the previous codec/text/io tests were removed with their sources.
+volt_add_test(volt_math_vector_tests math/vector_tests.cpp)
+volt_add_test(volt_math_matrix_tests math/matrix_tests.cpp)
+volt_add_test(volt_math_transform_tests math/transform_tests.cpp)
+volt_add_test(volt_math_fraction_tests math/fraction_tests.cpp)
+volt_add_test(volt_math_electrical_tests math/electrical_tests.cpp)
